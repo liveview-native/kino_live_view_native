@@ -15,7 +15,7 @@ defmodule KinoLiveViewNative.MixProject do
   def application do
     [
       mod: {KinoLiveViewNative.Application, []},
-      extra_applications: [:logger, :server]
+      extra_applications: [:logger]
     ]
   end
 
