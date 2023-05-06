@@ -60,35 +60,48 @@ defmodule KinoLiveViewNative do
 
   @registry_key :liveviews
 
-  def get_modules() do
+  def get_routes() do
     Application.get_env(:kino_live_view_native, @registry_key, [])
   end
 
-  defp put_modules(modules) do
-    Application.put_env(:kino_live_view_native, @registry_key, modules)
+  defp put_routes(routes) do
+    Application.put_env(:kino_live_view_native, @registry_key, routes)
   end
 
   def register({:module, module, _, _}, path, action) do
-    modules = get_modules()
+    routes = get_routes()
 
-    updated_modules =
-      if module in modules do
-        modules
-      else
-        action =
-          action
-          |> String.trim_leading(":")
-          |> String.to_atom()
+    action =
+      action
+      |> String.trim_leading(":")
+      |> String.to_atom()
 
-        modules ++ [%{path: path, module: module, action: action}]
-      end
+    updated_route = %{path: path, module: module, action: action}
 
-    put_modules(updated_modules)
+    updated_routes =
+      routes
+      |> Enum.reverse()
+      |> Enum.reduce({[], false}, fn route, {routes, found?} ->
+        if route.path == path do
+          {[updated_route | routes], true}
+        else
+          {[route | routes], found?}
+        end
+      end)
+      |> then(fn
+        {routes, false} ->
+          routes ++ [updated_route]
+
+        {routes, true} ->
+          routes
+      end)
+
+    put_routes(updated_routes)
   end
 
   def scan_eval_result(_server, _eval_result) do
-    Phoenix.PubSub.broadcast!(Server.PubSub, "reloader", :trigger)
-    IEx.Helpers.r(Server.Router)
+    Phoenix.PubSub.broadcast!(KinoLiveViewNative.Server.PubSub, "reloader", :trigger)
+    IEx.Helpers.r(KinoLiveViewNative.Server.Router)
   end
 
   def default_source() do
