@@ -1,10 +1,10 @@
-defmodule Server.LiveReloader.Channel do
+defmodule KinoLiveViewNative.Server.LiveReloader.Channel do
   use Phoenix.Channel
 
   def join("phoenix:live_reload", _msg, socket) do
     {:ok, _} = Application.ensure_all_started(:phoenix_live_reload)
 
-    Phoenix.PubSub.subscribe(Server.PubSub, "reloader")
+    Phoenix.PubSub.subscribe(KinoLiveViewNative.Server.PubSub, "reloader")
 
     {:ok, socket}
   end

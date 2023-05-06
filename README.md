@@ -14,11 +14,11 @@ config: [
       {LiveViewNativeSwiftUi.Platform, [app_name: "LiveView Native"]}
     ],
     kino_live_view_native: [
-      {Server.Endpoint,
+      {KinoLiveViewNative.Server.Endpoint,
        [
          http: [ip: {127, 0, 0, 1}, port: 5001],
          server: true,
-         pubsub_server: Server.PubSub,
+         pubsub_server: KinoLiveViewNative.Server.PubSub,
          live_view: [signing_salt: "aaaaaaaa"],
          secret_key_base: String.duplicate("a", 64),
          live_reload: [

@@ -12,11 +12,11 @@ Mix.install(
       {LiveViewNativeSwiftUi.Platform, [app_name: "LiveView Native"]}
     ],
     kino_live_view_native: [
-      {Server.Endpoint,
+      {KinoLiveViewNative.Server.Endpoint,
        [
          http: [ip: {127, 0, 0, 1}, port: 5001],
          server: true,
-         pubsub_server: Server.PubSub,
+         pubsub_server: KinoLiveViewNative.Server.PubSub,
          live_view: [signing_salt: "aaaaaaaa"],
          secret_key_base: String.duplicate("a", 64),
          live_reload: [
@@ -32,7 +32,7 @@ Mix.install(
 
 ## Section
 
-<!-- livebook:{"attrs":{},"chunks":[[0,502],[504,2],[508,42]],"kind":"Elixir.KinoLiveViewNative","livebook_object":"smart_cell"} -->
+<!-- livebook:{"attrs":{"action":":index","code":"defmodule Server.HomeLive do\n  use Phoenix.LiveView, layout: {__MODULE__, :layout}\n  use LiveViewNative.LiveView\n\n  def layout(assigns) do\n    ~H\"\"\"\n      <%= @inner_content %>\n    \"\"\"\n  end\n\n  @impl true\n  def render(%{platform_id: :swiftui} = assigns) do\n    ~Z\"\"\"\n    <Text modifiers={@native |> foreground_style(primary: {:color, :mint})}>\n      Hello from LiveView Native!\n    </Text>\n    \"\"\"swiftui\n  end\n\n  def render(assigns) do\n    ~H\"\"\"\n    <div>Hello from LiveView!!</div>\n    \"\"\"\n  end\nend\n","path":"/"},"chunks":[[0,502],[504,2],[508,42]],"kind":"Elixir.KinoLiveViewNative","livebook_object":"smart_cell"} -->
 
 ```elixir
 defmodule Server.HomeLive do
@@ -137,3 +137,7 @@ end
 ```
 
 Go to http://localhost:5001/hello/josh
+
+```elixir
+KinoLiveViewNative.get_routes()
+```
