@@ -12,8 +12,8 @@ defmodule KinoLiveViewNative.Application do
 
     Supervisor.start_link(
       [
-        {Phoenix.PubSub, name: KinoLiveViewNative.Server.PubSub},
-        KinoLiveViewNative.Server.Endpoint
+        {Phoenix.PubSub, name: Server.PubSub},
+        Server.Endpoint
       ],
       strategy: :one_for_one
     )

@@ -100,8 +100,8 @@ defmodule KinoLiveViewNative do
   end
 
   def scan_eval_result(_server, _eval_result) do
-    Phoenix.PubSub.broadcast!(KinoLiveViewNative.Server.PubSub, "reloader", :trigger)
-    IEx.Helpers.r(KinoLiveViewNative.Server.Router)
+    Phoenix.PubSub.broadcast!(Server.PubSub, "reloader", :trigger)
+    IEx.Helpers.r(Server.Router)
   end
 
   def default_source() do

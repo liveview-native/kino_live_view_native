@@ -1,4 +1,4 @@
-defmodule KinoLiveViewNative.Server.Layouts do
+defmodule Server.Layouts do
   import Phoenix.Component, only: [sigil_H: 2]
   import Phoenix.HTML.Tag
 

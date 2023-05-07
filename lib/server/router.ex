@@ -1,10 +1,10 @@
-defmodule KinoLiveViewNative.Server.Router do
+defmodule Server.Router do
   use Phoenix.Router
   import Phoenix.LiveView.Router
 
   pipeline :browser do
     plug(:accepts, ["html"])
-    plug(:put_root_layout, html: {KinoLiveViewNative.Server.Layouts, :root_layout})
+    plug(:put_root_layout, html: {Server.Layouts, :root_layout})
   end
 
   scope "/" do
