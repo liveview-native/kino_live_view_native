@@ -4,6 +4,36 @@ defmodule KinoLiveViewNative do
   use Kino.SmartCell, name: "LiveView Native"
   require IEx.Helpers
 
+  def start(opts) do
+    app_name = Keyword.get(opts, :app_name, "LiveView Native")
+    port = Keyword.get(opts, :port, 5001)
+
+    Application.put_all_env(
+      live_view_native: [
+        {:platforms, [LiveViewNativeSwiftUi.Platform]},
+        {LiveViewNativeSwiftUi.Platform, [app_name: app_name]}
+      ],
+      kino_live_view_native: [
+        {Server.Endpoint,
+         [
+           http: [ip: {127, 0, 0, 1}, port: port],
+           server: true,
+           pubsub_server: Server.PubSub,
+           live_view: [signing_salt: "aaaaaaaa"],
+           secret_key_base: String.duplicate("a", 64),
+           live_reload: [
+             patterns: [
+               ~r/#{__ENV__.file |> String.split("#") |> hd()}$/
+             ]
+           ]
+         ]}
+      ]
+    )
+
+    Kino.start_child({Phoenix.PubSub, name: Server.PubSub})
+    Kino.start_child(Server.Endpoint)
+  end
+
   @impl true
   def init(attrs, ctx) do
     {:ok,
@@ -35,13 +65,27 @@ defmodule KinoLiveViewNative do
   @impl true
   def to_source(attrs) do
     [
+      # Use our defmodule definition
+      """
+      require KinoLiveViewNative.Livebook
+      import KinoLiveViewNative.Livebook
+      import Kernel, except: [defmodule: 2]
+      """,
       attrs["code"],
-      "|>",
-      quote do
-        unquote(__MODULE__).register(unquote(attrs["path"]), unquote(attrs["action"]))
-      end
-      |> Kino.SmartCell.quoted_to_string()
+      "|> #{register_module_source(attrs)}",
+      # Restore the existing definition
+      """
+      import KinoLiveViewNative.Livebook, only: []
+      :ok
+      """
     ]
+  end
+
+  def register_module_source(attrs) do
+    quote do
+      unquote(__MODULE__).register(unquote(attrs["path"]), unquote(attrs["action"]))
+    end
+    |> Kino.SmartCell.quoted_to_string()
   end
 
   @impl true
@@ -99,6 +143,7 @@ defmodule KinoLiveViewNative do
     put_routes(updated_routes)
   end
 
+  @impl true
   def scan_eval_result(_server, _eval_result) do
     Phoenix.PubSub.broadcast!(Server.PubSub, "reloader", :trigger)
     IEx.Helpers.r(Server.Router)
