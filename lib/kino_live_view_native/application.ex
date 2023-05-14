@@ -7,6 +7,5 @@ defmodule KinoLiveViewNative.Application do
     children = []
     opts = [strategy: :one_for_one, name: KinoLiveViewNative.Supervisor]
     Supervisor.start_link(children, opts)
-
   end
 end
