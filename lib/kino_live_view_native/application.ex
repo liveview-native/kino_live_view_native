@@ -2,20 +2,10 @@ defmodule KinoLiveViewNative.Application do
   use Application
 
   def start(_type, _args) do
-    # config_path =
-    #   __ENV__.file
-    #   |> Path.dirname()
-    #   |> Path.join("../../config/config.exs")
-    #   |> Path.expand()
-
     Kino.SmartCell.register(KinoLiveViewNative)
 
-    Supervisor.start_link(
-      [
-        {Phoenix.PubSub, name: Server.PubSub},
-        Server.Endpoint
-      ],
-      strategy: :one_for_one
-    )
+    children = []
+    opts = [strategy: :one_for_one, name: KinoLiveViewNative.Supervisor]
+    Supervisor.start_link(children, opts)
   end
 end

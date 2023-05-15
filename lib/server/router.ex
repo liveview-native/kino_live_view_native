@@ -7,9 +7,12 @@ defmodule Server.Router do
     plug(:put_root_layout, html: {Server.Layouts, :root_layout})
   end
 
-  scope "/", Server do
+  scope "/" do
     pipe_through(:browser)
 
-    live("/", HomeLive, :index)
+    KinoLiveViewNative.get_routes()
+    |> Enum.map(fn %{path: path, module: module, action: action} ->
+      live(path, module, action)
+    end)
   end
 end
