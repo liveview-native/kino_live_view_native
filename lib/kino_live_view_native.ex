@@ -4,8 +4,7 @@ defmodule KinoLiveViewNative do
   use Kino.SmartCell, name: "LiveView Native"
   require IEx.Helpers
 
-  def start(opts) do
-    app_name = Keyword.get(opts, :app_name, "LiveView Native")
+  def start(opts \\ []) do
     port = Keyword.get(opts, :port, 4000)
 
     Application.put_all_env(

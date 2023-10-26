@@ -5,28 +5,54 @@ my_app_root = "../kino_live_view_native"
 
 Mix.install(
   [
-    {:kino_live_view_native, path: my_app_root, env: :dev, runtime: true}
+    {:kino_live_view_native, path: my_app_root}
   ],
   config_path: Path.join(my_app_root, "config/config.exs"),
   lockfile: Path.join(my_app_root, "mix.lock"),
-  force: true,
-  verbose: true
+  # *optional: used to make debugging easier so we always re-install project deps.
+  force: true
+)
+
+KinoLiveViewNative.start([])
+```
+
+## Quickstart
+
+To use the KinoLiveViewNative project we need to install it. You can include the following in your Notebook dependencies and setup section of Livebook.
+
+<!-- livebook:{"force_markdown":true} -->
+
+```elixir
+my_app_root = "../kino_live_view_native"
+
+Mix.install(
+  [
+    {:kino_live_view_native, path: my_app_root, env: :dev, runtime: true}
+  ],
+  config_path: Path.join(my_app_root, "config/config.exs"),
+  lockfile: Path.join(my_app_root, "mix.lock")
 )
 ```
 
-## Section
+We need to start the server. This could be hidden in in notebook dependencies to make the experience more streamlined for your reader.
+
+<!-- livebook:{"force_markdown":true} -->
 
 ```elixir
-LiveViewNative.platforms()
+KinoLiveViewNative.start()
 ```
+
+You may optionally configure the `port` to start the server on. By default, the server starts on port `4000`.
+
+<!-- livebook:{"force_markdown":true} -->
 
 ```elixir
-KinoLiveViewNative.start(app_name: "LiveView Native", port: 4000)
+KinoLiveViewNative.start(port: 5001)
 ```
 
-Let's create a basic LiveView that will be available at http://localhost:5001
+Let's create a basic LiveView that will be available at http://localhost:4000.
 
-<!-- livebook:{"attrs":{"action":":index","code":"defmodule Server.HomeLive do\n  use Phoenix.LiveView\n  use LiveViewNative.LiveView\n\n  def layout(assigns) do\n    ~H\"\"\"\n      <%= @inner_content %>\n    \"\"\"\n  end\n\n  @impl true\n  def render(%{platform_id: :swiftui} = assigns) do\n    ~SWIFTUI\"\"\"\n    <Text>\n      Hello from LiveView Native! Live Updating\n    </Text>\n    \"\"\"\n  end\n\n  def render(assigns) do\n    ~H\"\"\"\n    <div>Hello from LiveView!</div>\n    \"\"\"\n  end\nend\n","path":"/"},"chunks":[[0,109],[111,417],[530,45],[577,49]],"kind":"Elixir.KinoLiveViewNative","livebook_object":"smart_cell"} -->
+<!-- livebook:{"attrs":{"action":":index","code":"defmodule Server.HomeLive do\n  use Phoenix.LiveView\n  use LiveViewNative.LiveView\n\n  def layout(assigns) do\n    ~H\"\"\"\n      <%= @inner_content %>\n    \"\"\"\n  end\n\n  @impl true\n  def render(%{platform_id: :swiftui} = assigns) do\n    ~SWIFTUI\"\"\"\n    <Text>\n      Hello from LiveView Native!\n    </Text>\n    \"\"\"\n  end\n\n  def render(assigns) do\n    ~H\"\"\"\n    <div>Hello from LiveView!</div>\n    \"\"\"\n  end\nend\n","path":"/"},"chunks":[[0,109],[111,403],[516,45],[563,49]],"kind":"Elixir.KinoLiveViewNative","livebook_object":"smart_cell"} -->
 
 ```elixir
 require KinoLiveViewNative.Livebook
@@ -47,7 +73,7 @@ defmodule Server.HomeLive do
   def render(%{platform_id: :swiftui} = assigns) do
     ~SWIFTUI"""
     <Text>
-      Hello from LiveView Native! Live Updating
+      Hello from LiveView Native!
     </Text>
     """
   end
@@ -64,9 +90,11 @@ import KinoLiveViewNative.Livebook, only: []
 :ok
 ```
 
-Hmm... let's add some color!
+`KinoLiveViewNative` uses automatic code reloading, so anytime you change this file or evaluate one of the `LiveView Native` smart cells, the server will hot reload the page.
 
-<!-- livebook:{"attrs":{"action":":index","code":"defmodule Server.HomeLive do\n  use Phoenix.LiveView, layout: {__MODULE__, :layout}\n  use LiveViewNative.LiveView\n\n  def layout(assigns) do\n    ~H\"\"\"\n      <%= @inner_content %>\n    \"\"\"\n  end\n\n  @impl true\n  def render(%{platform_id: :swiftui} = assigns) do\n    ~Z\"\"\"\n    <Text modifiers={@native |> foreground_style(primary: {:color, :purple})}>\n      Hello from LiveView Native!\n    </Text>\n    \"\"\"swiftui\n  end\n\n  def render(assigns) do\n    ~H\"\"\"\n    <div style=\"color: purple\">Hello from LiveView!</div>\n    \"\"\"\n  end\nend\n","path":"/"},"chunks":[[0,109],[111,525],[638,45],[685,49]],"kind":"Elixir.KinoLiveViewNative","livebook_object":"smart_cell"} -->
+Evaluate the cell below that gives our Hello World app some colored text to see the app live reload.
+
+<!-- livebook:{"attrs":{"action":":index","code":"defmodule Server.HomeLive do\n  use Phoenix.LiveView\n  use LiveViewNative.LiveView\n\n  def layout(assigns) do\n    ~H\"\"\"\n      <%= @inner_content %>\n    \"\"\"\n  end\n\n  @impl true\n  def render(%{platform_id: :swiftui} = assigns) do\n    ~SWIFTUI\"\"\"\n    <Text modifiers={@native |> foreground_style(primary: {:color, :purple})}>\n      Hello from LiveView Native!\n    </Text>\n    \"\"\"\n  end\n\n  def render(assigns) do\n    ~H\"\"\"\n    <div style=\"color: purple\">Hello from LiveView!</div>\n    \"\"\"\n  end\nend\n","path":"/"},"chunks":[[0,109],[111,493],[606,45],[653,49]],"kind":"Elixir.KinoLiveViewNative","livebook_object":"smart_cell"} -->
 
 ```elixir
 require KinoLiveViewNative.Livebook
@@ -74,7 +102,7 @@ import KinoLiveViewNative.Livebook
 import Kernel, except: [defmodule: 2]
 
 defmodule Server.HomeLive do
-  use Phoenix.LiveView, layout: {__MODULE__, :layout}
+  use Phoenix.LiveView
   use LiveViewNative.LiveView
 
   def layout(assigns) do
@@ -85,11 +113,11 @@ defmodule Server.HomeLive do
 
   @impl true
   def render(%{platform_id: :swiftui} = assigns) do
-    ~Z"""
+    ~SWIFTUI"""
     <Text modifiers={@native |> foreground_style(primary: {:color, :purple})}>
       Hello from LiveView Native!
     </Text>
-    """swiftui
+    """
   end
 
   def render(assigns) do
@@ -106,7 +134,7 @@ import KinoLiveViewNative.Livebook, only: []
 
 Now let's add some variables.
 
-<!-- livebook:{"attrs":{"action":":index","code":"defmodule Server.HomeLive do\n  use Phoenix.LiveView, layout: {__MODULE__, :layout}\n  use LiveViewNative.LiveView\n\n  def layout(assigns) do\n    ~H\"\"\"\n      <%= @inner_content %>\n    \"\"\"\n  end\n\n  @impl true\n  def mount(_, _, socket) do\n    {:ok,\n    socket\n    |> assign(name: \"Brooklyn\") }\n  end\n\n  @impl true\n  def render(%{platform_id: :swiftui} = assigns) do\n    ~Z\"\"\"\n    <Text modifiers={@native |> foreground_style(primary: {:color, :purple})}>\n      Hi there, I'm <%= @name %>\n    </Text>\n    \"\"\"swiftui\n  end\n\n  def render(assigns) do\n    ~H\"\"\"\n    <div style=\"color: purple\">\n    Hi there, I'm <%= @name %>\n    </div>\n    \"\"\"\n  end\nend\n","path":"/"},"chunks":[[0,109],[111,644],[757,45],[804,49]],"kind":"Elixir.KinoLiveViewNative","livebook_object":"smart_cell"} -->
+<!-- livebook:{"attrs":{"action":":index","code":"defmodule Server.HomeLive do\n  use Phoenix.LiveView, layout: {__MODULE__, :layout}\n  use LiveViewNative.LiveView\n\n  def layout(assigns) do\n    ~H\"\"\"\n      <%= @inner_content %>\n    \"\"\"\n  end\n\n  @impl true\n  def mount(_, _, socket) do\n    {:ok,\n    socket\n    |> assign(name: \"Brooklin\") }\n  end\n\n  @impl true\n  def render(%{platform_id: :swiftui} = assigns) do\n    ~SWIFTUI\"\"\"\n    <Text modifiers={@native |> foreground_style(primary: {:color, :purple})}>\n      Hi there, I'm <%= @name %>\n    </Text>\n    \"\"\"\n  end\n\n  def render(assigns) do\n    ~H\"\"\"\n    <div style=\"color: purple\">\n    Hi there, I'm <%= @name %>\n    </div>\n    \"\"\"\n  end\nend\n","path":"/"},"chunks":[[0,109],[111,643],[756,45],[803,49]],"kind":"Elixir.KinoLiveViewNative","livebook_object":"smart_cell"} -->
 
 ```elixir
 require KinoLiveViewNative.Livebook
@@ -127,16 +155,16 @@ defmodule Server.HomeLive do
   def mount(_, _, socket) do
     {:ok,
      socket
-     |> assign(name: "Brooklyn")}
+     |> assign(name: "Brooklin")}
   end
 
   @impl true
   def render(%{platform_id: :swiftui} = assigns) do
-    ~Z"""
+    ~SWIFTUI"""
     <Text modifiers={@native |> foreground_style(primary: {:color, :purple})}>
       Hi there, I'm <%= @name %>
     </Text>
-    """swiftui
+    """
   end
 
   def render(assigns) do
@@ -161,7 +189,7 @@ Exercise: Change the code so that it shows your name
 
 What if you want anybody to be able to see their name on your application?
 
-<!-- livebook:{"attrs":{"action":":index","code":"defmodule Server.HelloNameLive do\n  use Phoenix.LiveView, layout: {__MODULE__, :layout}\n  use LiveViewNative.LiveView\n\n  def layout(assigns) do\n    ~H\"\"\"\n      <%= @inner_content %>\n    \"\"\"\n  end\n\n  @impl true\n  def mount(%{\"name\" => name}, _session, socket) do\n    {:ok, \n    socket\n    |> assign(name: name)}\n  end\n\n  @impl true\n  def render(%{platform_id: :swiftui} = assigns) do\n    ~Z\"\"\"\n    <Text modifiers={@native |> foreground_style(primary: {:color, :purple})}>\n      Hi there, I'm <%= @name %>\n    </Text>\n    \"\"\"swiftui\n  end\n\n  def render(assigns) do\n    ~H\"\"\"\n    <div style=\"color: purple\">\n    Hi there, I'm <%= @name %>\n    </div>\n    \"\"\"\n  end\nend\n","path":"/hello/:name"},"chunks":[[0,109],[111,666],[779,56],[837,49]],"kind":"Elixir.KinoLiveViewNative","livebook_object":"smart_cell"} -->
+<!-- livebook:{"attrs":{"action":":index","code":"defmodule Server.HelloNameLive do\n  use Phoenix.LiveView, layout: {__MODULE__, :layout}\n  use LiveViewNative.LiveView\n\n  def layout(assigns) do\n    ~H\"\"\"\n      <%= @inner_content %>\n    \"\"\"\n  end\n\n  @impl true\n  def mount(%{\"name\" => name}, _session, socket) do\n    {:ok, \n    socket\n    |> assign(name: name)}\n  end\n\n  @impl true\n  def render(%{platform_id: :swiftui} = assigns) do\n    ~SWIFTUI\"\"\"\n    <Text modifiers={@native |> foreground_style(primary: {:color, :purple})}>\n      Hi there, I'm <%= @name %>\n    </Text>\n    \"\"\"\n  end\n\n  def render(assigns) do\n    ~H\"\"\"\n    <div style=\"color: purple\">\n    Hi there, I'm <%= @name %>\n    </div>\n    \"\"\"\n  end\nend\n","path":"/hello/:name"},"chunks":[[0,109],[111,665],[778,56],[836,49]],"kind":"Elixir.KinoLiveViewNative","livebook_object":"smart_cell"} -->
 
 ```elixir
 require KinoLiveViewNative.Livebook
@@ -187,11 +215,11 @@ defmodule Server.HelloNameLive do
 
   @impl true
   def render(%{platform_id: :swiftui} = assigns) do
-    ~Z"""
+    ~SWIFTUI"""
     <Text modifiers={@native |> foreground_style(primary: {:color, :purple})}>
       Hi there, I'm <%= @name %>
     </Text>
-    """swiftui
+    """
   end
 
   def render(assigns) do
@@ -208,4 +236,4 @@ import KinoLiveViewNative.Livebook, only: []
 :ok
 ```
 
-Go to http://localhost:5001/hello/josh
+Go to http://localhost:4000/hello/your_name. Replace `your_name` with your name and see the page display your name!
