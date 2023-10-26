@@ -1,21 +1,32 @@
 # KinoLiveViewNative
 
 ```elixir
-Mix.install([
-  {:kino, "~> 0.9.3"},
-  {:kino_live_view_native, path: Path.expand(Path.join(__DIR__, ".."))}
-])
+my_app_root = "../kino_live_view_native"
+
+Mix.install(
+  [
+    {:kino_live_view_native, path: my_app_root, env: :dev, runtime: true}
+  ],
+  config_path: Path.join(my_app_root, "config/config.exs"),
+  lockfile: Path.join(my_app_root, "mix.lock"),
+  force: true,
+  verbose: true
+)
 ```
 
 ## Section
 
 ```elixir
-KinoLiveViewNative.start(app_name: "LiveView Native", port: 5001)
+LiveViewNative.platforms()
+```
+
+```elixir
+KinoLiveViewNative.start(app_name: "LiveView Native", port: 4000)
 ```
 
 Let's create a basic LiveView that will be available at http://localhost:5001
 
-<!-- livebook:{"attrs":{"action":":index","code":"defmodule Server.HomeLive do\n  use Phoenix.LiveView, layout: {__MODULE__, :layout}\n  use LiveViewNative.LiveView\n\n  def layout(assigns) do\n    ~H\"\"\"\n      <%= @inner_content %>\n    \"\"\"\n  end\n\n  @impl true\n  def render(%{platform_id: :swiftui} = assigns) do\n    ~Z\"\"\"\n    <Text>\n      Hello from LiveView Native!\n    </Text>\n    \"\"\"swiftui\n  end\n\n  def render(assigns) do\n    ~H\"\"\"\n    <div>Hello from LiveView!</div>\n    \"\"\"\n  end\nend\n","path":"/"},"chunks":[[0,109],[111,435],[548,45],[595,49]],"kind":"Elixir.KinoLiveViewNative","livebook_object":"smart_cell"} -->
+<!-- livebook:{"attrs":{"action":":index","code":"defmodule Server.HomeLive do\n  use Phoenix.LiveView\n  use LiveViewNative.LiveView\n\n  def layout(assigns) do\n    ~H\"\"\"\n      <%= @inner_content %>\n    \"\"\"\n  end\n\n  @impl true\n  def render(%{platform_id: :swiftui} = assigns) do\n    ~SWIFTUI\"\"\"\n    <Text>\n      Hello from LiveView Native! Live Updating\n    </Text>\n    \"\"\"\n  end\n\n  def render(assigns) do\n    ~H\"\"\"\n    <div>Hello from LiveView!</div>\n    \"\"\"\n  end\nend\n","path":"/"},"chunks":[[0,109],[111,417],[530,45],[577,49]],"kind":"Elixir.KinoLiveViewNative","livebook_object":"smart_cell"} -->
 
 ```elixir
 require KinoLiveViewNative.Livebook
@@ -23,7 +34,7 @@ import KinoLiveViewNative.Livebook
 import Kernel, except: [defmodule: 2]
 
 defmodule Server.HomeLive do
-  use Phoenix.LiveView, layout: {__MODULE__, :layout}
+  use Phoenix.LiveView
   use LiveViewNative.LiveView
 
   def layout(assigns) do
@@ -34,11 +45,11 @@ defmodule Server.HomeLive do
 
   @impl true
   def render(%{platform_id: :swiftui} = assigns) do
-    ~Z"""
+    ~SWIFTUI"""
     <Text>
-      Hello from LiveView Native!
+      Hello from LiveView Native! Live Updating
     </Text>
-    """swiftui
+    """
   end
 
   def render(assigns) do

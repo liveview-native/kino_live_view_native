@@ -6,13 +6,9 @@ defmodule KinoLiveViewNative do
 
   def start(opts) do
     app_name = Keyword.get(opts, :app_name, "LiveView Native")
-    port = Keyword.get(opts, :port, 5001)
+    port = Keyword.get(opts, :port, 4000)
 
     Application.put_all_env(
-      live_view_native: [
-        {:platforms, [LiveViewNativeSwiftUi.Platform]},
-        {LiveViewNativeSwiftUi.Platform, [app_name: app_name]}
-      ],
       kino_live_view_native: [
         {Server.Endpoint,
          [
