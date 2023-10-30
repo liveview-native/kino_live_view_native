@@ -5,18 +5,25 @@ Use the following within a Livebook notebook:
 ## Setup
 
 ```elixir
-Mix.install([
-  {:kino_live_view_native, github: "liveview-native/kino_live_view_native", env: :dev}
-])
+my_app_root = "../kino_live_view_native"
 
-KinoLiveViewNative.start(app_name: "LiveView Native", port: 5001)
+Mix.install(
+  [
+    {:kino_live_view_native, path: my_app_root}
+  ],
+  config_path: Path.join(my_app_root, "config/config.exs"),
+  lockfile: Path.join(my_app_root, "mix.lock")
+)
+
+# Starts the server on port 4000
+KinoLiveViewNative.start([port: 4000])
 ```
 
 ## Code block
 
 ```elixir
 defmodule Server.HomeLive do
-  use Phoenix.LiveView, layout: {__MODULE__, :layout}
+  use Phoenix.LiveView
   use LiveViewNative.LiveView
 
   def layout(assigns) do
@@ -27,7 +34,7 @@ defmodule Server.HomeLive do
 
   @impl true
   def render(%{platform_id: :swiftui} = assigns) do
-    ~Z"""
+    ~SWIFTUI"""
     <Text modifiers={@native |> foreground_style(primary: {:color, :mint})}>
       Hello from LiveView Native!
     </Text>
