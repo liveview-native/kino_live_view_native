@@ -38,7 +38,7 @@ defmodule Server.HomeLive do
     <Text modifiers={@native |> foreground_style(primary: {:color, :mint})}>
       Hello from LiveView Native!
     </Text>
-    """swiftui
+    """
   end
 
   def render(assigns) do
