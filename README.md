@@ -5,18 +5,18 @@ Use the following within a Livebook notebook:
 ## Setup
 
 ```elixir
-my_app_root = "../kino_live_view_native"
-
 Mix.install(
   [
-    {:kino_live_view_native, path: my_app_root}
+    {:kino_live_view_native, github: "liveview-native/kino_live_view_native"}
   ],
-  config_path: Path.join(my_app_root, "config/config.exs"),
-  lockfile: Path.join(my_app_root, "mix.lock")
+  config: [
+    # This must be a compile time configuration for :live_view_native.
+    live_view_native: [plugins: [LiveViewNativeSwiftUi]]
+  ]
 )
 
 # Starts the server on port 4000
-KinoLiveViewNative.start([port: 4000])
+KinoLiveViewNative.start([])
 ```
 
 ## Code block
