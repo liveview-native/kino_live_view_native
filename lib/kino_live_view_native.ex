@@ -4,15 +4,10 @@ defmodule KinoLiveViewNative do
   use Kino.SmartCell, name: "LiveView Native"
   require IEx.Helpers
 
-  def start(opts) do
-    app_name = Keyword.get(opts, :app_name, "LiveView Native")
-    port = Keyword.get(opts, :port, 5001)
+  def start(opts \\ []) do
+    port = Keyword.get(opts, :port, 4000)
 
     Application.put_all_env(
-      live_view_native: [
-        {:platforms, [LiveViewNativeSwiftUi.Platform]},
-        {LiveViewNativeSwiftUi.Platform, [app_name: app_name]}
-      ],
       kino_live_view_native: [
         {Server.Endpoint,
          [
@@ -150,32 +145,33 @@ defmodule KinoLiveViewNative do
   end
 
   def default_source() do
-    ~s[defmodule Server.HomeLive do
-  use Phoenix.LiveView, layout: {__MODULE__, :layout}
-  use LiveViewNative.LiveView
+    ~s[
+    defmodule Server.HomeLive do
+      use Phoenix.LiveView, layout: {__MODULE__, :layout}
+      use LiveViewNative.LiveView
 
-  def layout(assigns) do
-    ~H"""
-      <%= @inner_content %>
-    """
-  end
+      def layout(assigns) do
+        ~H"""
+          <%= @inner_content %>
+        """
+      end
 
-  @impl true
-  def render(%{platform_id: :swiftui} = assigns) do
-    ~Z"""
-    <Text modifiers={@native |> foreground_style(primary: {:color, :mint})}>
-      Hello from LiveView Native!
-    </Text>
-    """swiftui
-  end
+      @impl true
+      def render(%{platform_id: :swiftui} = assigns) do
+        ~SWIFTUI"""
+        <Text modifiers={@native |> foreground_style(primary: {:color, :mint})}>
+          Hello from LiveView Native!
+        </Text>
+        """
+      end
 
-  def render(assigns) do
-    ~H"""
-    <div>Hello from LiveView!!</div>
-    """
-  end
-end
-]
+      def render(assigns) do
+        ~H"""
+        <div>Hello from LiveView!!</div>
+        """
+      end
+    end
+  ]
   end
 
   asset "main.js" do

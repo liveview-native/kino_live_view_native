@@ -5,7 +5,7 @@ defmodule KinoLiveViewNative.MixProject do
     [
       app: :kino_live_view_native,
       version: "0.1.0",
-      elixir: "~> 1.14",
+      elixir: "~> 1.15",
       start_permanent: Mix.env() == :prod,
       deps: deps()
     ]
@@ -22,14 +22,14 @@ defmodule KinoLiveViewNative.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:kino, "~> 0.9.3"},
+      {:kino, "~> 0.10.0"},
       {:plug_cowboy, "~> 2.5"},
-      {:jason, "~> 1.0"},
-      {:phoenix, "~> 1.7.2", override: true},
-      {:phoenix_live_view, "~> 0.18.2"},
-      {:phoenix_live_reload, "~> 1.4.1", override: true},
-      {:live_view_native, "~> 0.0.7"},
-      {:live_view_native_swift_ui, "~> 0.0.7"}
+      {:jason, "~> 1.2"},
+      {:phoenix, "~> 1.7"},
+      {:phoenix_live_reload, "~> 1.4"},
+      {:phoenix_live_view, "~> 0.20.1"},
+      {:live_view_native_swift_ui, "~> 0.1"},
+      {:live_view_native, "~> 0.1.2"}
     ]
   end
 end
