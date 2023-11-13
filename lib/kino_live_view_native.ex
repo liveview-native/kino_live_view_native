@@ -1,5 +1,4 @@
 defmodule KinoLiveViewNative do
-  require Logger
   use Kino.JS
   use Kino.JS.Live
   use Kino.SmartCell, name: "LiveView Native"
@@ -36,6 +35,7 @@ defmodule KinoLiveViewNative do
         Kino.start_child(Server.Endpoint)
       _ ->
         :os.cmd(:"lsof -t -i tcp:#{port} | xargs kill")
+        # Arbitrary amount of time to wait for server to shutdown.
         Process.sleep(300)
         Logger.error("Port #{port} is already in use. Trying again...")
         start()
