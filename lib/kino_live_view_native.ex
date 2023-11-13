@@ -38,7 +38,7 @@ defmodule KinoLiveViewNative do
         # Arbitrary amount of time to wait for server to shutdown.
         Process.sleep(300)
         Logger.error("Port #{port} is already in use. Trying again...")
-        start()
+        start(opts)
     end
   end
 
