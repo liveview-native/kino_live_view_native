@@ -159,27 +159,19 @@ defmodule KinoLiveViewNative do
 
   def default_source() do
     ~s[defmodule Server.HomeLive do
-  use Phoenix.LiveView, layout: {__MODULE__, :layout}
+  use Phoenix.LiveView
   use LiveViewNative.LiveView
-
-  def layout(assigns) do
-    ~H"""
-      <%= @inner_content %>
-    """
-  end
 
   @impl true
   def render(%{platform_id: :swiftui} = assigns) do
     ~SWIFTUI"""
-    <Text>
-      Hello from LiveView Native!
-    </Text>
+    <Text>Hello from LiveView Native!</Text>
     """
   end
 
   def render(assigns) do
     ~H"""
-    <div>Hello from LiveView!!</div>
+    <p>Hello from LiveView!</p>
     """
   end
 end]
