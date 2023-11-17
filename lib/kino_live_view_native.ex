@@ -1,4 +1,5 @@
 defmodule KinoLiveViewNative do
+  alias KinoLiveViewNative.PortAlert
   use Kino.JS
   use Kino.JS.Live
   use Kino.SmartCell, name: "LiveView Native"
@@ -26,20 +27,10 @@ defmodule KinoLiveViewNative do
       ]
     )
 
-    # Ensures no other servers are running on the same port, which can cause unexpected behavior.
-    {os_processes, _} = System.cmd("lsof", ["-t", "-i", "tcp:#{port}"])
-
-    case os_processes do
-      "" ->
-        Kino.start_child({Phoenix.PubSub, name: Server.PubSub})
-        Kino.start_child(Server.Endpoint)
-      _ ->
-        :os.cmd(:"lsof -t -i tcp:#{port} | xargs kill")
-        # Arbitrary amount of time to wait for server to shutdown.
-        Process.sleep(300)
-        Logger.error("Port #{port} is already in use. Trying again...")
-        start(opts)
-    end
+    PortAlert.check!(%{port: port, liveview_pid: self(), on_confirm: fn ->
+      Kino.start_child({Phoenix.PubSub, name: Server.PubSub})
+      Kino.start_child(Server.Endpoint)
+    end})
   end
 
   @impl true
