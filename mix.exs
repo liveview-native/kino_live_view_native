@@ -22,7 +22,7 @@ defmodule KinoLiveViewNative.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:kino, "~> 0.10.0"},
+      {:kino, "~> 0.11.3"},
       {:plug_cowboy, "~> 2.5"},
       {:jason, "~> 1.2"},
       {:phoenix, "~> 1.7"},
