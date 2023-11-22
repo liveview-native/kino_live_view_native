@@ -15,6 +15,7 @@ defmodule Server.Router do
 
   scope "/images" do
     pipe_through :images
+    get "/*path", ErrorController, :notfound
   end
 
   scope "/" do
