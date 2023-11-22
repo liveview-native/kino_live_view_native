@@ -27,10 +27,14 @@ defmodule KinoLiveViewNative do
       ]
     )
 
-    PortAlert.check!(%{port: port, liveview_pid: self(), on_confirm: fn ->
-      Kino.start_child({Phoenix.PubSub, name: Server.PubSub})
-      Kino.start_child(Server.Endpoint)
-    end})
+    PortAlert.check!(%{
+      port: port,
+      liveview_pid: self(),
+      on_confirm: fn ->
+        Kino.start_child({Phoenix.PubSub, name: Server.PubSub})
+        Kino.start_child(Server.Endpoint)
+      end
+    })
   end
 
   @impl true
