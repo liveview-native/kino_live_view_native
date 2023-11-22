@@ -31,6 +31,7 @@ defmodule KinoLiveViewNative.PortAlert do
       Logger.error("Stop the server running on port #{ctx.assigns.port} to run this Livebook.")
       # allow time for the logger to print before killing the parent Livebook
       Process.sleep(100)
+
       # Kill the parent livebook to prevent further execution. We cannot use Kino.interrupt! because it does not work inside an event handler.
       Process.exit(ctx.assigns.liveview_pid, :kill)
     end
