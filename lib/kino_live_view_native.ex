@@ -1,10 +1,13 @@
 defmodule KinoLiveViewNative do
   alias KinoLiveViewNative.PortAlert
+  require IEx.Helpers
+  require Logger
+
   use Kino.JS
   use Kino.JS.Live
   use Kino.SmartCell, name: "LiveView Native"
-  require IEx.Helpers
-  require Logger
+
+  @registry_key :liveviews
 
   def start(opts \\ []) do
     port = Keyword.get(opts, :port, 4000)
@@ -106,8 +109,6 @@ defmodule KinoLiveViewNative do
     {:noreply, ctx}
   end
 
-  @registry_key :liveviews
-
   def get_routes() do
     Application.get_env(:kino_live_view_native, @registry_key, [])
   end
@@ -124,33 +125,18 @@ defmodule KinoLiveViewNative do
       |> String.trim_leading(":")
       |> String.to_atom()
 
-    updated_route = %{path: path, module: module, action: action}
+    new_route = %{path: path, module: module, action: action}
 
-    updated_routes =
-      routes
-      |> Enum.reverse()
-      |> Enum.reduce({[], false}, fn route, {routes, found?} ->
-        if route.path == path do
-          {[updated_route | routes], true}
-        else
-          {[route | routes], found?}
-        end
-      end)
-      |> then(fn
-        {routes, false} ->
-          routes ++ [updated_route]
+    get_routes()
+    # Remove existing route with the same path or invalid module if the LV's name has changed.
+    |> Enum.reject(fn r -> r.path == path or not Kernel.function_exported?(r.module, :live, 0) end)
+    |> Kernel.++([new_route])
+    |> put_routes()
 
-        {routes, true} ->
-          routes
-      end)
-
-    put_routes(updated_routes)
-  end
-
-  @impl true
-  def scan_eval_result(_server, _eval_result) do
-    Phoenix.PubSub.broadcast!(Server.PubSub, "reloader", :trigger)
+    # Reloading routes must occur before the LV evaluates in Livebook.
+    # Otherwise the LV will not be avalaible for previously defined routes when changing the LV name.
     IEx.Helpers.r(Server.Router)
+    Phoenix.PubSub.broadcast!(Server.PubSub, "reloader", :trigger)
   end
 
   def default_source() do

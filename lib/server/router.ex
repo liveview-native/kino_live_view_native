@@ -1,4 +1,5 @@
 defmodule Server.Router do
+  require Logger
   use Phoenix.Router
   import Phoenix.LiveView.Router
 
@@ -23,7 +24,12 @@ defmodule Server.Router do
 
     KinoLiveViewNative.get_routes()
     |> Enum.map(fn %{path: path, module: module, action: action} ->
-      live(path, module, action)
+      # Ensure module is a LiveView
+      if Kernel.function_exported?(module, :__live__, 0) do
+        live(path, module, action)
+      else
+        Logger.error("Module #{inspect(module)} is not a valid LiveView.")
+      end
     end)
   end
 end
