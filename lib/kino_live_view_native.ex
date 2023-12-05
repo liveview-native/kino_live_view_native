@@ -79,6 +79,7 @@ defmodule KinoLiveViewNative do
       # Restore the existing definition
       """
       import KinoLiveViewNative.Livebook, only: []
+      import Kernel
       :ok
       """
     ]

@@ -54,7 +54,7 @@ KinoLiveViewNative.start(port: 5001)
 
 Let's create a basic LiveView that will be available at http://localhost:4000.
 
-<!-- livebook:{"attrs":"eyJhY3Rpb24iOiI6aW5kZXgiLCJjb2RlIjoiZGVmbW9kdWxlIFNlcnZlci5Ib21lTGl2ZSBkb1xuICB1c2UgUGhvZW5peC5MaXZlVmlld1xuICB1c2UgTGl2ZVZpZXdOYXRpdmUuTGl2ZVZpZXdcbiAgXG4gIEBpbXBsIHRydWVcbiAgZGVmIHJlbmRlcigle3BsYXRmb3JtX2lkOiA6c3dpZnR1aX0gPSBhc3NpZ25zKSBkb1xuICAgIH5TV0lGVFVJXCJcIlwiXG4gICAgPFRleHQ+SGVsbG8gTmF0aXZlITwvVGV4dD5cbiAgICBcIlwiXCJcbiAgZW5kXG5cbiAgZGVmIHJlbmRlcihhc3NpZ25zKSBkb1xuICAgIH5IXCJcIlwiXG4gICAgPHA+SGVsbG8gV2ViITwvcD5cbiAgICBcIlwiXCJcbiAgZW5kXG5lbmQiLCJwYXRoIjoiLyJ9","chunks":[[0,109],[111,286],[399,45],[446,49]],"kind":"Elixir.KinoLiveViewNative","livebook_object":"smart_cell"} -->
+<!-- livebook:{"attrs":"eyJhY3Rpb24iOiI6aW5kZXgiLCJjb2RlIjoiZGVmbW9kdWxlIFNlcnZlci5Ib21lTGl2ZSBkb1xuICB1c2UgUGhvZW5peC5MaXZlVmlld1xuICB1c2UgTGl2ZVZpZXdOYXRpdmUuTGl2ZVZpZXdcbiAgXG4gIEBpbXBsIHRydWVcbiAgZGVmIHJlbmRlcigle3BsYXRmb3JtX2lkOiA6c3dpZnR1aX0gPSBhc3NpZ25zKSBkb1xuICAgIH5TV0lGVFVJXCJcIlwiXG4gICAgPFRleHQ+SGVsbG8gTmF0aXZlITwvVGV4dD5cbiAgICBcIlwiXCJcbiAgZW5kXG5cbiAgZGVmIHJlbmRlcihhc3NpZ25zKSBkb1xuICAgIH5IXCJcIlwiXG4gICAgPHA+SGVsbG8gV2ViITwvcD5cbiAgICBcIlwiXCJcbiAgZW5kXG5lbmQiLCJwYXRoIjoiLyJ9","chunks":[[0,109],[111,286],[399,45],[446,63]],"kind":"Elixir.KinoLiveViewNative","livebook_object":"smart_cell"} -->
 
 ```elixir
 require KinoLiveViewNative.Livebook
@@ -81,6 +81,7 @@ end
 |> KinoLiveViewNative.register("/", ":index")
 
 import KinoLiveViewNative.Livebook, only: []
+import Kernel
 :ok
 ```
 
@@ -88,7 +89,7 @@ import KinoLiveViewNative.Livebook, only: []
 
 Evaluate the cell below that gives our Hello World app some colored text to see the app live reload.
 
-<!-- livebook:{"attrs":"eyJhY3Rpb24iOiI6aW5kZXgiLCJjb2RlIjoiZGVmbW9kdWxlIFNlcnZlci5Ib21lTGl2ZSBkb1xuICB1c2UgUGhvZW5peC5MaXZlVmlld1xuICB1c2UgTGl2ZVZpZXdOYXRpdmUuTGl2ZVZpZXdcblxuICBAaW1wbCB0cnVlXG4gIGRlZiByZW5kZXIoJXtwbGF0Zm9ybV9pZDogOnN3aWZ0dWl9ID0gYXNzaWducykgZG9cbiAgICB+U1dJRlRVSVwiXCJcIlxuICAgIDxUZXh0IG1vZGlmaWVycz17QG5hdGl2ZSB8PiBmb3JlZ3JvdW5kX3N0eWxlKHByaW1hcnk6IHs6Y29sb3IsIDpwdXJwbGV9KX0+XG4gICAgICBIZWxsbyBmcm9tIExpdmVWaWV3IE5hdGl2ZSFcbiAgICA8L1RleHQ+XG4gICAgXCJcIlwiXG4gIGVuZFxuXG4gIGRlZiByZW5kZXIoYXNzaWducykgZG9cbiAgICB+SFwiXCJcIlxuICAgIDxwIHN0eWxlPVwiY29sb3I6IHB1cnBsZVwiPkhlbGxvIGZyb20gTGl2ZVZpZXchPC9wPlxuICAgIFwiXCJcIlxuICBlbmRcbmVuZFxuIiwicGF0aCI6Ii8ifQ","chunks":[[0,109],[111,411],[524,45],[571,49]],"kind":"Elixir.KinoLiveViewNative","livebook_object":"smart_cell"} -->
+<!-- livebook:{"attrs":"eyJhY3Rpb24iOiI6aW5kZXgiLCJjb2RlIjoiZGVmbW9kdWxlIFNlcnZlci5Ib21lTGl2ZSBkb1xuICB1c2UgUGhvZW5peC5MaXZlVmlld1xuICB1c2UgTGl2ZVZpZXdOYXRpdmUuTGl2ZVZpZXdcblxuICBAaW1wbCB0cnVlXG4gIGRlZiByZW5kZXIoJXtwbGF0Zm9ybV9pZDogOnN3aWZ0dWl9ID0gYXNzaWducykgZG9cbiAgICB+U1dJRlRVSVwiXCJcIlxuICAgIDxUZXh0IG1vZGlmaWVycz17QG5hdGl2ZSB8PiBmb3JlZ3JvdW5kX3N0eWxlKHByaW1hcnk6IHs6Y29sb3IsIDpwdXJwbGV9KX0+XG4gICAgICBIZWxsbyBmcm9tIExpdmVWaWV3IE5hdGl2ZSFcbiAgICA8L1RleHQ+XG4gICAgXCJcIlwiXG4gIGVuZFxuXG4gIGRlZiByZW5kZXIoYXNzaWducykgZG9cbiAgICB+SFwiXCJcIlxuICAgIDxwIHN0eWxlPVwiY29sb3I6IHB1cnBsZVwiPkhlbGxvIGZyb20gTGl2ZVZpZXchPC9wPlxuICAgIFwiXCJcIlxuICBlbmRcbmVuZFxuIiwicGF0aCI6Ii8ifQ","chunks":[[0,109],[111,411],[524,45],[571,63]],"kind":"Elixir.KinoLiveViewNative","livebook_object":"smart_cell"} -->
 
 ```elixir
 require KinoLiveViewNative.Livebook
@@ -117,12 +118,13 @@ end
 |> KinoLiveViewNative.register("/", ":index")
 
 import KinoLiveViewNative.Livebook, only: []
+import Kernel
 :ok
 ```
 
 Now let's add some variables.
 
-<!-- livebook:{"attrs":"eyJhY3Rpb24iOiI6aW5kZXgiLCJjb2RlIjoiZGVmbW9kdWxlIFNlcnZlci5Ib21lTGl2ZSBkb1xuICB1c2UgUGhvZW5peC5MaXZlVmlld1xuICB1c2UgTGl2ZVZpZXdOYXRpdmUuTGl2ZVZpZXdcblxuICBAaW1wbCB0cnVlXG4gIGRlZiBtb3VudChfLCBfLCBzb2NrZXQpIGRvXG4gICAgezpvayxcbiAgICBzb2NrZXRcbiAgICB8PiBhc3NpZ24obmFtZTogXCJCcm9va2xpblwiKSB9XG4gIGVuZFxuXG4gIEBpbXBsIHRydWVcbiAgZGVmIHJlbmRlcigle3BsYXRmb3JtX2lkOiA6c3dpZnR1aX0gPSBhc3NpZ25zKSBkb1xuICAgIH5TV0lGVFVJXCJcIlwiXG4gICAgPFRleHQgbW9kaWZpZXJzPXtAbmF0aXZlIHw+IGZvcmVncm91bmRfc3R5bGUocHJpbWFyeTogezpjb2xvciwgOnB1cnBsZX0pfT5cbiAgICAgIEhpIHRoZXJlLCBJJ20gPCU9IEBuYW1lICU+XG4gICAgPC9UZXh0PlxuICAgIFwiXCJcIlxuICBlbmRcblxuICBkZWYgcmVuZGVyKGFzc2lnbnMpIGRvXG4gICAgfkhcIlwiXCJcbiAgICA8cCBzdHlsZT1cImNvbG9yOiBwdXJwbGVcIj5cbiAgICBIaSB0aGVyZSwgSSdtIDwlPSBAbmFtZSAlPlxuICAgIDwvcD5cbiAgICBcIlwiXCJcbiAgZW5kXG5lbmRcbiIsInBhdGgiOiIvIn0","chunks":[[0,109],[111,530],[643,45],[690,49]],"kind":"Elixir.KinoLiveViewNative","livebook_object":"smart_cell"} -->
+<!-- livebook:{"attrs":"eyJhY3Rpb24iOiI6aW5kZXgiLCJjb2RlIjoiZGVmbW9kdWxlIFNlcnZlci5Ib21lTGl2ZSBkb1xuICB1c2UgUGhvZW5peC5MaXZlVmlld1xuICB1c2UgTGl2ZVZpZXdOYXRpdmUuTGl2ZVZpZXdcblxuICBAaW1wbCB0cnVlXG4gIGRlZiBtb3VudChfLCBfLCBzb2NrZXQpIGRvXG4gICAgezpvayxcbiAgICBzb2NrZXRcbiAgICB8PiBhc3NpZ24obmFtZTogXCJCcm9va2xpblwiKSB9XG4gIGVuZFxuXG4gIEBpbXBsIHRydWVcbiAgZGVmIHJlbmRlcigle3BsYXRmb3JtX2lkOiA6c3dpZnR1aX0gPSBhc3NpZ25zKSBkb1xuICAgIH5TV0lGVFVJXCJcIlwiXG4gICAgPFRleHQgbW9kaWZpZXJzPXtAbmF0aXZlIHw+IGZvcmVncm91bmRfc3R5bGUocHJpbWFyeTogezpjb2xvciwgOnB1cnBsZX0pfT5cbiAgICAgIEhpIHRoZXJlLCBJJ20gPCU9IEBuYW1lICU+XG4gICAgPC9UZXh0PlxuICAgIFwiXCJcIlxuICBlbmRcblxuICBkZWYgcmVuZGVyKGFzc2lnbnMpIGRvXG4gICAgfkhcIlwiXCJcbiAgICA8cCBzdHlsZT1cImNvbG9yOiBwdXJwbGVcIj5cbiAgICBIaSB0aGVyZSwgSSdtIDwlPSBAbmFtZSAlPlxuICAgIDwvcD5cbiAgICBcIlwiXCJcbiAgZW5kXG5lbmRcbiIsInBhdGgiOiIvIn0","chunks":[[0,109],[111,530],[643,45],[690,63]],"kind":"Elixir.KinoLiveViewNative","livebook_object":"smart_cell"} -->
 
 ```elixir
 require KinoLiveViewNative.Livebook
@@ -160,6 +162,7 @@ end
 |> KinoLiveViewNative.register("/", ":index")
 
 import KinoLiveViewNative.Livebook, only: []
+import Kernel
 :ok
 ```
 
@@ -167,7 +170,7 @@ import KinoLiveViewNative.Livebook, only: []
 
 KinoLiveViewNative lets you set path variables using the `:path_variable` syntax you would normally use in a Phoenix router. Here's an example that uses the path variable to display a name in the hello world application.
 
-<!-- livebook:{"attrs":"eyJhY3Rpb24iOiI6aW5kZXgiLCJjb2RlIjoiZGVmbW9kdWxlIFNlcnZlci5IZWxsb05hbWVMaXZlIGRvXG4gIHVzZSBQaG9lbml4LkxpdmVWaWV3XG4gIHVzZSBMaXZlVmlld05hdGl2ZS5MaXZlVmlld1xuXG4gIEBpbXBsIHRydWVcbiAgZGVmIG1vdW50KCV7XCJuYW1lXCIgPT4gbmFtZX0sIF9zZXNzaW9uLCBzb2NrZXQpIGRvXG4gICAgezpvaywgXG4gICAgc29ja2V0XG4gICAgfD4gYXNzaWduKG5hbWU6IG5hbWUpfVxuICBlbmRcblxuICBAaW1wbCB0cnVlXG4gIGRlZiByZW5kZXIoJXtwbGF0Zm9ybV9pZDogOnN3aWZ0dWl9ID0gYXNzaWducykgZG9cbiAgICB+U1dJRlRVSVwiXCJcIlxuICAgIDxUZXh0IG1vZGlmaWVycz17QG5hdGl2ZSB8PiBmb3JlZ3JvdW5kX3N0eWxlKHByaW1hcnk6IHs6Y29sb3IsIDpwdXJwbGV9KX0+XG4gICAgICBIaSB0aGVyZSwgSSdtIDwlPSBAbmFtZSAlPlxuICAgIDwvVGV4dD5cbiAgICBcIlwiXCJcbiAgZW5kXG5cbiAgZGVmIHJlbmRlcihhc3NpZ25zKSBkb1xuICAgIH5IXCJcIlwiXG4gICAgPHAgc3R5bGU9XCJjb2xvcjogcHVycGxlXCI+XG4gICAgSGkgdGhlcmUsIEknbSA8JT0gQG5hbWUgJT5cbiAgICA8L3A+XG4gICAgXCJcIlwiXG4gIGVuZFxuZW5kXG4iLCJwYXRoIjoiL2hlbGxvLzpuYW1lIn0","chunks":[[0,109],[111,552],[665,56],[723,49]],"kind":"Elixir.KinoLiveViewNative","livebook_object":"smart_cell"} -->
+<!-- livebook:{"attrs":"eyJhY3Rpb24iOiI6aW5kZXgiLCJjb2RlIjoiZGVmbW9kdWxlIFNlcnZlci5IZWxsb05hbWVMaXZlIGRvXG4gIHVzZSBQaG9lbml4LkxpdmVWaWV3XG4gIHVzZSBMaXZlVmlld05hdGl2ZS5MaXZlVmlld1xuXG4gIEBpbXBsIHRydWVcbiAgZGVmIG1vdW50KCV7XCJuYW1lXCIgPT4gbmFtZX0sIF9zZXNzaW9uLCBzb2NrZXQpIGRvXG4gICAgezpvaywgXG4gICAgc29ja2V0XG4gICAgfD4gYXNzaWduKG5hbWU6IG5hbWUpfVxuICBlbmRcblxuICBAaW1wbCB0cnVlXG4gIGRlZiByZW5kZXIoJXtwbGF0Zm9ybV9pZDogOnN3aWZ0dWl9ID0gYXNzaWducykgZG9cbiAgICB+U1dJRlRVSVwiXCJcIlxuICAgIDxUZXh0IG1vZGlmaWVycz17QG5hdGl2ZSB8PiBmb3JlZ3JvdW5kX3N0eWxlKHByaW1hcnk6IHs6Y29sb3IsIDpwdXJwbGV9KX0+XG4gICAgICBIaSB0aGVyZSwgSSdtIDwlPSBAbmFtZSAlPlxuICAgIDwvVGV4dD5cbiAgICBcIlwiXCJcbiAgZW5kXG5cbiAgZGVmIHJlbmRlcihhc3NpZ25zKSBkb1xuICAgIH5IXCJcIlwiXG4gICAgPHAgc3R5bGU9XCJjb2xvcjogcHVycGxlXCI+XG4gICAgSGkgdGhlcmUsIEknbSA8JT0gQG5hbWUgJT5cbiAgICA8L3A+XG4gICAgXCJcIlwiXG4gIGVuZFxuZW5kXG4iLCJwYXRoIjoiL2hlbGxvLzpuYW1lIn0","chunks":[[0,109],[111,552],[665,56],[723,63]],"kind":"Elixir.KinoLiveViewNative","livebook_object":"smart_cell"} -->
 
 ```elixir
 require KinoLiveViewNative.Livebook
@@ -205,6 +208,7 @@ end
 |> KinoLiveViewNative.register("/hello/:name", ":index")
 
 import KinoLiveViewNative.Livebook, only: []
+import Kernel
 :ok
 ```
 
@@ -214,7 +218,7 @@ Go to http://localhost:4000/hello/your_name. Replace `your_name` with your name 
 
 The URL for the LiveView Native The SwiftUI `Image` element is evaluated relative to the LiveView's host URL. We have provided an example image at http://localhost:4000/images/logo.png for you to use in any examples.
 
-<!-- livebook:{"attrs":"eyJhY3Rpb24iOiI6aW5kZXgiLCJjb2RlIjoiZGVmbW9kdWxlIFNlcnZlci5Ib21lTGl2ZSBkb1xuICB1c2UgUGhvZW5peC5MaXZlVmlld1xuICB1c2UgTGl2ZVZpZXdOYXRpdmUuTGl2ZVZpZXdcblxuICBAaW1wbCB0cnVlXG4gIGRlZiByZW5kZXIoJXtwbGF0Zm9ybV9pZDogOnN3aWZ0dWl9ID0gYXNzaWducykgZG9cbiAgICB+U1dJRlRVSVwiXCJcIlxuICAgIDxBc3luY0ltYWdlIHVybD1cIi4vaW1hZ2VzL2xvZ28ucG5nXCIvPlxuICAgIFwiXCJcIlxuICBlbmRcblxuICBkZWYgcmVuZGVyKGFzc2lnbnMpIGRvXG4gICAgfkhcIlwiXCJcbiAgICA8aW1nIHNyYz1cIi4vaW1hZ2VzL2xvZ28ucG5nXCIvPlxuICAgIFwiXCJcIlxuICBlbmRcbmVuZCIsInBhdGgiOiIvIn0","chunks":[[0,109],[111,308],[421,45],[468,49]],"kind":"Elixir.KinoLiveViewNative","livebook_object":"smart_cell"} -->
+<!-- livebook:{"attrs":"eyJhY3Rpb24iOiI6aW5kZXgiLCJjb2RlIjoiZGVmbW9kdWxlIFNlcnZlci5Ib21lTGl2ZSBkb1xuICB1c2UgUGhvZW5peC5MaXZlVmlld1xuICB1c2UgTGl2ZVZpZXdOYXRpdmUuTGl2ZVZpZXdcblxuICBAaW1wbCB0cnVlXG4gIGRlZiByZW5kZXIoJXtwbGF0Zm9ybV9pZDogOnN3aWZ0dWl9ID0gYXNzaWducykgZG9cbiAgICB+U1dJRlRVSVwiXCJcIlxuICAgIDxBc3luY0ltYWdlIHVybD1cIi4vaW1hZ2VzL2xvZ28ucG5nXCIvPlxuICAgIFwiXCJcIlxuICBlbmRcblxuICBkZWYgcmVuZGVyKGFzc2lnbnMpIGRvXG4gICAgfkhcIlwiXCJcbiAgICA8aW1nIHNyYz1cIi4vaW1hZ2VzL2xvZ28ucG5nXCIvPlxuICAgIFwiXCJcIlxuICBlbmRcbmVuZCIsInBhdGgiOiIvIn0","chunks":[[0,109],[111,308],[421,45],[468,63]],"kind":"Elixir.KinoLiveViewNative","livebook_object":"smart_cell"} -->
 
 ```elixir
 require KinoLiveViewNative.Livebook
@@ -241,12 +245,13 @@ end
 |> KinoLiveViewNative.register("/", ":index")
 
 import KinoLiveViewNative.Livebook, only: []
+import Kernel
 :ok
 ```
 
 This is the same as providing the full host url. The following example will also work.
 
-<!-- livebook:{"attrs":"eyJhY3Rpb24iOiI6aW5kZXgiLCJjb2RlIjoiZGVmbW9kdWxlIFNlcnZlci5Ib21lTGl2ZSBkb1xuICB1c2UgUGhvZW5peC5MaXZlVmlld1xuICB1c2UgTGl2ZVZpZXdOYXRpdmUuTGl2ZVZpZXdcblxuICBAaW1wbCB0cnVlXG4gIGRlZiByZW5kZXIoJXtwbGF0Zm9ybV9pZDogOnN3aWZ0dWl9ID0gYXNzaWducykgZG9cbiAgICB+U1dJRlRVSVwiXCJcIlxuICAgIDxBc3luY0ltYWdlIHVybD1cImh0dHA6Ly9sb2NhbGhvc3Q6NDAwMC9pbWFnZXMvbG9nby5wbmdcIi8+XG4gICAgXCJcIlwiXG4gIGVuZFxuXG4gIGRlZiByZW5kZXIoYXNzaWducykgZG9cbiAgICB+SFwiXCJcIlxuICAgIDxpbWcgc3JjPVwiLi9pbWFnZXMvbG9nby5wbmdcIi8+XG4gICAgXCJcIlwiXG4gIGVuZFxuZW5kIiwicGF0aCI6Ii8ifQ","chunks":[[0,109],[111,328],[441,45],[488,49]],"kind":"Elixir.KinoLiveViewNative","livebook_object":"smart_cell"} -->
+<!-- livebook:{"attrs":"eyJhY3Rpb24iOiI6aW5kZXgiLCJjb2RlIjoiZGVmbW9kdWxlIFNlcnZlci5Ib21lTGl2ZSBkb1xuICB1c2UgUGhvZW5peC5MaXZlVmlld1xuICB1c2UgTGl2ZVZpZXdOYXRpdmUuTGl2ZVZpZXdcblxuICBAaW1wbCB0cnVlXG4gIGRlZiByZW5kZXIoJXtwbGF0Zm9ybV9pZDogOnN3aWZ0dWl9ID0gYXNzaWducykgZG9cbiAgICB+U1dJRlRVSVwiXCJcIlxuICAgIDxBc3luY0ltYWdlIHVybD1cImh0dHA6Ly9sb2NhbGhvc3Q6NDAwMC9pbWFnZXMvbG9nby5wbmdcIi8+XG4gICAgXCJcIlwiXG4gIGVuZFxuXG4gIGRlZiByZW5kZXIoYXNzaWducykgZG9cbiAgICB+SFwiXCJcIlxuICAgIDxpbWcgc3JjPVwiLi9pbWFnZXMvbG9nby5wbmdcIi8+XG4gICAgXCJcIlwiXG4gIGVuZFxuZW5kIiwicGF0aCI6Ii8ifQ","chunks":[[0,109],[111,328],[441,45],[488,63]],"kind":"Elixir.KinoLiveViewNative","livebook_object":"smart_cell"} -->
 
 ```elixir
 require KinoLiveViewNative.Livebook
@@ -273,6 +278,7 @@ end
 |> KinoLiveViewNative.register("/", ":index")
 
 import KinoLiveViewNative.Livebook, only: []
+import Kernel
 :ok
 ```
 
