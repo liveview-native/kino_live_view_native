@@ -1,8 +1,9 @@
 import Config
 
 config :live_view_native,
-  plugins: [
-    # other plugins here...
-    LiveViewNativeSwiftUi
-    # LiveViewNativeJetpack
+  plugins: [LiveViewNative.SwiftUI]
+
+config :live_view_native_stylesheet,
+  parsers: [
+    swiftui: LiveViewNative.SwiftUI.RulesParser
   ]

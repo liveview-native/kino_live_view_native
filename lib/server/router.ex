@@ -11,7 +11,9 @@ defmodule Server.Router do
 
   pipeline :browser do
     plug :accepts, ["html"]
-    plug :put_root_layout, html: {Server.Layouts, :root_layout}
+    plug :fetch_query_params
+    plug :put_root_layout, html: {Server.Layouts, :root}
+    plug LiveViewNative.SessionPlug
   end
 
   scope "/images" do

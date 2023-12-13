@@ -8,7 +8,8 @@ Mix.install(
   ],
   config: [
     # This must be a compile time configuration for :live_view_native.
-    live_view_native: [plugins: [LiveViewNativeSwiftUi]]
+    live_view_native: [plugins: [LiveViewNative.SwiftUI]],
+    live_view_native_style_sheet: [parsers: [swiftui: LiveViewNative.SwiftUI.RulesParser]]
   ],
   force: true
 )
@@ -17,6 +18,10 @@ KinoLiveViewNative.start([])
 ```
 
 ## Quickstart
+
+```elixir
+IO.inspect("HELLO")
+```
 
 To use the KinoLiveViewNative project we need to install it. You can include the following in your Notebook dependencies and setup section of Livebook.
 
@@ -29,7 +34,7 @@ Mix.install(
   ],
   config: [
     # This must be a compile time configuration for :live_view_native.
-    live_view_native: [plugins: [LiveViewNativeSwiftUi]]
+    live_view_native: [plugins: [LiveViewNative.SwiftUi]]
   ]
 )
 
@@ -54,7 +59,42 @@ KinoLiveViewNative.start(port: 5001)
 
 Let's create a basic LiveView that will be available at http://localhost:4000.
 
-<!-- livebook:{"attrs":"eyJhY3Rpb24iOiI6aW5kZXgiLCJjb2RlIjoiZGVmbW9kdWxlIFNlcnZlci5Ib21lTGl2ZSBkb1xuICB1c2UgUGhvZW5peC5MaXZlVmlld1xuICB1c2UgTGl2ZVZpZXdOYXRpdmUuTGl2ZVZpZXdcbiAgXG4gIEBpbXBsIHRydWVcbiAgZGVmIHJlbmRlcigle3BsYXRmb3JtX2lkOiA6c3dpZnR1aX0gPSBhc3NpZ25zKSBkb1xuICAgIH5TV0lGVFVJXCJcIlwiXG4gICAgPFRleHQ+SGVsbG8gTmF0aXZlITwvVGV4dD5cbiAgICBcIlwiXCJcbiAgZW5kXG5cbiAgZGVmIHJlbmRlcihhc3NpZ25zKSBkb1xuICAgIH5IXCJcIlwiXG4gICAgPHA+SGVsbG8gV2ViITwvcD5cbiAgICBcIlwiXCJcbiAgZW5kXG5lbmQiLCJwYXRoIjoiLyJ9","chunks":[[0,109],[111,286],[399,45],[446,63]],"kind":"Elixir.KinoLiveViewNative","livebook_object":"smart_cell"} -->
+```elixir
+
+```
+
+<!-- livebook:{"attrs":"eyJhY3Rpb24iOiI6aW5kZXgiLCJjb2RlIjoiZGVmbW9kdWxlIFNlcnZlci5Ib21lTGl2ZSBkb1xuICB1c2UgUGhvZW5peC5MaXZlVmlld1xuICB1c2UgTGl2ZVZpZXdOYXRpdmUuTGl2ZVZpZXdcblxuICBAaW1wbCB0cnVlXG4gIGRlZiByZW5kZXIoJXtmb3JtYXQ6IDpzd2lmdHVpfSA9IGFzc2lnbnMpIGRvXG4gICAgflNXSUZUVUlcIlwiXCJcbiAgICA8VGV4dD5IZWxsbyBmcm9tIExpdmVWaWV3IE5hdGl2ZSE8L1RleHQ+XG4gICAgXCJcIlwiXG4gIGVuZFxuXG4gIGRlZiByZW5kZXIoYXNzaWducykgZG9cbiAgICB+SFwiXCJcIlxuICAgIDxwPkhlbGxvIGZyb20gTGl2ZVZpZXchPC9wPlxuICAgIFwiXCJcIlxuICBlbmRcbmVuZCIsInBhdGgiOiIvIn0","chunks":[[0,109],[111,303],[416,45],[463,63]],"kind":"Elixir.KinoLiveViewNative","livebook_object":"smart_cell"} -->
+
+```elixir
+require KinoLiveViewNative.Livebook
+import KinoLiveViewNative.Livebook
+import Kernel, except: [defmodule: 2]
+
+defmodule Server.HomeLive do
+  use Phoenix.LiveView
+  use LiveViewNative.LiveView
+
+  @impl true
+  def render(%{format: :swiftui} = assigns) do
+    ~SWIFTUI"""
+    <Text>Hello from LiveView Native!</Text>
+    """
+  end
+
+  def render(assigns) do
+    ~H"""
+    <p>Hello from LiveView!</p>
+    """
+  end
+end
+|> KinoLiveViewNative.register("/", ":index")
+
+import KinoLiveViewNative.Livebook, only: []
+import Kernel
+:ok
+```
+
+<!-- livebook:{"attrs":"eyJhY3Rpb24iOiI6aW5kZXgiLCJjb2RlIjoiZGVmbW9kdWxlIFNlcnZlci5Ib21lTGl2ZSBkb1xuICB1c2UgUGhvZW5peC5MaXZlVmlld1xuICB1c2UgTGl2ZVZpZXdOYXRpdmUuTGl2ZVZpZXdcbiAgXG4gIEBpbXBsIHRydWVcbiAgZGVmIHJlbmRlcigle3BsYXRmb3JtX2lkOiA6c3dpZnR1aX0gPSBhc3NpZ25zKSBkb1xuICAgIElPLmluc3BlY3QoXCJSRU5ESU5HIE5BVElWRVwiKVxuICAgIH5TV0lGVFVJXCJcIlwiXG4gICAgPFRleHQ+SGVsbG8gTmF0aXZlITwvVGV4dD5cbiAgICBcIlwiXCJcbiAgZW5kXG5cbiAgZGVmIHJlbmRlcigle2Zvcm1hdDogOnN3aWZ0dWl9ID0gYXNzaWducykgZG9cbiAgICBJTy5pbnNwZWN0KFwiUkVORElORyBOQVRJVkVcIilcbiAgICB+U1dJRlRVSVwiXCJcIlxuICAgIDxUZXh0PkhlbGxvIE5hdGl2ZSE8L1RleHQ+XG4gICAgXCJcIlwiXG4gIGVuZFxuXG4gIFxuICBkZWYgcmVuZGVyKGFzc2lnbnMpIGRvXG4gICAgSU8uaW5zcGVjdChhc3NpZ25zWzpmb3JtYXRdLCBsYWJlbDogXCJGT1JNQVRcIiwgbGltaXQ6IDppbmZpbml0eSlcbiAgICBJTy5pbnNwZWN0KGFzc2lnbnNbOnBsYXRmb3JtX2lkXSwgbGFiZWw6IFwiUExBVEZPUk0gSURcIiwgbGltaXQ6IDppbmZpbml0eSlcbiAgICBJTy5pbnNwZWN0KFwiUkVORElORyBXRUJcIilcbiAgICB+SFwiXCJcIlxuICAgIDxwPkhlbGxvIFdlYiE8L3A+XG4gICAgXCJcIlwiXG4gIGVuZFxuZW5kIiwicGF0aCI6Ii8ifQ","chunks":[[0,109],[111,640],[753,45],[800,63]],"kind":"Elixir.KinoLiveViewNative","livebook_object":"smart_cell"} -->
 
 ```elixir
 require KinoLiveViewNative.Livebook
@@ -67,12 +107,26 @@ defmodule Server.HomeLive do
 
   @impl true
   def render(%{platform_id: :swiftui} = assigns) do
+    IO.inspect("RENDING NATIVE")
+
+    ~SWIFTUI"""
+    <Text>Hello Native!</Text>
+    """
+  end
+
+  def render(%{format: :swiftui} = assigns) do
+    IO.inspect("RENDING NATIVE")
+
     ~SWIFTUI"""
     <Text>Hello Native!</Text>
     """
   end
 
   def render(assigns) do
+    IO.inspect(assigns[:format], label: "FORMAT", limit: :infinity)
+    IO.inspect(assigns[:platform_id], label: "PLATFORM ID", limit: :infinity)
+    IO.inspect("RENDING WEB")
+
     ~H"""
     <p>Hello Web!</p>
     """
