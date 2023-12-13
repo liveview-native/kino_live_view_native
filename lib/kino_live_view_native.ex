@@ -140,12 +140,12 @@ defmodule KinoLiveViewNative do
   end
 
   def default_source() do
-    ~s[defmodule Server.HomeLive do
+    ~s[defmodule Server.ExampleLive do
   use Phoenix.LiveView
   use LiveViewNative.LiveView
 
   @impl true
-  def render(%{platform_id: :swiftui} = assigns) do
+  def render(%{format: :swiftui} = assigns) do
     ~SWIFTUI"""
     <Text>Hello from LiveView Native!</Text>
     """
