@@ -7,6 +7,5 @@ defmodule Server.Layouts do
   import Phoenix.HTML
   use LiveViewNative.Layouts
 
-
   embed_templates "layouts/*.html"
 end
