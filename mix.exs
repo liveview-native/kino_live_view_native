@@ -4,7 +4,7 @@ defmodule KinoLiveViewNative.MixProject do
   def project do
     [
       app: :kino_live_view_native,
-      version: "0.1.0",
+      version: "0.2.0",
       elixir: "~> 1.15",
       start_permanent: Mix.env() == :prod,
       deps: deps()
@@ -28,7 +28,7 @@ defmodule KinoLiveViewNative.MixProject do
       {:phoenix, "~> 1.7"},
       {:phoenix_live_reload, "~> 1.4"},
       {:phoenix_live_view, "~> 0.20.1"},
-      {:live_view_native_swiftui, "~> 0.2.0-beta.1"},
+      {:live_view_native_swiftui, "~> 0.2.0-beta.3"},
       {:live_view_native, "~> 0.2.0-beta.1"}
     ]
   end
