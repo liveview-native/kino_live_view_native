@@ -10,6 +10,7 @@ defmodule KinoLiveViewNative.MixProject do
       elixir: "~> 1.15",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
+      description: "LiveView Native code examples using Kino Smart Cells inside Livebook",
       docs: [
         source_ref: "v#{@version}",
         main: "example", # The main page in the docs
