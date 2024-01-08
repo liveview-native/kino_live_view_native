@@ -118,8 +118,6 @@ defmodule KinoLiveViewNative do
   end
 
   def register({:module, module, _, _}, path, action) do
-    routes = get_routes()
-
     action =
       action
       |> String.trim_leading(":")

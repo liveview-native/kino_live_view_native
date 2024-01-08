@@ -1,13 +1,21 @@
 defmodule KinoLiveViewNative.MixProject do
   use Mix.Project
+  @version "0.2.0-rc.1"
 
   def project do
     [
       app: :kino_live_view_native,
-      version: "0.2.0",
+      version: @version,
       elixir: "~> 1.15",
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      deps: deps(),
+      source_url: "https://github.com/liveview-native/kino_live_view_native",
+      docs: [
+        source_ref: "v#{@version}",
+        main: "example", # The main page in the docs
+        logo: "notebooks/assets/logo.png",
+        extras: ["notebooks/example.livemd"]
+      ]
     ]
   end
 
@@ -27,9 +35,11 @@ defmodule KinoLiveViewNative.MixProject do
       {:jason, "~> 1.2"},
       {:phoenix, "~> 1.7"},
       {:phoenix_live_reload, "~> 1.4"},
-      {:phoenix_live_view, "~> 0.20.1"},
-      {:live_view_native_swiftui, "~> 0.2.0-beta.3"},
-      {:live_view_native, "~> 0.2.0-beta.1"}
+      {:phoenix_live_view, "0.20.1"},
+      {:live_view_native_swiftui, "~> 0.2.0-rc.1"},
+      {:live_view_native, "~> 0.2.0-rc.1"},
+      {:req, "~> 0.4.8"},
+      {:ex_doc, "~> 0.31.0", only: :dev, runtime: false},
     ]
   end
 end
