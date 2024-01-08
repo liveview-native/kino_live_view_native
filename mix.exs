@@ -1,6 +1,7 @@
 defmodule KinoLiveViewNative.MixProject do
   use Mix.Project
   @version "0.2.0-rc.1"
+  @source_url "https://github.com/liveview-native/kino_live_view_native"
 
   def project do
     [
@@ -9,13 +10,13 @@ defmodule KinoLiveViewNative.MixProject do
       elixir: "~> 1.15",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
-      source_url: "https://github.com/liveview-native/kino_live_view_native",
       docs: [
         source_ref: "v#{@version}",
         main: "example", # The main page in the docs
         logo: "notebooks/assets/logo.png",
         extras: ["notebooks/example.livemd"]
-      ]
+      ],
+      package: package()
     ]
   end
 
@@ -41,5 +42,17 @@ defmodule KinoLiveViewNative.MixProject do
       {:req, "~> 0.4.8"},
       {:ex_doc, "~> 0.31.0", only: :dev, runtime: false},
     ]
+  end
+
+  # Hex package configuration
+  defp package do
+    %{
+      maintainers: ["Brooklin Myers"],
+      licenses: ["MIT"],
+      links: %{
+        "GitHub" => @source_url
+      },
+      source_url: @source_url
+    }
   end
 end
