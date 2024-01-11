@@ -10,10 +10,10 @@ defmodule Server.Router do
   end
 
   pipeline :browser do
-    plug :accepts, ["html"]
+    plug :accepts, ["html", "swiftui"]
+    plug CustomPlug
     plug :fetch_query_params
-    plug :put_root_layout, html: {Server.Layouts, :root}
-    plug LiveViewNative.SessionPlug
+    plug :put_root_layout, html: {Server.Layouts, :root}, swiftui: {Server.LayoutsSwiftUI, :root}
   end
 
   scope "/images" do
@@ -23,6 +23,7 @@ defmodule Server.Router do
 
   scope "/" do
     pipe_through :browser
+
 
     KinoLiveViewNative.get_routes()
     |> Enum.map(fn %{path: path, module: module, action: action} ->

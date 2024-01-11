@@ -37,9 +37,9 @@ defmodule KinoLiveViewNative.MixProject do
       {:jason, "~> 1.2"},
       {:phoenix, "~> 1.7"},
       {:phoenix_live_reload, "~> 1.4"},
-      {:phoenix_live_view, "< 0.20.3"},
-      {:live_view_native_swiftui, "~> 0.2.0-rc.1"},
-      {:live_view_native, "~> 0.2.0-rc.1"},
+      {:phoenix_live_view, github: "phoenixframework/phoenix_live_view", ref: "476d1cd288474d7acb33424a74b304b4e9495ff1", override: true},
+      {:live_view_native_swiftui, github: "liveview-native/liveview-client-swiftui"},
+      {:live_view_native, github: "liveview-native/live_view_native"},
       {:req, "~> 0.4.8"},
       {:ex_doc, "~> 0.31.0", only: :dev, runtime: false},
     ]

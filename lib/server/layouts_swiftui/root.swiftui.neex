@@ -1,0 +1,3 @@
+<meta name="csrf-token" content={get_csrf_token()} />
+<Style><%= embed_stylesheet(Server.ExampleStyles) %></Style>
+<%= @inner_content %>

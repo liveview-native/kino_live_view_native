@@ -3,5 +3,10 @@ defmodule Server.Endpoint do
   socket("/live", Phoenix.LiveView.Socket)
   socket("/phoenix/live_reload/socket", Server.LiveReloader.Socket)
   plug(Phoenix.LiveReloader)
+  plug Plug.Parsers,
+    parsers: [:urlencoded, :multipart, :json],
+    pass: ["*/*"],
+    json_decoder: Phoenix.json_library()
+  plug(LiveViewNative.LiveReloader)
   plug(Server.Router)
 end

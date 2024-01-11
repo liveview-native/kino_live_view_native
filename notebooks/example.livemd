@@ -8,11 +8,16 @@ Mix.install(
   config: [
     # This must be a compile time configuration for :live_view_native.
     live_view_native: [plugins: [LiveViewNative.SwiftUI]],
-    live_view_native_stylesheet: [parsers: [swiftui: LiveViewNative.SwiftUI.RulesParser]],
     phoenix_template: [
       format_encoders: [
         swiftui: Phoenix.HTML.Engine
       ]
+    ],
+    phoenix: [
+      template_engines: [neex: LiveViewNative.Engine]
+    ],
+    mime: [
+      types: %{"text/swiftui" => ["swiftui"]}
     ]
   ],
   force: true
@@ -22,6 +27,10 @@ KinoLiveViewNative.start([])
 ```
 
 ## Quickstart
+
+```elixir
+MIME.type("swiftui")
+```
 
 To use the KinoLiveViewNative project we need to install it. You can include the following in your Notebook dependencies and setup section of Livebook.
 
@@ -63,7 +72,7 @@ KinoLiveViewNative.start(port: 5001)
 
 Let's create a basic LiveView that will be available at http://localhost:4000.
 
-<!-- livebook:{"attrs":"eyJhY3Rpb24iOiI6aW5kZXgiLCJjb2RlIjoiZGVmbW9kdWxlIFNlcnZlci5FeGFtcGxlTGl2ZSBkb1xuICB1c2UgUGhvZW5peC5MaXZlVmlld1xuICB1c2UgTGl2ZVZpZXdOYXRpdmUuTGl2ZVZpZXdcblxuICBAaW1wbCB0cnVlXG4gIGRlZiByZW5kZXIoJXtmb3JtYXQ6IDpzd2lmdHVpfSA9IGFzc2lnbnMpIGRvXG4gICAgflNXSUZUVUlcIlwiXCJcbiAgICA8VGV4dD5IZWxsbyBmcm9tIExpdmVWaWV3IE5hdGl2ZSBBZ2FpbiE8L1RleHQ+XG4gICAgXCJcIlwiXG4gIGVuZFxuXG4gIGRlZiByZW5kZXIoYXNzaWducykgZG9cbiAgICB+SFwiXCJcIlxuICAgIDxwPkhlbGxvIGZyb20gTGl2ZVZpZXchPC9wPlxuICAgIFwiXCJcIlxuICBlbmRcbmVuZCIsInBhdGgiOiIvIn0","chunks":[[0,109],[111,312],[425,45],[472,63]],"kind":"Elixir.KinoLiveViewNative","livebook_object":"smart_cell"} -->
+<!-- livebook:{"attrs":"eyJhY3Rpb24iOiI6aW5kZXgiLCJjb2RlIjoiZGVmbW9kdWxlIFNlcnZlci5FeGFtcGxlTGl2ZSBkb1xuICB1c2UgUGhvZW5peC5MaXZlVmlld1xuICB1c2UgTGl2ZVZpZXdOYXRpdmUuTGl2ZVZpZXcsXG4gICAgZm9ybWF0czogWzpzd2lmdHVpXSxcbiAgICBsYXlvdXRzOiBbXG4gICAgICBzd2lmdHVpOiB7U2VydmVyLkxheW91dHNTd2lmdFVJLCA6YXBwfVxuICAgIF1cblxuICBkZWYgcmVuZGVyKGFzc2lnbnMpIGRvXG4gICAgSU8uaW5zcGVjdChhc3NpZ25zLnNvY2tldC5wcml2YXRlLmNvbm5lY3RfaW5mby5wcml2YXRlLnBob2VuaXhfZm9ybWF0KVxuICAgIH5IXCJcIlwiXG4gICAgPHA+SGVsbG8gZnJvbSBMaXZlVmlldyE8L3A+XG4gICAgXCJcIlwiXG4gIGVuZFxuZW5kIiwicGF0aCI6Ii8ifQ","chunks":[[0,109],[111,337],[450,45],[497,63]],"kind":"Elixir.KinoLiveViewNative","livebook_object":"smart_cell"} -->
 
 ```elixir
 require KinoLiveViewNative.Livebook
@@ -72,16 +81,16 @@ import Kernel, except: [defmodule: 2]
 
 defmodule Server.ExampleLive do
   use Phoenix.LiveView
-  use LiveViewNative.LiveView
 
-  @impl true
-  def render(%{format: :swiftui} = assigns) do
-    ~SWIFTUI"""
-    <Text>Hello from LiveView Native Again!</Text>
-    """
-  end
+  use LiveViewNative.LiveView,
+    formats: [:swiftui],
+    layouts: [
+      swiftui: {Server.LayoutsSwiftUI, :app}
+    ]
 
   def render(assigns) do
+    IO.inspect(assigns.socket.private.connect_info.private.phoenix_format)
+
     ~H"""
     <p>Hello from LiveView!</p>
     """
@@ -92,6 +101,25 @@ end
 import KinoLiveViewNative.Livebook, only: []
 import Kernel
 :ok
+```
+
+```elixir
+
+```
+
+```elixir
+defmodule Server.ExampleLive.SwiftUI do
+  use LiveViewNative.Component,
+    format: :swiftui,
+    as: :render,
+    layout: {Server.LayoutsSwiftUI, :app}
+
+  def render(assigns, _interface) do
+    ~LVN"""
+    <Text>Hello Native World!</Text>
+    """
+  end
+end
 ```
 
 ```elixir
