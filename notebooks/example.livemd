@@ -8,7 +8,7 @@ Mix.install(
   config: [
     # This must be a compile time configuration for :live_view_native.
     live_view_native: [plugins: [LiveViewNative.SwiftUI]],
-    live_view_native_style_sheet: [parsers: [swiftui: LiveViewNative.SwiftUI.RulesParser]],
+    live_view_native_stylesheet: [parsers: [swiftui: LiveViewNative.SwiftUI.RulesParser]],
     phoenix_template: [
       format_encoders: [
         swiftui: Phoenix.HTML.Engine
@@ -35,7 +35,7 @@ Mix.install(
   config: [
     # This must be a compile time configuration for :live_view_native.
     live_view_native: [plugins: [LiveViewNative.SwiftUI]],
-    live_view_native_style_sheet: [parsers: [swiftui: LiveViewNative.SwiftUI.RulesParser]],
+    live_view_native_stylesheet: [parsers: [swiftui: LiveViewNative.SwiftUI.RulesParser]],
     phoenix_template: [
       format_encoders: [
         swiftui: Phoenix.HTML.Engine
@@ -246,3 +246,38 @@ import Kernel
 ```
 
 However, it's generally better to use the relative path without the host name because it will work in both development and production.
+
+## Stylesheets
+
+<!-- livebook:{"attrs":"eyJhY3Rpb24iOiI6aW5kZXgiLCJjb2RlIjoiZGVmbW9kdWxlIFNlcnZlci5SZWRUZXh0TGl2ZSBkb1xuICB1c2UgUGhvZW5peC5MaXZlVmlld1xuICB1c2UgTGl2ZVZpZXdOYXRpdmUuTGl2ZVZpZXdcblxuICBAaW1wbCB0cnVlXG4gIGRlZiByZW5kZXIoJXtmb3JtYXQ6IDpzd2lmdHVpfSA9IGFzc2lnbnMpIGRvXG4gICAgflNXSUZUVUlcIlwiXCJcbiAgICA8VGV4dCBjbGFzcz1cIm15LWNsYXNzXCI+SGVsbG8gZnJvbSBMaXZlVmlldyBOYXRpdmUhPC9UZXh0PlxuICAgIDxUZXh0IGNsYXNzPVwibXktY2xhc3NcIj5IZWxsbyBmcm9tIExpdmVWaWV3IE5hdGl2ZSE8L1RleHQ+XG4gICAgPFRleHQgY2xhc3M9XCJteS1jbGFzc1wiPkhlbGxvIGZyb20gTGl2ZVZpZXcgTmF0aXZlITwvVGV4dD5cbiAgICBcIlwiXCJcbiAgZW5kXG5cbiAgZGVmIHJlbmRlcihhc3NpZ25zKSBkb1xuICAgIH5IXCJcIlwiXG4gICAgPHA+SGVsbG8gZnJvbSBMaXZlVmlldyE8L3A+XG4gICAgXCJcIlwiXG4gIGVuZFxuZW5kIiwicGF0aCI6Ii8ifQ","chunks":[[0,109],[111,447],[560,45],[607,63]],"kind":"Elixir.KinoLiveViewNative","livebook_object":"smart_cell"} -->
+
+```elixir
+require KinoLiveViewNative.Livebook
+import KinoLiveViewNative.Livebook
+import Kernel, except: [defmodule: 2]
+
+defmodule Server.RedTextLive do
+  use Phoenix.LiveView
+  use LiveViewNative.LiveView
+
+  @impl true
+  def render(%{format: :swiftui} = assigns) do
+    ~SWIFTUI"""
+    <Text class="my-class">Hello from LiveView Native!</Text>
+    <Text class="my-class">Hello from LiveView Native!</Text>
+    <Text class="my-class">Hello from LiveView Native!</Text>
+    """
+  end
+
+  def render(assigns) do
+    ~H"""
+    <p>Hello from LiveView!</p>
+    """
+  end
+end
+|> KinoLiveViewNative.register("/", ":index")
+
+import KinoLiveViewNative.Livebook, only: []
+import Kernel
+:ok
+```
