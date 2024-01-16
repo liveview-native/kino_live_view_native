@@ -1,6 +1,6 @@
 defmodule KinoLiveViewNative.MixProject do
   use Mix.Project
-  @version "0.2.0-rc.1"
+  @version "0.2.0"
   @source_url "https://github.com/liveview-native/kino_live_view_native"
 
   def project do
