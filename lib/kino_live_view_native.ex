@@ -126,8 +126,9 @@ defmodule KinoLiveViewNative do
     new_route = %{path: path, module: module, action: action}
 
     get_routes()
-    # Remove existing route with the same path or invalid module if the LV's name has changed.
-    |> Enum.reject(fn r -> r.path == path or not Kernel.function_exported?(r.module, :live, 0) end)
+    # Remove existing route with the same path
+    |> Enum.reject(fn r -> r.path == path end)
+    |> Enum.filter(fn r ->  is_valid_liveview(r.module) end)
     |> Kernel.++([new_route])
     |> put_routes()
 
@@ -233,5 +234,14 @@ end]
       outline: none;
     }
     """
+  end
+
+  defp is_valid_liveview(module) do
+    if Kernel.function_exported?(module, :__live__, 0) do
+      true
+    else
+      Logger.error("Module #{inspect(module)} is not a valid LiveView.")
+      false
+    end
   end
 end
