@@ -63,7 +63,7 @@ KinoLiveViewNative.start(port: 5001)
 
 Let's create a basic LiveView that will be available at http://localhost:4000.
 
-<!-- livebook:{"attrs":"eyJhY3Rpb24iOiI6aW5kZXgiLCJjb2RlIjoiZGVmbW9kdWxlIFNlcnZlci5FeGFtcGxlTGl2ZSBkb1xuICB1c2UgUGhvZW5peC5MaXZlVmlld1xuICB1c2UgTGl2ZVZpZXdOYXRpdmUuTGl2ZVZpZXdcblxuICBAaW1wbCB0cnVlXG4gIGRlZiByZW5kZXIoJXtmb3JtYXQ6IDpzd2lmdHVpfSA9IGFzc2lnbnMpIGRvXG4gICAgflNXSUZUVUlcIlwiXCJcbiAgICA8VGV4dD5IZWxsbyBmcm9tIExpdmVWaWV3IE5hdGl2ZSBBZ2FpbiE8L1RleHQ+XG4gICAgXCJcIlwiXG4gIGVuZFxuXG4gIGRlZiByZW5kZXIoYXNzaWducykgZG9cbiAgICB+SFwiXCJcIlxuICAgIDxwPkhlbGxvIGZyb20gTGl2ZVZpZXchPC9wPlxuICAgIFwiXCJcIlxuICBlbmRcbmVuZCIsInBhdGgiOiIvIn0","chunks":[[0,109],[111,312],[425,45],[472,63]],"kind":"Elixir.KinoLiveViewNative","livebook_object":"smart_cell"} -->
+<!-- livebook:{"attrs":"eyJhY3Rpb24iOiI6aW5kZXgiLCJjb2RlIjoiZGVmbW9kdWxlIFNlcnZlci5FeGFtcGxlTGl2ZSBkb1xuICB1c2UgUGhvZW5peC5MaXZlVmlld1xuICB1c2UgTGl2ZVZpZXdOYXRpdmUuTGl2ZVZpZXdcblxuICBAaW1wbCB0cnVlXG4gIGRlZiByZW5kZXIoJXtmb3JtYXQ6IDpzd2lmdHVpfSA9IGFzc2lnbnMpIGRvXG4gICAgflNXSUZUVUlcIlwiXCJcbiAgICA8VGV4dD5IZWxsbyBmcm9tIExpdmVWaWV3IE5hdGl2ZSE8L1RleHQ+XG4gICAgXCJcIlwiXG4gIGVuZFxuXG4gIGRlZiByZW5kZXIoYXNzaWducykgZG9cbiAgICB+SFwiXCJcIlxuICAgIDxwPkhlbGxvIGZyb20gTGl2ZVZpZXchPC9wPlxuICAgIFwiXCJcIlxuICBlbmRcbmVuZCIsInBhdGgiOiIvIn0","chunks":[[0,109],[111,306],[419,45],[466,63]],"kind":"Elixir.KinoLiveViewNative","livebook_object":"smart_cell"} -->
 
 ```elixir
 require KinoLiveViewNative.Livebook
@@ -77,7 +77,7 @@ defmodule Server.ExampleLive do
   @impl true
   def render(%{format: :swiftui} = assigns) do
     ~SWIFTUI"""
-    <Text>Hello from LiveView Native Again!</Text>
+    <Text>Hello from LiveView Native!</Text>
     """
   end
 
@@ -94,13 +94,9 @@ import Kernel
 :ok
 ```
 
-```elixir
-KinoLiveViewNative.register({:module, Server.ExampleLive, 0, 0}, "/", ":index")
-```
-
 `KinoLiveViewNative` uses automatic code reloading, so anytime you change this file or evaluate one of the `LiveView Native` smart cells, the server will hot reload the page.
 
-Evaluate the cell below that gives our Hello World app some colored text to see the app live reload.
+Evaluate the cell below that changes the text, and you should see the application reload in your simulator.
 
 <!-- livebook:{"attrs":"eyJhY3Rpb24iOiI6aW5kZXgiLCJjb2RlIjoiZGVmbW9kdWxlIFNlcnZlci5Ib3RSZWxvYWRFeGFtcGxlTGl2ZSBkb1xuICB1c2UgUGhvZW5peC5MaXZlVmlld1xuICB1c2UgTGl2ZVZpZXdOYXRpdmUuTGl2ZVZpZXdcblxuICBAaW1wbCB0cnVlXG4gIGRlZiByZW5kZXIoJXtmb3JtYXQ6IDpzd2lmdHVpfSA9IGFzc2lnbnMpIGRvXG4gICAgflNXSUZUVUlcIlwiXCJcbiAgICA8VGV4dD5cbiAgICAgIEhlbGxvIGFnYWluIGZyb20gTGl2ZVZpZXcgTmF0aXZlIVxuICAgIDwvVGV4dD5cbiAgICBcIlwiXCJcbiAgZW5kXG5cbiAgZGVmIHJlbmRlcihhc3NpZ25zKSBkb1xuICAgIH5IXCJcIlwiXG4gICAgPHA+SGVsbG8gYWdhaW4gZnJvbSBMaXZlVmlldyE8L3A+XG4gICAgXCJcIlwiXG4gIGVuZFxuZW5kXG4iLCJwYXRoIjoiLyJ9","chunks":[[0,109],[111,340],[453,45],[500,63]],"kind":"Elixir.KinoLiveViewNative","livebook_object":"smart_cell"} -->
 
@@ -246,38 +242,3 @@ import Kernel
 ```
 
 However, it's generally better to use the relative path without the host name because it will work in both development and production.
-
-## Stylesheets
-
-<!-- livebook:{"attrs":"eyJhY3Rpb24iOiI6aW5kZXgiLCJjb2RlIjoiZGVmbW9kdWxlIFNlcnZlci5SZWRUZXh0TGl2ZSBkb1xuICB1c2UgUGhvZW5peC5MaXZlVmlld1xuICB1c2UgTGl2ZVZpZXdOYXRpdmUuTGl2ZVZpZXdcblxuICBAaW1wbCB0cnVlXG4gIGRlZiByZW5kZXIoJXtmb3JtYXQ6IDpzd2lmdHVpfSA9IGFzc2lnbnMpIGRvXG4gICAgflNXSUZUVUlcIlwiXCJcbiAgICA8VGV4dCBjbGFzcz1cIm15LWNsYXNzXCI+SGVsbG8gZnJvbSBMaXZlVmlldyBOYXRpdmUhPC9UZXh0PlxuICAgIDxUZXh0IGNsYXNzPVwibXktY2xhc3NcIj5IZWxsbyBmcm9tIExpdmVWaWV3IE5hdGl2ZSE8L1RleHQ+XG4gICAgPFRleHQgY2xhc3M9XCJteS1jbGFzc1wiPkhlbGxvIGZyb20gTGl2ZVZpZXcgTmF0aXZlITwvVGV4dD5cbiAgICBcIlwiXCJcbiAgZW5kXG5cbiAgZGVmIHJlbmRlcihhc3NpZ25zKSBkb1xuICAgIH5IXCJcIlwiXG4gICAgPHA+SGVsbG8gZnJvbSBMaXZlVmlldyE8L3A+XG4gICAgXCJcIlwiXG4gIGVuZFxuZW5kIiwicGF0aCI6Ii8ifQ","chunks":[[0,109],[111,447],[560,45],[607,63]],"kind":"Elixir.KinoLiveViewNative","livebook_object":"smart_cell"} -->
-
-```elixir
-require KinoLiveViewNative.Livebook
-import KinoLiveViewNative.Livebook
-import Kernel, except: [defmodule: 2]
-
-defmodule Server.RedTextLive do
-  use Phoenix.LiveView
-  use LiveViewNative.LiveView
-
-  @impl true
-  def render(%{format: :swiftui} = assigns) do
-    ~SWIFTUI"""
-    <Text class="my-class">Hello from LiveView Native!</Text>
-    <Text class="my-class">Hello from LiveView Native!</Text>
-    <Text class="my-class">Hello from LiveView Native!</Text>
-    """
-  end
-
-  def render(assigns) do
-    ~H"""
-    <p>Hello from LiveView!</p>
-    """
-  end
-end
-|> KinoLiveViewNative.register("/", ":index")
-
-import KinoLiveViewNative.Livebook, only: []
-import Kernel
-:ok
-```

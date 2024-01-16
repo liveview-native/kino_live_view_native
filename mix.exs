@@ -38,8 +38,8 @@ defmodule KinoLiveViewNative.MixProject do
       {:phoenix, "~> 1.7"},
       {:phoenix_live_reload, "~> 1.4"},
       {:phoenix_live_view, "< 0.20.3"},
-      {:live_view_native_swiftui, "~> 0.2.0-rc.1"},
-      {:live_view_native, "~> 0.2.0-rc.1"},
+      {:live_view_native_swiftui, "~> 0.2.0"},
+      {:live_view_native, "~> 0.2.0"},
       {:req, "~> 0.4.8"},
       {:ex_doc, "~> 0.31.0", only: :dev, runtime: false},
     ]
