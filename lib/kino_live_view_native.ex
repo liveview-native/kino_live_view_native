@@ -128,7 +128,7 @@ defmodule KinoLiveViewNative do
     get_routes()
     # Remove existing route with the same path
     |> Enum.reject(fn r -> r.path == path end)
-    |> Enum.filter(fn r ->  is_valid_liveview(r.module) end)
+    |> Enum.filter(fn r -> is_valid_liveview(r.module) end)
     |> Kernel.++([new_route])
     |> put_routes()
 

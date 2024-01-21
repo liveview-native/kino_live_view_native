@@ -8,10 +8,13 @@ defmodule KinoLiveViewNative.PortChecker do
 
   # 5 attempts maximum to avoid infinite recursion
   def kill_processes(port, attempts \\ 0)
-  def kill_processes(port, 5), do: raise("""
-  Failed to shutdown server running on port #{port}.
-  Please manually stop the server then run this Livebook again to resolve the issue.
-  """)
+
+  def kill_processes(port, 5),
+    do:
+      raise("""
+      Failed to shutdown server running on port #{port}.
+      Please manually stop the server then run this Livebook again to resolve the issue.
+      """)
 
   def kill_processes(port, attempts) do
     :os.cmd(:"lsof -t -i tcp:#{port} | xargs kill")
