@@ -13,7 +13,8 @@ defmodule KinoLiveViewNative.MixProject do
       description: "LiveView Native code examples using Kino Smart Cells inside Livebook",
       docs: [
         source_ref: "v#{@version}",
-        main: "example", # The main page in the docs
+        # The main page in the docs
+        main: "example",
         logo: "notebooks/assets/logo.png",
         extras: ["notebooks/example.livemd"]
       ],
@@ -42,6 +43,7 @@ defmodule KinoLiveViewNative.MixProject do
       {:live_view_native, "~> 0.2.0"},
       {:req, "~> 0.4.8"},
       {:ex_doc, "~> 0.31.0", only: :dev, runtime: false},
+      {:gettext, "~> 0.20"}
     ]
   end
 
