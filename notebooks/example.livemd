@@ -1,7 +1,50 @@
-# KINOLVN
+# KinoLiveViewNative
 
 ```elixir
-Mix.install([{:server, path: "./"}],
+Mix.install(
+  [{:kino_live_view_native, path: "./"}],
+  # [{:kino_live_view_native,  "~> 0.2.2"}],
+  config: [
+    kino_live_view_native: [
+      {ServerWeb.Endpoint,
+       [
+         server: true,
+         url: [host: "localhost"],
+         adapter: Phoenix.Endpoint.Cowboy2Adapter,
+         render_errors: [
+           formats: [html: ServerWeb.ErrorHTML, json: ServerWeb.ErrorJSON],
+           layout: false
+         ],
+         pubsub_server: Server.PubSub,
+         live_view: [signing_salt: "JSgdVVL6"],
+         http: [ip: {127, 0, 0, 1}, port: 4000],
+         secret_key_base: String.duplicate("a", 64),
+         live_reload: [
+           patterns: [
+             ~r/#{__ENV__.file |> String.split("#") |> hd()}$/
+           ]
+         ]
+       ]}
+    ],
+    kino: [
+      group_leader: Process.group_leader()
+    ],
+    live_view_native: [plugins: [LiveViewNative.SwiftUI]],
+    live_view_native_stylesheet: [parsers: [swiftui: LiveViewNative.SwiftUI.RulesParser]]
+  ],
+  force: true
+)
+```
+
+## Quickstart
+
+To use the KinoLiveViewNative project we need to install it. You can include the following in your Notebook dependencies and setup section of Livebook.
+
+<!-- livebook:{"force_markdown":true} -->
+
+```elixir
+Mix.install(
+  [{:kino_live_view_native,  "~> 0.2.2"}],
   config: [
     server: [
       {ServerWeb.Endpoint,
@@ -14,9 +57,14 @@ Mix.install([{:server, path: "./"}],
            layout: false
          ],
          pubsub_server: Server.PubSub,
-         live_view: [signing_salt: "lUcf8aHg"],
+         live_view: [signing_salt: "JSgdVVL6"],
          http: [ip: {127, 0, 0, 1}, port: 4000],
-         secret_key_base: String.duplicate("a", 64)
+         secret_key_base: String.duplicate("a", 64),
+         live_reload: [
+           patterns: [
+             ~r/#{__ENV__.file |> String.split("#") |> hd()}$/
+           ]
+         ]
        ]}
     ],
     kino: [
@@ -27,14 +75,17 @@ Mix.install([{:server, path: "./"}],
   ],
   force: true
 )
-
-# Application.put_env(:kino, :group_leader, Process.group_leader())
-# Server.Application.start([], [])
 ```
 
-## Section
+By default, the server starts on port `4000`. You could change the configuration if you wish.
 
-<!-- livebook:{"attrs":"eyJhY3Rpb24iOiI6aW5kZXgiLCJjb2RlIjoiZGVmbW9kdWxlIFNlcnZlcldlYi5FeGFtcGxlTGl2ZSBkb1xuICB1c2UgU2VydmVyV2ViLCA6bGl2ZV92aWV3XG4gIHJlcXVpcmUgTG9nZ2VyXG5cbiAgQGltcGwgdHJ1ZVxuICBkZWYgcmVuZGVyKCV7Zm9ybWF0OiA6c3dpZnR1aX0gPSBhc3NpZ25zKSBkb1xuICAgIH5TV0lGVFVJXCJcIlwiXG4gICAgPFRleHQ+SGVsbG8gZnJvbSBMaXZlVmlldyBOYXRpdmUhPC9UZXh0PlxuICAgIFwiXCJcIlxuICBlbmRcblxuICBkZWYgcmVuZGVyKGFzc2lnbnMpIGRvXG4gICAgfkhcIlwiXCJcbiAgICA8cCBwaHgtY2xpY2s9XCJjbGlja1wiPkhlbGxvIGZyb20gTGl2ZVZpZXchPC9wPlxuICAgIFwiXCJcIlxuICBlbmRcblxuICBAaW1wbCB0cnVlXG4gIGRlZiBoYW5kbGVfZXZlbnQoXCJjbGlja1wiLCBfcGFyYW1zLCBzb2NrZXQpIGRvXG4gICAgSU8uaW5zcGVjdCg6Yy5waWQoMCwgMTQ1LCAwKSwgXCJIZWxsbzFcIiwgbGFiZWw6IFwiVG8gQ29ycmVjdCBHcm91cCBMZWFkZXJcIilcbiAgICBJTy5pbnNwZWN0KFwiSGVsbG8yXCIsIGxhYmVsOiBcIlRvIGN1cnJlbnQgZ3JvdXAgbGVhZGVyXCIpXG4gICAgTG9nZ2VyLmluZm8oXCJTZWxmOiBcIiA8PiBpbnNwZWN0KHNlbGYoKSkpXG4gICAgTG9nZ2VyLmluZm8oXCJHcm91cCBMZWFkZXI6XCIgPD4gaW5zcGVjdChQcm9jZXNzLmdyb3VwX2xlYWRlcigpKSlcbiAgICBJTy5wdXRzKFwiSEVMTE9PT09cIilcbiAgICB7Om5vcmVwbHksIHNvY2tldH1cbiAgZW5kXG5lbmQiLCJwYXRoIjoiLyJ9","chunks":[[0,85],[87,684],[773,59],[834,51]],"kind":"Elixir.Server.SmartCells.LiveViewNative","livebook_object":"smart_cell"} -->
+<!-- livebook:{"break_markdown":true} -->
+
+### Basic LiveView Native Example
+
+Let's create a basic LiveView that will be available at http://localhost:4000. You can also inspect the native template code at http://localhost:4000/?_lvn[format]=swiftui
+
+<!-- livebook:{"attrs":"e30","chunks":[[0,85],[87,284],[373,59],[434,51]],"kind":"Elixir.Server.SmartCells.LiveViewNative","livebook_object":"smart_cell"} -->
 
 ```elixir
 require Server.Livebook
@@ -43,7 +94,6 @@ import Kernel, except: [defmodule: 2]
 
 defmodule ServerWeb.ExampleLive do
   use ServerWeb, :live_view
-  require Logger
 
   @impl true
   def render(%{format: :swiftui} = assigns) do
@@ -54,18 +104,8 @@ defmodule ServerWeb.ExampleLive do
 
   def render(assigns) do
     ~H"""
-    <p phx-click="click">Hello from LiveView!</p>
+    <p>Hello from LiveView!</p>
     """
-  end
-
-  @impl true
-  def handle_event("click", _params, socket) do
-    IO.inspect(:c.pid(0, 145, 0), "Hello1", label: "To Correct Group Leader")
-    IO.inspect("Hello2", label: "To current group leader")
-    Logger.info("Self: " <> inspect(self()))
-    Logger.info("Group Leader:" <> inspect(Process.group_leader()))
-    IO.puts("HELLOOOO")
-    {:noreply, socket}
   end
 end
 |> Server.SmartCells.LiveViewNative.register("/", ":index")
@@ -75,104 +115,66 @@ import Kernel
 :ok
 ```
 
+### Live Reloading
+
+`KinoLiveViewNative` uses automatic code reloading, so anytime you change this file or evaluate one of the `LiveView Native` smart cells, the server will hot reload the page.
+
+Evaluate the cell below that changes the text, and you should see the application reload in your simulator.
+
+<!-- livebook:{"attrs":"eyJhY3Rpb24iOiI6aW5kZXgiLCJjb2RlIjoiZGVmbW9kdWxlIFNlcnZlcldlYi5FeGFtcGxlTGl2ZSBkb1xuICB1c2UgU2VydmVyV2ViLCA6bGl2ZV92aWV3XG5cbiAgQGltcGwgdHJ1ZVxuICBkZWYgcmVuZGVyKCV7Zm9ybWF0OiA6c3dpZnR1aX0gPSBhc3NpZ25zKSBkb1xuICAgIH5TV0lGVFVJXCJcIlwiXG4gICAgPFRleHQ+SGVsbG8gYWdhaW4gZnJvbSBMaXZlVmlldyBOYXRpdmUhPC9UZXh0PlxuICAgIFwiXCJcIlxuICBlbmRcblxuICBkZWYgcmVuZGVyKGFzc2lnbnMpIGRvXG4gICAgfkhcIlwiXCJcbiAgICA8cD5IZWxsbyBhZ2FpbiBmcm9tIExpdmVWaWV3ITwvcD5cbiAgICBcIlwiXCJcbiAgZW5kXG5lbmQiLCJwYXRoIjoiLyJ9","chunks":[[0,85],[87,296],[385,59],[446,51]],"kind":"Elixir.Server.SmartCells.LiveViewNative","livebook_object":"smart_cell"} -->
+
 ```elixir
-Process.group_leader()
+require Server.Livebook
+import Server.Livebook
+import Kernel, except: [defmodule: 2]
+
+defmodule ServerWeb.ExampleLive do
+  use ServerWeb, :live_view
+
+  @impl true
+  def render(%{format: :swiftui} = assigns) do
+    ~SWIFTUI"""
+    <Text>Hello again from LiveView Native!</Text>
+    """
+  end
+
+  def render(assigns) do
+    ~H"""
+    <p>Hello again from LiveView!</p>
+    """
+  end
+end
+|> Server.SmartCells.LiveViewNative.register("/", ":index")
+
+import Server.Livebook, only: []
+import Kernel
+:ok
 ```
 
-```elixir
+## Asset Paths
 
-```
+Asset paths are relative to the host URL. We have provided an example image at http://localhost:4000/images/logo.png for you to use in any examples.
 
-```elixir
-Application.get_env(:kino, :group_leader) |> IO.inspect()
-Process.group_leader()
-```
+<!-- livebook:{"attrs":"eyJhY3Rpb24iOiI6aW5kZXgiLCJjb2RlIjoiZGVmbW9kdWxlIFNlcnZlcldlYi5FeGFtcGxlTGl2ZSBkb1xuICB1c2UgU2VydmVyV2ViLCA6bGl2ZV92aWV3XG5cbiAgQGltcGwgdHJ1ZVxuICBkZWYgcmVuZGVyKCV7Zm9ybWF0OiA6c3dpZnR1aX0gPSBhc3NpZ25zKSBkb1xuICAgIH5TV0lGVFVJXCJcIlwiXG4gICAgPEFzeW5jSW1hZ2UgdXJsPVwiL2ltYWdlcy9sb2dvLnBuZ1wiLz5cbiAgICBcIlwiXCJcbiAgZW5kXG5lbmQiLCJwYXRoIjoiLyJ9","chunks":[[0,85],[87,198],[287,59],[348,51]],"kind":"Elixir.Server.SmartCells.LiveViewNative","livebook_object":"smart_cell"} -->
 
 ```elixir
-# Application.put_env(:phoenix, :serve_endpoints, true)
-# GenServer.stop(ServerWeb.Endpoint)
-```
+require Server.Livebook
+import Server.Livebook
+import Kernel, except: [defmodule: 2]
 
-```elixir
+defmodule ServerWeb.ExampleLive do
+  use ServerWeb, :live_view
 
-```
+  @impl true
+  def render(%{format: :swiftui} = assigns) do
+    ~SWIFTUI"""
+    <AsyncImage url="/images/logo.png"/>
+    """
+  end
+end
+|> Server.SmartCells.LiveViewNative.register("/", ":index")
 
-```elixir
-current_group_leader = :c.pid(0, 5889, 0)
-```
-
-```elixir
-Process.group_leader(current_group_leader, Process.group_leader())
-```
-
-```elixir
-live_view = :c.pid(0, 6056, 0)
-```
-
-```elixir
-
-```
-
-```elixir
-Process.info(current_group_leader)[:group_leader]
-```
-
-```elixir
-Process.group_leader(live_view, Process.group_leader())
-```
-
-```elixir
-Process.group_leader()
-```
-
-```elixir
-Process.group_leader()
-```
-
-```elixir
-Supervisor.
-```
-
-```elixir
-supervisor = Process.whereis(Server.Supervisor)
-Process.info(supervisor)[:group_leader]
-```
-
-```elixir
-Process.info(:c.pid(0, 5890, 0))
-```
-
-```elixir
-web_server = Process.whereis(ServerWeb.Endpoint) |> IO.inspect()
-Process.group_leader(web_server, Process.group_leader())
-
-# spawn(fn -> 
-#   spawn(fn -> IO.inspect("HE") end)
-#    IO.inspect("EH")
-# end)
-# # Process.group_leader(web_server, Process.group_leader)
-```
-
-```elixir
-Process.group_leader()
-```
-
-```elixir
-Process.info(self())[:group_leader]
-```
-
-```elixir
-
-```
-
-```elixir
-
-```
-
-```elixir
-
-```
-
-```elixir
-
+import Server.Livebook, only: []
+import Kernel
+:ok
 ```

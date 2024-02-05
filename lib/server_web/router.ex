@@ -20,6 +20,8 @@ defmodule ServerWeb.Router do
     scope "/" do
       pipe_through :browser
 
+      # Often used for debugging
+      # live "/", ServerWeb.HelloLive
       Server.SmartCells.LiveViewNative.get_routes()
       |> Enum.map(fn %{path: path, module: module, action: action} ->
         # Ensure module is a LiveView
@@ -38,7 +40,7 @@ defmodule ServerWeb.Router do
   # end
 
   # Enable LiveDashboard in development
-  if Application.compile_env(:server, :dev_routes) do
+  if Application.compile_env(:kino_live_view_native, :dev_routes) do
     # If you want to use the LiveDashboard in production, you should put
     # it behind authentication and allow only admins to access it.
     # If your application does not have an admins-only section yet,

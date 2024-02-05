@@ -1,5 +1,5 @@
 defmodule ServerWeb.Endpoint do
-  use Phoenix.Endpoint, otp_app: :server
+  use Phoenix.Endpoint, otp_app: :kino_live_view_native
 
   # The session will be stored in the cookie and signed,
   # this means its contents can be read but not tampered with.
@@ -19,7 +19,7 @@ defmodule ServerWeb.Endpoint do
   # when deploying your static files in production.
   plug Plug.Static,
     at: "/",
-    from: :server,
+    from: :kino_live_view_native,
     gzip: false,
     only: ServerWeb.static_paths()
 
@@ -28,7 +28,7 @@ defmodule ServerWeb.Endpoint do
   if code_reloading? do
     socket "/phoenix/live_reload/socket", ServerWeb.LiveReloader.Socket
     plug Phoenix.LiveReloader
-    plug Phoenix.CodeReloader
+  #   # plug Phoenix.CodeReloader
   end
 
   plug Phoenix.LiveDashboard.RequestLogger,

@@ -20,5 +20,5 @@ defmodule ServerWeb.Gettext do
 
   See the [Gettext Docs](https://hexdocs.pm/gettext) for detailed usage.
   """
-  use Gettext, otp_app: :server
+  use Gettext, otp_app: :kino_live_view_native
 end

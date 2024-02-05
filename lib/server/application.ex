@@ -9,7 +9,7 @@ defmodule Server.Application do
   def start(_type, _args) do
     children = [
       ServerWeb.Telemetry,
-      {DNSCluster, query: Application.get_env(:server, :dns_cluster_query) || :ignore},
+      {DNSCluster, query: Application.get_env(:kino_live_view_native, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: Server.PubSub},
       # Start the Finch HTTP client for sending emails
       {Finch, name: Server.Finch},

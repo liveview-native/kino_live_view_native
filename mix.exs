@@ -3,8 +3,8 @@ defmodule Server.MixProject do
 
   def project do
     [
-      app: :server,
-      version: "0.1.0",
+      app: :kino_live_view_native,
+      version: "0.2.2",
       elixir: "~> 1.14",
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
@@ -34,7 +34,7 @@ defmodule Server.MixProject do
     [
       {:phoenix, "~> 1.7.10"},
       {:phoenix_html, "~> 3.3"},
-      {:phoenix_live_reload, "~> 1.2", only: :dev},
+      {:phoenix_live_reload, "~> 1.2"},
       {:phoenix_live_view, "~> 0.20.1"},
       {:floki, ">= 0.30.0"},
       {:phoenix_live_dashboard, "~> 0.8.2"},

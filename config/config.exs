@@ -7,11 +7,11 @@
 # General application configuration
 import Config
 
-config :server,
+config :kino_live_view_native,
   generators: [timestamp_type: :utc_datetime]
 
 # Configures the endpoint
-config :server, ServerWeb.Endpoint,
+config :kino_live_view_native, ServerWeb.Endpoint,
   url: [host: "localhost"],
   adapter: Phoenix.Endpoint.Cowboy2Adapter,
   render_errors: [
