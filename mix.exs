@@ -1,15 +1,26 @@
 defmodule Server.MixProject do
   use Mix.Project
+  @version "0.2.1"
+  @source_url "https://github.com/liveview-native/kino_live_view_native"
 
   def project do
     [
       app: :kino_live_view_native,
-      version: "0.2.2",
-      elixir: "~> 1.14",
+      version: @version,
+      elixir: "~> 1.15",
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
-      deps: deps()
+      deps: deps(),
+      description: "LiveView Native code examples using Kino Smart Cells inside Livebook",
+      docs: [
+        source_ref: "v#{@version}",
+        # The main page in the docs
+        main: "example",
+        logo: "notebooks/assets/logo.png",
+        extras: ["notebooks/example.livemd"]
+      ],
+      package: package()
     ]
   end
 
@@ -66,5 +77,17 @@ defmodule Server.MixProject do
       "assets.build": ["tailwind default", "esbuild default"],
       "assets.deploy": ["tailwind default --minify", "esbuild default --minify", "phx.digest"]
     ]
+  end
+
+  # Hex package configuration
+  defp package do
+    %{
+      maintainers: ["Brooklin Myers"],
+      licenses: ["MIT"],
+      links: %{
+        "GitHub" => @source_url
+      },
+      source_url: @source_url
+    }
   end
 end
