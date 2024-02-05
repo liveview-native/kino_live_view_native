@@ -2,23 +2,38 @@
 
 ```elixir
 Mix.install(
-  [
-    {:kino_live_view_native, path: "../kino_live_view_native"}
-  ],
+  [{:kino_live_view_native, path: "./"}],
+  # [{:kino_live_view_native,  "~> 0.2.2"}],
   config: [
-    # This must be a compile time configuration for :live_view_native.
+    kino_live_view_native: [
+      {ServerWeb.Endpoint,
+       [
+         server: true,
+         url: [host: "localhost"],
+         adapter: Phoenix.Endpoint.Cowboy2Adapter,
+         render_errors: [
+           formats: [html: ServerWeb.ErrorHTML, json: ServerWeb.ErrorJSON],
+           layout: false
+         ],
+         pubsub_server: Server.PubSub,
+         live_view: [signing_salt: "JSgdVVL6"],
+         http: [ip: {127, 0, 0, 1}, port: 4000],
+         secret_key_base: String.duplicate("a", 64),
+         live_reload: [
+           patterns: [
+             ~r/#{__ENV__.file |> String.split("#") |> hd()}$/
+           ]
+         ]
+       ]}
+    ],
+    kino: [
+      group_leader: Process.group_leader()
+    ],
     live_view_native: [plugins: [LiveViewNative.SwiftUI]],
-    live_view_native_stylesheet: [parsers: [swiftui: LiveViewNative.SwiftUI.RulesParser]],
-    phoenix_template: [
-      format_encoders: [
-        swiftui: Phoenix.HTML.Engine
-      ]
-    ]
+    live_view_native_stylesheet: [parsers: [swiftui: LiveViewNative.SwiftUI.RulesParser]]
   ],
   force: true
 )
-
-KinoLiveViewNative.start([])
 ```
 
 ## Quickstart
@@ -29,50 +44,56 @@ To use the KinoLiveViewNative project we need to install it. You can include the
 
 ```elixir
 Mix.install(
-  [
-    {:kino_live_view_native, path: "../kino_live_view_native"}
-  ],
+  [{:kino_live_view_native,  "~> 0.2.2"}],
   config: [
-    # This must be a compile time configuration for :live_view_native.
+    server: [
+      {ServerWeb.Endpoint,
+       [
+         server: true,
+         url: [host: "localhost"],
+         adapter: Phoenix.Endpoint.Cowboy2Adapter,
+         render_errors: [
+           formats: [html: ServerWeb.ErrorHTML, json: ServerWeb.ErrorJSON],
+           layout: false
+         ],
+         pubsub_server: Server.PubSub,
+         live_view: [signing_salt: "JSgdVVL6"],
+         http: [ip: {127, 0, 0, 1}, port: 4000],
+         secret_key_base: String.duplicate("a", 64),
+         live_reload: [
+           patterns: [
+             ~r/#{__ENV__.file |> String.split("#") |> hd()}$/
+           ]
+         ]
+       ]}
+    ],
+    kino: [
+      group_leader: Process.group_leader()
+    ],
     live_view_native: [plugins: [LiveViewNative.SwiftUI]],
-    live_view_native_stylesheet: [parsers: [swiftui: LiveViewNative.SwiftUI.RulesParser]],
-    phoenix_template: [
-      format_encoders: [
-        swiftui: Phoenix.HTML.Engine
-      ]
-    ]
+    live_view_native_stylesheet: [parsers: [swiftui: LiveViewNative.SwiftUI.RulesParser]]
   ],
+  force: true
 )
 ```
 
-We need to start the server. This could be hidden in in notebook dependencies to make the experience more streamlined for your reader.
+By default, the server starts on port `4000`. You could change the configuration if you wish.
 
-<!-- livebook:{"force_markdown":true} -->
+<!-- livebook:{"break_markdown":true} -->
 
-```elixir
-KinoLiveViewNative.start()
-```
+### Basic LiveView Native Example
 
-You may optionally configure the `port` to start the server on. By default, the server starts on port `4000`.
+Let's create a basic LiveView that will be available at http://localhost:4000. You can also inspect the native template code at http://localhost:4000/?_lvn[format]=swiftui
 
-<!-- livebook:{"force_markdown":true} -->
+<!-- livebook:{"attrs":"e30","chunks":[[0,85],[87,284],[373,59],[434,51]],"kind":"Elixir.Server.SmartCells.LiveViewNative","livebook_object":"smart_cell"} -->
 
 ```elixir
-KinoLiveViewNative.start(port: 5001)
-```
-
-Let's create a basic LiveView that will be available at http://localhost:4000.
-
-<!-- livebook:{"attrs":"eyJhY3Rpb24iOiI6aW5kZXgiLCJjb2RlIjoiZGVmbW9kdWxlIFNlcnZlci5FeGFtcGxlTGl2ZSBkb1xuICB1c2UgUGhvZW5peC5MaXZlVmlld1xuICB1c2UgTGl2ZVZpZXdOYXRpdmUuTGl2ZVZpZXdcblxuICBAaW1wbCB0cnVlXG4gIGRlZiByZW5kZXIoJXtmb3JtYXQ6IDpzd2lmdHVpfSA9IGFzc2lnbnMpIGRvXG4gICAgflNXSUZUVUlcIlwiXCJcbiAgICA8VGV4dD5IZWxsbyBmcm9tIExpdmVWaWV3IE5hdGl2ZSE8L1RleHQ+XG4gICAgXCJcIlwiXG4gIGVuZFxuXG4gIGRlZiByZW5kZXIoYXNzaWducykgZG9cbiAgICB+SFwiXCJcIlxuICAgIDxwPkhlbGxvIGZyb20gTGl2ZVZpZXchPC9wPlxuICAgIFwiXCJcIlxuICBlbmRcbmVuZCIsInBhdGgiOiIvIn0","chunks":[[0,109],[111,306],[419,45],[466,63]],"kind":"Elixir.KinoLiveViewNative","livebook_object":"smart_cell"} -->
-
-```elixir
-require KinoLiveViewNative.Livebook
-import KinoLiveViewNative.Livebook
+require Server.Livebook
+import Server.Livebook
 import Kernel, except: [defmodule: 2]
 
-defmodule Server.ExampleLive do
-  use Phoenix.LiveView
-  use LiveViewNative.LiveView
+defmodule ServerWeb.ExampleLive do
+  use ServerWeb, :live_view
 
   @impl true
   def render(%{format: :swiftui} = assigns) do
@@ -87,34 +108,33 @@ defmodule Server.ExampleLive do
     """
   end
 end
-|> KinoLiveViewNative.register("/", ":index")
+|> Server.SmartCells.LiveViewNative.register("/", ":index")
 
-import KinoLiveViewNative.Livebook, only: []
+import Server.Livebook, only: []
 import Kernel
 :ok
 ```
+
+### Live Reloading
 
 `KinoLiveViewNative` uses automatic code reloading, so anytime you change this file or evaluate one of the `LiveView Native` smart cells, the server will hot reload the page.
 
 Evaluate the cell below that changes the text, and you should see the application reload in your simulator.
 
-<!-- livebook:{"attrs":"eyJhY3Rpb24iOiI6aW5kZXgiLCJjb2RlIjoiZGVmbW9kdWxlIFNlcnZlci5Ib3RSZWxvYWRFeGFtcGxlTGl2ZSBkb1xuICB1c2UgUGhvZW5peC5MaXZlVmlld1xuICB1c2UgTGl2ZVZpZXdOYXRpdmUuTGl2ZVZpZXdcblxuICBAaW1wbCB0cnVlXG4gIGRlZiByZW5kZXIoJXtmb3JtYXQ6IDpzd2lmdHVpfSA9IGFzc2lnbnMpIGRvXG4gICAgflNXSUZUVUlcIlwiXCJcbiAgICA8VGV4dD5cbiAgICAgIEhlbGxvIGFnYWluIGZyb20gTGl2ZVZpZXcgTmF0aXZlIVxuICAgIDwvVGV4dD5cbiAgICBcIlwiXCJcbiAgZW5kXG5cbiAgZGVmIHJlbmRlcihhc3NpZ25zKSBkb1xuICAgIH5IXCJcIlwiXG4gICAgPHA+SGVsbG8gYWdhaW4gZnJvbSBMaXZlVmlldyE8L3A+XG4gICAgXCJcIlwiXG4gIGVuZFxuZW5kXG4iLCJwYXRoIjoiLyJ9","chunks":[[0,109],[111,340],[453,45],[500,63]],"kind":"Elixir.KinoLiveViewNative","livebook_object":"smart_cell"} -->
+<!-- livebook:{"attrs":"eyJhY3Rpb24iOiI6aW5kZXgiLCJjb2RlIjoiZGVmbW9kdWxlIFNlcnZlcldlYi5FeGFtcGxlTGl2ZSBkb1xuICB1c2UgU2VydmVyV2ViLCA6bGl2ZV92aWV3XG5cbiAgQGltcGwgdHJ1ZVxuICBkZWYgcmVuZGVyKCV7Zm9ybWF0OiA6c3dpZnR1aX0gPSBhc3NpZ25zKSBkb1xuICAgIH5TV0lGVFVJXCJcIlwiXG4gICAgPFRleHQ+SGVsbG8gYWdhaW4gZnJvbSBMaXZlVmlldyBOYXRpdmUhPC9UZXh0PlxuICAgIFwiXCJcIlxuICBlbmRcblxuICBkZWYgcmVuZGVyKGFzc2lnbnMpIGRvXG4gICAgfkhcIlwiXCJcbiAgICA8cD5IZWxsbyBhZ2FpbiBmcm9tIExpdmVWaWV3ITwvcD5cbiAgICBcIlwiXCJcbiAgZW5kXG5lbmQiLCJwYXRoIjoiLyJ9","chunks":[[0,85],[87,296],[385,59],[446,51]],"kind":"Elixir.Server.SmartCells.LiveViewNative","livebook_object":"smart_cell"} -->
 
 ```elixir
-require KinoLiveViewNative.Livebook
-import KinoLiveViewNative.Livebook
+require Server.Livebook
+import Server.Livebook
 import Kernel, except: [defmodule: 2]
 
-defmodule Server.HotReloadExampleLive do
-  use Phoenix.LiveView
-  use LiveViewNative.LiveView
+defmodule ServerWeb.ExampleLive do
+  use ServerWeb, :live_view
 
   @impl true
   def render(%{format: :swiftui} = assigns) do
     ~SWIFTUI"""
-    <Text>
-      Hello again from LiveView Native!
-    </Text>
+    <Text>Hello again from LiveView Native!</Text>
     """
   end
 
@@ -124,121 +144,131 @@ defmodule Server.HotReloadExampleLive do
     """
   end
 end
-|> KinoLiveViewNative.register("/", ":index")
+|> Server.SmartCells.LiveViewNative.register("/", ":index")
 
-import KinoLiveViewNative.Livebook, only: []
+import Server.Livebook, only: []
 import Kernel
 :ok
 ```
 
-## Dealing with path variables
+## Asset Paths
 
-KinoLiveViewNative lets you set path variables using the `:path_variable` syntax you would normally use in a Phoenix router. Here's an example that uses the path variable to display a name in the hello world application.
+Asset paths are relative to the host URL. We have provided an example image at http://localhost:4000/images/logo.png for you to use in any examples.
 
-<!-- livebook:{"attrs":"eyJhY3Rpb24iOiI6aW5kZXgiLCJjb2RlIjoiZGVmbW9kdWxlIFNlcnZlci5QYXRoVmFyaWFibGVFeGFtcGxlTGl2ZSBkb1xuICB1c2UgUGhvZW5peC5MaXZlVmlld1xuICB1c2UgTGl2ZVZpZXdOYXRpdmUuTGl2ZVZpZXdcblxuICBAaW1wbCB0cnVlXG4gIGRlZiBtb3VudCgle1wibmFtZVwiID0+IG5hbWV9LCBfc2Vzc2lvbiwgc29ja2V0KSBkb1xuICAgIHs6b2ssIGFzc2lnbihzb2NrZXQsIDpuYW1lLCBuYW1lKX1cbiAgZW5kXG5cbiAgQGltcGwgdHJ1ZVxuICBkZWYgcmVuZGVyKCV7Zm9ybWF0OiA6c3dpZnR1aX0gPSBhc3NpZ25zKSBkb1xuICAgIH5TV0lGVFVJXCJcIlwiXG4gICAgPFRleHQ+SGkgdGhlcmUsIEknbSA8JT0gQG5hbWUgJT48L1RleHQ+XG4gICAgXCJcIlwiXG4gIGVuZFxuXG4gIGRlZiByZW5kZXIoYXNzaWducykgZG9cbiAgICB+SFwiXCJcIlxuICAgIDxwIHN0eWxlPVwiY29sb3I6IHB1cnBsZVwiPkhpIHRoZXJlLCBJJ20gPCU9IEBuYW1lICU+PC9wPlxuICAgIFwiXCJcIlxuICBlbmRcbmVuZFxuIiwicGF0aCI6Ii9oZWxsby86bmFtZSJ9","chunks":[[0,109],[111,457],[570,56],[628,63]],"kind":"Elixir.KinoLiveViewNative","livebook_object":"smart_cell"} -->
+<!-- livebook:{"attrs":"eyJhY3Rpb24iOiI6aW5kZXgiLCJjb2RlIjoiZGVmbW9kdWxlIFNlcnZlcldlYi5FeGFtcGxlTGl2ZSBkb1xuICB1c2UgU2VydmVyV2ViLCA6bGl2ZV92aWV3XG5cbiAgQGltcGwgdHJ1ZVxuICBkZWYgcmVuZGVyKCV7Zm9ybWF0OiA6c3dpZnR1aX0gPSBhc3NpZ25zKSBkb1xuICAgIH5TV0lGVFVJXCJcIlwiXG4gICAgPEFzeW5jSW1hZ2UgdXJsPVwiL2ltYWdlcy9sb2dvLnBuZ1wiLz5cbiAgICBcIlwiXCJcbiAgZW5kXG5lbmQiLCJwYXRoIjoiLyJ9","chunks":[[0,85],[87,198],[287,59],[348,51]],"kind":"Elixir.Server.SmartCells.LiveViewNative","livebook_object":"smart_cell"} -->
 
 ```elixir
-require KinoLiveViewNative.Livebook
-import KinoLiveViewNative.Livebook
+require Server.Livebook
+import Server.Livebook
 import Kernel, except: [defmodule: 2]
 
-defmodule Server.PathVariableExampleLive do
-  use Phoenix.LiveView
-  use LiveViewNative.LiveView
-
-  @impl true
-  def mount(%{"name" => name}, _session, socket) do
-    {:ok, assign(socket, :name, name)}
-  end
+defmodule ServerWeb.ExampleLive do
+  use ServerWeb, :live_view
 
   @impl true
   def render(%{format: :swiftui} = assigns) do
     ~SWIFTUI"""
-    <Text>Hi there, I'm <%= @name %></Text>
-    """
-  end
-
-  def render(assigns) do
-    ~H"""
-    <p style="color: purple">Hi there, I'm <%= @name %></p>
+    <AsyncImage url="/images/logo.png"/>
     """
   end
 end
-|> KinoLiveViewNative.register("/hello/:name", ":index")
+|> Server.SmartCells.LiveViewNative.register("/", ":index")
 
-import KinoLiveViewNative.Livebook, only: []
+import Server.Livebook, only: []
 import Kernel
 :ok
 ```
 
-Go to http://localhost:4000/hello/your_name. Replace `your_name` with your name and see the page display your name!
+## Core Components
 
-## Image
+Core components are supported.
 
-The URL for the LiveView Native The SwiftUI `Image` view is evaluated relative to the LiveView's host URL. We have provided an example image at http://localhost:4000/images/logo.png for you to use in any examples.
-
-<!-- livebook:{"attrs":"eyJhY3Rpb24iOiI6aW5kZXgiLCJjb2RlIjoiZGVmbW9kdWxlIFNlcnZlci5JbWFnZUV4YW1wbGVMaXZlIGRvXG4gIHVzZSBQaG9lbml4LkxpdmVWaWV3XG4gIHVzZSBMaXZlVmlld05hdGl2ZS5MaXZlVmlld1xuXG4gIEBpbXBsIHRydWVcbiAgZGVmIHJlbmRlcigle2Zvcm1hdDogOnN3aWZ0dWl9ID0gYXNzaWducykgZG9cbiAgICB+U1dJRlRVSVwiXCJcIlxuICAgIDxBc3luY0ltYWdlIHVybD1cIi4vaW1hZ2VzL2xvZ28ucG5nXCIvPlxuICAgIFwiXCJcIlxuICBlbmRcblxuICBkZWYgcmVuZGVyKGFzc2lnbnMpIGRvXG4gICAgfkhcIlwiXCJcbiAgICA8aW1nIHNyYz1cIi4vaW1hZ2VzL2xvZ28ucG5nXCIvPlxuICAgIFwiXCJcIlxuICBlbmRcbmVuZCIsInBhdGgiOiIvIn0","chunks":[[0,109],[111,311],[424,45],[471,63]],"kind":"Elixir.KinoLiveViewNative","livebook_object":"smart_cell"} -->
+<!-- livebook:{"attrs":"eyJhY3Rpb24iOiI6aW5kZXgiLCJjb2RlIjoiZGVmbW9kdWxlIFNlcnZlcldlYi5FeGFtcGxlTGl2ZSBkb1xuICB1c2UgU2VydmVyV2ViLCA6bGl2ZV92aWV3XG5cbiAgZGVmIHJlbmRlcihhc3NpZ25zKSBkb1xuICAgIH5IXCJcIlwiXG4gICAgPC5idXR0b24+Q2xpY2s8Ly5idXR0b24+XG4gICAgXCJcIlwiXG4gIGVuZFxuZW5kIiwicGF0aCI6Ii8ifQ","chunks":[[0,85],[87,145],[234,59],[295,51]],"kind":"Elixir.Server.SmartCells.LiveViewNative","livebook_object":"smart_cell"} -->
 
 ```elixir
-require KinoLiveViewNative.Livebook
-import KinoLiveViewNative.Livebook
+require Server.Livebook
+import Server.Livebook
 import Kernel, except: [defmodule: 2]
 
-defmodule Server.ImageExampleLive do
-  use Phoenix.LiveView
-  use LiveViewNative.LiveView
+defmodule ServerWeb.ExampleLive do
+  use ServerWeb, :live_view
+
+  def render(assigns) do
+    ~H"""
+    <.button>Click</.button>
+    """
+  end
+end
+|> Server.SmartCells.LiveViewNative.register("/", ":index")
+
+import Server.Livebook, only: []
+import Kernel
+:ok
+```
+
+## Tailwind
+
+While tailwind is included in the project, it is not currently functional.
+
+Tailwind does static analysis to find classes used in the project, and therefore does not find classes defined within Livebook files.
+
+<!-- livebook:{"attrs":"eyJhY3Rpb24iOiI6aW5kZXgiLCJjb2RlIjoiZGVmbW9kdWxlIFNlcnZlcldlYi5FeGFtcGxlTGl2ZSBkb1xuICB1c2UgU2VydmVyV2ViLCA6bGl2ZV92aWV3XG5cbiAgZGVmIHJlbmRlcihhc3NpZ25zKSBkb1xuICAgIH5IXCJcIlwiXG4gICAgPHAgY2xhc3M9XCJ0ZXh0LXJlZFwiPk5vdCBSZWQgVGV4dDwvcD5cbiAgICBcIlwiXCJcbiAgZW5kXG5lbmQiLCJwYXRoIjoiLyJ9","chunks":[[0,85],[87,157],[246,59],[307,51]],"kind":"Elixir.Server.SmartCells.LiveViewNative","livebook_object":"smart_cell"} -->
+
+```elixir
+require Server.Livebook
+import Server.Livebook
+import Kernel, except: [defmodule: 2]
+
+defmodule ServerWeb.ExampleLive do
+  use ServerWeb, :live_view
+
+  def render(assigns) do
+    ~H"""
+    <p class="text-red">Not Red Text</p>
+    """
+  end
+end
+|> Server.SmartCells.LiveViewNative.register("/", ":index")
+
+import Server.Livebook, only: []
+import Kernel
+:ok
+```
+
+## Bindings
+
+<!-- livebook:{"attrs":"eyJhY3Rpb24iOiI6aW5kZXgiLCJjb2RlIjoiZGVmbW9kdWxlIFNlcnZlcldlYi5FeGFtcGxlTGl2ZSBkb1xuICB1c2UgU2VydmVyV2ViLCA6bGl2ZV92aWV3XG5cbiAgQGltcGwgdHJ1ZVxuICBkZWYgcmVuZGVyKCV7Zm9ybWF0OiA6c3dpZnR1aX0gPSBhc3NpZ25zKSBkb1xuICAgIH5TV0lGVFVJXCJcIlwiXG4gICAgPEJ1dHRvbiBwaHgtY2xpY2s9XCJwaW5nXCI+SGVsbG8gZnJvbSBMaXZlVmlldyBOYXRpdmUhPC9CdXR0b24+XG4gICAgXCJcIlwiXG4gIGVuZFxuXG4gIGRlZiByZW5kZXIoYXNzaWducykgZG9cbiAgICB+SFwiXCJcIlxuICAgIDxidXR0b24gcGh4LWNsaWNrPVwicGluZ1wiPkhlbGxvIGZyb20gTGl2ZVZpZXchPC9idXR0b24+XG4gICAgXCJcIlwiXG4gIGVuZFxuXG4gIEBpbXBsIHRydWVcbiAgZGVmIGhhbmRsZV9ldmVudChcInBpbmdcIiwgX3BhcmFtcywgc29ja2V0KSBkb1xuICAgIElPLmluc3BlY3QoXCJQT05HXCIpXG4gICAgezpub3JlcGx5LCBzb2NrZXR9XG4gIGVuZFxuZW5kIiwicGF0aCI6Ii8ifQ","chunks":[[0,85],[87,445],[534,59],[595,51]],"kind":"Elixir.Server.SmartCells.LiveViewNative","livebook_object":"smart_cell"} -->
+
+```elixir
+require Server.Livebook
+import Server.Livebook
+import Kernel, except: [defmodule: 2]
+
+defmodule ServerWeb.ExampleLive do
+  use ServerWeb, :live_view
 
   @impl true
   def render(%{format: :swiftui} = assigns) do
     ~SWIFTUI"""
-    <AsyncImage url="./images/logo.png"/>
+    <Button phx-click="ping">Hello from LiveView Native!</Button>
     """
   end
 
   def render(assigns) do
     ~H"""
-    <img src="./images/logo.png"/>
+    <button phx-click="ping">Hello from LiveView!</button>
     """
   end
-end
-|> KinoLiveViewNative.register("/", ":index")
-
-import KinoLiveViewNative.Livebook, only: []
-import Kernel
-:ok
-```
-
-This is the same as providing the full host url. The following example will also work.
-
-<!-- livebook:{"attrs":"eyJhY3Rpb24iOiI6aW5kZXgiLCJjb2RlIjoiZGVmbW9kdWxlIFNlcnZlci5GdWxsVVJMSW1hZ2VFeGFtcGxlTGl2ZSBkb1xuICB1c2UgUGhvZW5peC5MaXZlVmlld1xuICB1c2UgTGl2ZVZpZXdOYXRpdmUuTGl2ZVZpZXdcblxuICBAaW1wbCB0cnVlXG4gIGRlZiByZW5kZXIoJXtwbGF0Zm9ybV9pZDogOnN3aWZ0dWl9ID0gYXNzaWducykgZG9cbiAgICB+U1dJRlRVSVwiXCJcIlxuICAgIDxBc3luY0ltYWdlIHVybD1cImh0dHA6Ly9sb2NhbGhvc3Q6NDAwMC9pbWFnZXMvbG9nby5wbmdcIi8+XG4gICAgXCJcIlwiXG4gIGVuZFxuXG4gIGRlZiByZW5kZXIoYXNzaWducykgZG9cbiAgICB+SFwiXCJcIlxuICAgIDxpbWcgc3JjPVwiLi9pbWFnZXMvbG9nby5wbmdcIi8+XG4gICAgXCJcIlwiXG4gIGVuZFxuZW5kIiwicGF0aCI6Ii8ifQ","chunks":[[0,109],[111,343],[456,45],[503,63]],"kind":"Elixir.KinoLiveViewNative","livebook_object":"smart_cell"} -->
-
-```elixir
-require KinoLiveViewNative.Livebook
-import KinoLiveViewNative.Livebook
-import Kernel, except: [defmodule: 2]
-
-defmodule Server.FullURLImageExampleLive do
-  use Phoenix.LiveView
-  use LiveViewNative.LiveView
 
   @impl true
-  def render(%{platform_id: :swiftui} = assigns) do
-    ~SWIFTUI"""
-    <AsyncImage url="http://localhost:4000/images/logo.png"/>
-    """
-  end
-
-  def render(assigns) do
-    ~H"""
-    <img src="./images/logo.png"/>
-    """
+  def handle_event("ping", _params, socket) do
+    IO.inspect("PONG")
+    {:noreply, socket}
   end
 end
-|> KinoLiveViewNative.register("/", ":index")
+|> Server.SmartCells.LiveViewNative.register("/", ":index")
 
-import KinoLiveViewNative.Livebook, only: []
+import Server.Livebook, only: []
 import Kernel
 :ok
 ```
-
-However, it's generally better to use the relative path without the host name because it will work in both development and production.
