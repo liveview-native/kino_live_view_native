@@ -1,6 +1,6 @@
 defmodule Server.MixProject do
   use Mix.Project
-  @version "0.2.1"
+  @version "0.2.2"
   @source_url "https://github.com/liveview-native/kino_live_view_native"
 
   def project do
@@ -17,7 +17,7 @@ defmodule Server.MixProject do
         source_ref: "v#{@version}",
         # The main page in the docs
         main: "example",
-        logo: "notebooks/assets/logo.png",
+        logo: "priv/static/images/logo.png",
         extras: ["notebooks/example.livemd"]
       ],
       package: package()
@@ -60,7 +60,8 @@ defmodule Server.MixProject do
       {:plug_cowboy, "~> 2.5"},
       {:live_view_native, "~> 0.2.0"},
       {:live_view_native_swiftui, "~> 0.2.0"},
-      {:kino, "~> 0.12.3"}
+      {:kino, "~> 0.12.3"},
+      {:ex_doc, "~> 0.31.0", only: :dev, runtime: false}
     ]
   end
 
