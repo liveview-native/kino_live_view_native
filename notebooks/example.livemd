@@ -29,6 +29,13 @@ Mix.install(
     kino: [
       group_leader: Process.group_leader()
     ],
+    phoenix: [
+      template_engines: [neex: LiveViewNative.Engine]
+    ],
+    phoenix_template: [format_encoders: [swiftui: Phoenix.HTML.Engine]],
+    mime: [
+      types: %{"text/swiftui" => ["swiftui"]}
+    ],
     live_view_native: [plugins: [LiveViewNative.SwiftUI]],
     live_view_native_stylesheet: [parsers: [swiftui: LiveViewNative.SwiftUI.RulesParser]]
   ],
@@ -44,9 +51,10 @@ To use the KinoLiveViewNative project we need to install it. You can include the
 
 ```elixir
 Mix.install(
-  [{:kino_live_view_native,  "~> 0.2.2"}],
+  [{:kino_live_view_native, path: "./"}],
+  # [{:kino_live_view_native,  "~> 0.2.2"}],
   config: [
-    server: [
+    kino_live_view_native: [
       {ServerWeb.Endpoint,
        [
          server: true,
@@ -70,6 +78,13 @@ Mix.install(
     kino: [
       group_leader: Process.group_leader()
     ],
+    phoenix: [
+      template_engines: [neex: LiveViewNative.Engine]
+    ],
+    phoenix_template: [format_encoders: [swiftui: Phoenix.HTML.Engine]],
+    mime: [
+      types: %{"text/swiftui" => ["swiftui"]}
+    ],
     live_view_native: [plugins: [LiveViewNative.SwiftUI]],
     live_view_native_stylesheet: [parsers: [swiftui: LiveViewNative.SwiftUI.RulesParser]]
   ],
@@ -85,23 +100,36 @@ By default, the server starts on port `4000`. You could change the configuration
 
 Let's create a basic LiveView that will be available at http://localhost:4000. You can also inspect the native template code at http://localhost:4000/?_lvn[format]=swiftui
 
-<!-- livebook:{"attrs":"e30","chunks":[[0,85],[87,284],[373,59],[434,51]],"kind":"Elixir.Server.SmartCells.LiveViewNative","livebook_object":"smart_cell"} -->
+First, we define the LiveView in our `"LiveView Native"` smart cell.
+
+<!-- livebook:{"attrs":"eyJhY3Rpb24iOiI6aW5kZXgiLCJjb2RlIjoiZGVmbW9kdWxlIFNlcnZlcldlYi5Ib21lTGl2ZS5Td2lmdFVJIGRvXG4gIHVzZSBMaXZlVmlld05hdGl2ZS5Db21wb25lbnQsXG4gICAgZm9ybWF0OiA6c3dpZnR1aVxuXG4gIGRlZiByZW5kZXIoYXNzaWducywgX2ludGVyZmFjZSkgZG9cbiAgICB+TFZOXCJcIlwiXG4gICAgPFRleHQ+SGVsbG8sIGZyb20gTGl2ZVZpZXcgTmF0aXZlITwvVGV4dD5cbiAgICBcIlwiXCJcbiAgZW5kXG5lbmRcblxuZGVmbW9kdWxlIFNlcnZlcldlYi5Ib21lTGl2ZSBkb1xuICB1c2UgU2VydmVyV2ViLCA6bGl2ZV92aWV3XG4gIHVzZSBMaXZlVmlld05hdGl2ZS5MaXZlVmlldyxcbiAgICBmb3JtYXRzOiBbOnN3aWZ0dWldLFxuICAgIGxheW91dHM6IFtcbiAgICAgIHN3aWZ0dWk6IHtTZXJ2ZXJXZWIuTGF5b3V0cy5Td2lmdFVJLCA6YXBwfVxuICAgIF1cblxuICBAaW1wbCB0cnVlXG4gIGRlZiByZW5kZXIoYXNzaWducykgZG9cbiAgICB+SFwiXCJcIlxuICAgIDxwPkhlbGxvIGZyb20gTGl2ZVZpZXchPC9wPlxuICAgIFwiXCJcIlxuICBlbmRcbmVuZCIsInBhdGgiOiIvIn0","chunks":[[0,85],[87,492],[581,59],[642,51]],"kind":"Elixir.Server.SmartCells.LiveViewNative","livebook_object":"smart_cell"} -->
 
 ```elixir
 require Server.Livebook
 import Server.Livebook
 import Kernel, except: [defmodule: 2]
 
-defmodule ServerWeb.ExampleLive do
-  use ServerWeb, :live_view
+defmodule ServerWeb.HomeLive.SwiftUI do
+  use LiveViewNative.Component,
+    format: :swiftui
 
-  @impl true
-  def render(%{format: :swiftui} = assigns) do
-    ~SWIFTUI"""
-    <Text>Hello from LiveView Native!</Text>
+  def render(assigns, _interface) do
+    ~LVN"""
+    <Text>Hello, from LiveView Native!</Text>
     """
   end
+end
 
+defmodule ServerWeb.HomeLive do
+  use ServerWeb, :live_view
+
+  use LiveViewNative.LiveView,
+    formats: [:swiftui],
+    layouts: [
+      swiftui: {ServerWeb.Layouts.SwiftUI, :app}
+    ]
+
+  @impl true
   def render(assigns) do
     ~H"""
     <p>Hello from LiveView!</p>
@@ -115,32 +143,47 @@ import Kernel
 :ok
 ```
 
+The last module in the code cell **must** be the LiveView, not the SwiftUI render component.
+
+<!-- livebook:{"break_markdown":true} -->
+
 ### Live Reloading
 
 `KinoLiveViewNative` uses automatic code reloading, so anytime you change this file or evaluate one of the `LiveView Native` smart cells, the server will hot reload the page.
 
 Evaluate the cell below that changes the text, and you should see the application reload in your simulator.
 
-<!-- livebook:{"attrs":"eyJhY3Rpb24iOiI6aW5kZXgiLCJjb2RlIjoiZGVmbW9kdWxlIFNlcnZlcldlYi5FeGFtcGxlTGl2ZSBkb1xuICB1c2UgU2VydmVyV2ViLCA6bGl2ZV92aWV3XG5cbiAgQGltcGwgdHJ1ZVxuICBkZWYgcmVuZGVyKCV7Zm9ybWF0OiA6c3dpZnR1aX0gPSBhc3NpZ25zKSBkb1xuICAgIH5TV0lGVFVJXCJcIlwiXG4gICAgPFRleHQ+SGVsbG8gYWdhaW4gZnJvbSBMaXZlVmlldyBOYXRpdmUhPC9UZXh0PlxuICAgIFwiXCJcIlxuICBlbmRcblxuICBkZWYgcmVuZGVyKGFzc2lnbnMpIGRvXG4gICAgfkhcIlwiXCJcbiAgICA8cD5IZWxsbyBhZ2FpbiBmcm9tIExpdmVWaWV3ITwvcD5cbiAgICBcIlwiXCJcbiAgZW5kXG5lbmQiLCJwYXRoIjoiLyJ9","chunks":[[0,85],[87,296],[385,59],[446,51]],"kind":"Elixir.Server.SmartCells.LiveViewNative","livebook_object":"smart_cell"} -->
+<!-- livebook:{"attrs":"eyJhY3Rpb24iOiI6aW5kZXgiLCJjb2RlIjoiZGVmbW9kdWxlIFNlcnZlcldlYi5Ib21lTGl2ZS5Td2lmdFVJIGRvXG4gIHVzZSBMaXZlVmlld05hdGl2ZS5Db21wb25lbnQsXG4gICAgZm9ybWF0OiA6c3dpZnR1aVxuXG4gIGRlZiByZW5kZXIoYXNzaWducywgX2ludGVyZmFjZSkgZG9cbiAgICB+TFZOXCJcIlwiXG4gICAgPFRleHQ+SGVsbG8sIExpdmUgUmVsb2FkITwvVGV4dD5cbiAgICBcIlwiXCJcbiAgZW5kXG5lbmRcblxuZGVmbW9kdWxlIFNlcnZlcldlYi5Ib21lTGl2ZSBkb1xuICB1c2UgU2VydmVyV2ViLCA6bGl2ZV92aWV3XG4gIHVzZSBMaXZlVmlld05hdGl2ZS5MaXZlVmlldyxcbiAgICBmb3JtYXRzOiBbOnN3aWZ0dWldLFxuICAgIGxheW91dHM6IFtcbiAgICAgIHN3aWZ0dWk6IHtTZXJ2ZXJXZWIuTGF5b3V0cy5Td2lmdFVJLCA6YXBwfVxuICAgIF1cblxuICBAaW1wbCB0cnVlXG4gIGRlZiByZW5kZXIoYXNzaWducykgZG9cbiAgICB+SFwiXCJcIlxuICAgIDxwPkhlbGxvIExpdmUgUmVsb2FkITwvcD5cbiAgICBcIlwiXCJcbiAgZW5kXG5lbmQiLCJwYXRoIjoiLyJ9","chunks":[[0,85],[87,481],[570,59],[631,51]],"kind":"Elixir.Server.SmartCells.LiveViewNative","livebook_object":"smart_cell"} -->
 
 ```elixir
 require Server.Livebook
 import Server.Livebook
 import Kernel, except: [defmodule: 2]
 
-defmodule ServerWeb.ExampleLive do
-  use ServerWeb, :live_view
+defmodule ServerWeb.HomeLive.SwiftUI do
+  use LiveViewNative.Component,
+    format: :swiftui
 
-  @impl true
-  def render(%{format: :swiftui} = assigns) do
-    ~SWIFTUI"""
-    <Text>Hello again from LiveView Native!</Text>
+  def render(assigns, _interface) do
+    ~LVN"""
+    <Text>Hello, Live Reload!</Text>
     """
   end
+end
 
+defmodule ServerWeb.HomeLive do
+  use ServerWeb, :live_view
+
+  use LiveViewNative.LiveView,
+    formats: [:swiftui],
+    layouts: [
+      swiftui: {ServerWeb.Layouts.SwiftUI, :app}
+    ]
+
+  @impl true
   def render(assigns) do
     ~H"""
-    <p>Hello again from LiveView!</p>
+    <p>Hello Live Reload!</p>
     """
   end
 end
@@ -236,6 +279,8 @@ import Kernel
 ```
 
 ## Bindings
+
+Event bindings are functional.
 
 <!-- livebook:{"attrs":"eyJhY3Rpb24iOiI6aW5kZXgiLCJjb2RlIjoiZGVmbW9kdWxlIFNlcnZlcldlYi5FeGFtcGxlTGl2ZSBkb1xuICB1c2UgU2VydmVyV2ViLCA6bGl2ZV92aWV3XG5cbiAgQGltcGwgdHJ1ZVxuICBkZWYgcmVuZGVyKCV7Zm9ybWF0OiA6c3dpZnR1aX0gPSBhc3NpZ25zKSBkb1xuICAgIH5TV0lGVFVJXCJcIlwiXG4gICAgPEJ1dHRvbiBwaHgtY2xpY2s9XCJwaW5nXCI+SGVsbG8gZnJvbSBMaXZlVmlldyBOYXRpdmUhPC9CdXR0b24+XG4gICAgXCJcIlwiXG4gIGVuZFxuXG4gIGRlZiByZW5kZXIoYXNzaWducykgZG9cbiAgICB+SFwiXCJcIlxuICAgIDxidXR0b24gcGh4LWNsaWNrPVwicGluZ1wiPkhlbGxvIGZyb20gTGl2ZVZpZXchPC9idXR0b24+XG4gICAgXCJcIlwiXG4gIGVuZFxuXG4gIEBpbXBsIHRydWVcbiAgZGVmIGhhbmRsZV9ldmVudChcInBpbmdcIiwgX3BhcmFtcywgc29ja2V0KSBkb1xuICAgIElPLmluc3BlY3QoXCJQT05HXCIpXG4gICAgezpub3JlcGx5LCBzb2NrZXR9XG4gIGVuZFxuZW5kIiwicGF0aCI6Ii8ifQ","chunks":[[0,85],[87,445],[534,59],[595,51]],"kind":"Elixir.Server.SmartCells.LiveViewNative","livebook_object":"smart_cell"} -->
 

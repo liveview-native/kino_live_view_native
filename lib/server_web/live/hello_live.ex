@@ -1,21 +1,15 @@
 defmodule ServerWeb.HelloLive do
   use ServerWeb, :live_view
+  use LiveViewNative.LiveView,
+    formats: [:swiftui],
+    layouts: [
+      swiftui: {ServerWeb.Layouts.SwiftUI, :app}
+    ]
 
-  def mount(params, session, socket) do
-   {:ok, socket}
-  end
-
-  def render(assigns = %{format: :swiftui}) do
-    ~SWIFTUI"""
-    <Text>Hello Native</Text>
-    """
-  end
-
+  @impl true
   def render(assigns) do
     ~H"""
-    <div>
-      <h1>Hello Web!</h1>
-    </div>
+    <p>Hello from LiveView!</p>
     """
   end
 end

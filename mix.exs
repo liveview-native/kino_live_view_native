@@ -46,7 +46,7 @@ defmodule Server.MixProject do
       {:phoenix, "~> 1.7.10"},
       {:phoenix_html, "~> 3.3"},
       {:phoenix_live_reload, "~> 1.2"},
-      {:phoenix_live_view, "~> 0.20.1"},
+      {:phoenix_live_view, github: "phoenixframework/phoenix_live_view", ref: "476d1cd288474d7acb33424a74b304b4e9495ff1", override: true},
       {:floki, ">= 0.30.0"},
       {:phoenix_live_dashboard, "~> 0.8.2"},
       {:esbuild, "~> 0.8", runtime: Mix.env() == :dev},
@@ -58,8 +58,11 @@ defmodule Server.MixProject do
       {:jason, "~> 1.2"},
       {:dns_cluster, "~> 0.1.1"},
       {:plug_cowboy, "~> 2.5"},
-      {:live_view_native, "~> 0.2.0"},
-      {:live_view_native_swiftui, "~> 0.2.0"},
+      {:live_view_native, github: "liveview-native/live_view_native", tag: "0.3.0-alpha.3"},
+      {:live_view_native_swiftui, github: "liveview-native/liveview-client-swiftui", tag: "0.3.0-alpha.4"},
+      {:live_view_native_jetpack, github: "liveview-native/liveview-client-jetpack", tag: "0.3.0-alpha.3"},
+      {:live_view_native_html, github: "liveview-native/live_view_native_html", tag: "0.3.0-alpha.3"},
+      {:live_view_native_stylesheet, github: "liveview-native/live_view_native_stylesheet", tag: "0.3.0-alpha.4", override: true},
       {:kino, "~> 0.12.3"},
       {:ex_doc, "~> 0.31.0", only: :dev, runtime: false}
     ]

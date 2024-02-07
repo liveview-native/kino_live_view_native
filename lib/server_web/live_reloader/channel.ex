@@ -3,7 +3,6 @@ defmodule ServerWeb.LiveReloader.Channel do
 
   def join("phoenix:live_reload", _msg, socket) do
     {:ok, _} = Application.ensure_all_started(:phoenix_live_reload)
-
     Phoenix.PubSub.subscribe(Server.PubSub, "reloader")
 
     {:ok, socket}

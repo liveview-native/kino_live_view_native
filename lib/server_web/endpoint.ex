@@ -25,11 +25,12 @@ defmodule ServerWeb.Endpoint do
 
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.
-  if code_reloading? do
-    socket "/phoenix/live_reload/socket", ServerWeb.LiveReloader.Socket
-    plug Phoenix.LiveReloader
+  # if code_reloading? do
+  socket "/phoenix/live_reload/socket", ServerWeb.LiveReloader.Socket
+  plug Phoenix.LiveReloader
+  plug LiveViewNative.LiveReloader
   #   # plug Phoenix.CodeReloader
-  end
+  # end
 
   plug Phoenix.LiveDashboard.RequestLogger,
     param_key: "request_logger",
@@ -46,5 +47,12 @@ defmodule ServerWeb.Endpoint do
   plug Plug.MethodOverride
   plug Plug.Head
   plug Plug.Session, @session_options
+
+  # Added for 0.3.0
+  plug Plug.Parsers,
+    parsers: [:urlencoded, :multipart, :json],
+    pass: ["*/*"],
+    json_decoder: Phoenix.json_library()
+
   plug ServerWeb.Router
 end

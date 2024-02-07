@@ -1,0 +1,3 @@
+<.csrf_token />
+<.stylesheet />
+<%= @inner_content %>

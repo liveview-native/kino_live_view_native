@@ -55,9 +55,6 @@ defmodule ServerWeb do
         layout: {ServerWeb.Layouts, :app}
 
       unquote(html_helpers())
-
-      # LiveView Native support
-      use LiveViewNative.LiveView
     end
   end
 
@@ -68,7 +65,7 @@ defmodule ServerWeb do
       unquote(html_helpers())
 
        # LiveView Native support
-       use LiveViewNative.LiveComponent
+      #  use LiveViewNative.LiveComponent
     end
   end
 

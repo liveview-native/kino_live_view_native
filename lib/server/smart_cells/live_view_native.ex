@@ -101,7 +101,7 @@ defmodule Server.SmartCells.LiveViewNative do
     |> put_routes()
 
     # Reloading routes must occur before the LV evaluates in Livebook.
-    # Otherwise the LV will not be avalaible for previously defined routes when changing the LV name.
+    # Otherwise the LV will not be available for previously defined routes when changing the LV name.
     IEx.Helpers.r(ServerWeb.Router)
     Phoenix.PubSub.broadcast!(Server.PubSub, "reloader", :trigger)
   end
