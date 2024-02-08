@@ -6,18 +6,11 @@ defmodule Server.Livebook do
       |> then(&("Elixir." <> &1))
       |> String.to_atom()
 
-    if is_registered_live_view?(module_name) do
-      IO.inspect("Replacing existing LiveView #{module_name}")
-      Livebook.Runtime.Evaluator.delete_module(module_name)
-    end
+    # Avoids module already defined error
+    Livebook.Runtime.Evaluator.delete_module(module_name)
 
     quote do
       Kernel.defmodule(unquote(alias), unquote(do_block))
     end
-  end
-
-  defp is_registered_live_view?(module_name) do
-    Server.SmartCells.LiveViewNative.get_routes()
-    |> Enum.any?(&(&1.module == module_name))
   end
 end

@@ -8,6 +8,7 @@ defmodule Server.SmartCells.LiveViewNative do
   use Kino.SmartCell, name: "LiveView Native"
 
   @registry_key :liveviews
+
   @impl true
   def init(attrs, ctx) do
     {:ok,
