@@ -8,7 +8,8 @@ defmodule KinoLiveViewNative.Application do
   @impl true
   def start(_type, _args) do
     children = [
-      {DNSCluster, query: Application.get_env(:kino_live_view_native, :dns_cluster_query) || :ignore},
+      {DNSCluster,
+       query: Application.get_env(:kino_live_view_native, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: KinoLiveViewNative.PubSub}
       # Start a worker by calling: KinoLiveViewNative.Worker.start_link(arg)
       # {KinoLiveViewNative.Worker, arg}

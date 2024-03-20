@@ -57,11 +57,16 @@ defmodule KinoLiveViewNativeWeb.MixProject do
       {:kino_live_view_native, in_umbrella: true},
       {:jason, "~> 1.2"},
       {:bandit, "~> 1.2"},
-      {:live_view_native, github: "liveview-native/live_view_native", branch: "main", override: true},
-      {:live_view_native_swiftui, github: "liveview-native/liveview-client-swiftui", tag: "0.3.0-alpha.4"},
-      {:live_view_native_jetpack, github: "liveview-native/liveview-client-jetpack", tag: "0.3.0-alpha.3"},
-      {:live_view_native_html, github: "liveview-native/live_view_native_html", tag: "0.3.0-alpha.3"},
-      {:live_view_native_stylesheet, github: "liveview-native/live_view_native_stylesheet", branch: "main", override: true},
+      {:live_view_native,
+       github: "liveview-native/live_view_native", branch: "main", override: true},
+      {:live_view_native_swiftui,
+       github: "liveview-native/liveview-client-swiftui", tag: "0.3.0-alpha.4"},
+      {:live_view_native_jetpack,
+       github: "liveview-native/liveview-client-jetpack", tag: "0.3.0-alpha.3"},
+      {:live_view_native_html,
+       github: "liveview-native/live_view_native_html", tag: "0.3.0-alpha.3"},
+      {:live_view_native_stylesheet,
+       github: "liveview-native/live_view_native_stylesheet", branch: "main", override: true}
     ]
   end
 

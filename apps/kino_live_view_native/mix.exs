@@ -38,7 +38,7 @@ defmodule KinoLiveViewNative.MixProject do
     [
       {:dns_cluster, "~> 0.1.1"},
       {:phoenix_pubsub, "~> 2.1"},
-      {:kino, "~> 0.12.3"},
+      {:kino, "~> 0.12.3"}
     ]
   end
 

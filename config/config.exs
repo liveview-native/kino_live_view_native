@@ -13,7 +13,7 @@ config :kino_live_view_native_web,
   generators: [context_app: :kino_live_view_native]
 
 # Configures the endpoint
-config :kino_live_view_native_web, KinoLiveViewNativeWeb.Endpoint,
+config :kino_live_view_native, KinoLiveViewNativeWeb.Endpoint,
   url: [host: "localhost"],
   adapter: Bandit.PhoenixAdapter,
   render_errors: [
@@ -53,7 +53,20 @@ config :logger, :console,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
-config :live_view_native, plugins: [LiveViewNative.SwiftUI]
+config :live_view_native, plugins: [
+  LiveViewNative.SwiftUI,
+  LiveViewNative.Jetpack,
+  LiveViewNative.HTML
+]
+
+config :live_view_native_stylesheet,
+  content: [
+    swiftui: [
+      "lib/**/*swiftui*",
+      "notebooks/example.livemd"
+    ]
+  ],
+  output: "priv/static/assets"
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

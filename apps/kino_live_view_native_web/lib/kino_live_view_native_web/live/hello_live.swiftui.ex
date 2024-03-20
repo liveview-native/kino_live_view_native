@@ -7,9 +7,9 @@ defmodule KinoLiveViewNativeWeb.HelloLive.SwiftUI do
     format: :swiftui,
     as: :render
 
-    # def render(assigns, _interface) do
-    #   ~LVN"""
-    #   <Text>Hello, SwiftUI!</Text>
-    #   """
-    # end
+  # def render(assigns, _interface) do
+  #   ~LVN"""
+  #   <Text>Hello, SwiftUI!</Text>
+  #   """
+  # end
 end
