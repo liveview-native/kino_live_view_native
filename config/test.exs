@@ -2,7 +2,7 @@ import Config
 
 # We don't run a server during test. If one is required,
 # you can enable the server option below.
-config :kino_live_view_native_web, KinoLiveViewNativeWeb.Endpoint,
+config :server_web, ServerWeb.Endpoint,
   http: [ip: {127, 0, 0, 1}, port: 4002],
   secret_key_base: "8x6ponBadUlD+dv3M5oWegidCrv+uyGZeS0GNc6ShEnwUrfbCpH643eUuHArLctN",
   server: false

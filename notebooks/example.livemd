@@ -1,25 +1,25 @@
-# KinoLiveViewNative
+# Server
 
 ```elixir
 Mix.install(
   [
-    # {:kino_live_view_native, path: "apps/kino_live_view_native"},
-    # {:kino_live_view_native_web, path: "apps/kino_live_view_native_web"}
-    {:kino_live_view_native_umbrella, path: "./"}
+    # {:server, path: "apps/server"},
+    # {:server_web, path: "apps/server_web"}
+    {:kino_live_view_native, path: "./"}
   ],
-  # [{:kino_live_view_native,  "~> 0.2.2"}],
+  # [{:server,  "~> 0.2.2"}],
   config: [
-    kino_live_view_native: [
-      {KinoLiveViewNativeWeb.Endpoint,
+    server: [
+      {ServerWeb.Endpoint,
        [
          server: true,
          url: [host: "localhost"],
          adapter: Phoenix.Endpoint.Cowboy2Adapter,
          render_errors: [
-           formats: [html: KinoLiveViewNativeWeb.ErrorHTML, json: KinoLiveViewNativeWeb.ErrorJSON],
+           formats: [html: ServerWeb.ErrorHTML, json: ServerWeb.ErrorJSON],
            layout: false
          ],
-         pubsub_server: KinoLiveViewNative.PubSub,
+         pubsub_server: Server.PubSub,
          live_view: [signing_salt: "JSgdVVL6"],
          http: [ip: {127, 0, 0, 1}, port: 4000],
          secret_key_base: String.duplicate("a", 64),
@@ -57,11 +57,11 @@ Mix.install(
 
 ## Quickstart
 
-<!-- livebook:{"attrs":"eyJhY3Rpb24iOiI6aW5kZXgiLCJjb2RlIjoiZGVmbW9kdWxlIEtpbm9MaXZlVmlld05hdGl2ZVdlYi5Ib21lTGl2ZS5Td2lmdFVJIGRvXG4gIHVzZSBMaXZlVmlld05hdGl2ZS5Db21wb25lbnQsXG4gICAgZm9ybWF0OiA6c3dpZnR1aVxuXG4gIGRlZiByZW5kZXIoYXNzaWducywgX2ludGVyZmFjZSkgZG9cbiAgICB+TFZOXCJcIlwiXG4gICAgPFRleHQgY2xhc3M9XCJjb2xvci1ibHVlXCI+SGVsbG8sIGZyb20gTGl2ZVZpZXcgTmF0aXZlITwvVGV4dD5cbiAgICBcIlwiXCJcbiAgZW5kXG5lbmRcblxuZGVmbW9kdWxlIEtpbm9MaXZlVmlld05hdGl2ZVdlYi5Ib21lTGl2ZSBkb1xuICB1c2UgS2lub0xpdmVWaWV3TmF0aXZlV2ViLCA6bGl2ZV92aWV3XG5cbiAgdXNlIExpdmVWaWV3TmF0aXZlLkxpdmVWaWV3LFxuICAgIGZvcm1hdHM6IFs6c3dpZnR1aV0sXG4gICAgbGF5b3V0czogW1xuICAgICAgc3dpZnR1aToge0tpbm9MaXZlVmlld05hdGl2ZVdlYi5MYXlvdXRzLlN3aWZ0VUksIDphcHB9XG4gICAgXVxuXG4gIEBpbXBsIHRydWVcbiAgZGVmIHJlbmRlcihhc3NpZ25zKSBkb1xuICAgIH5IXCJcIlwiXG4gICAgPHA+SGVsbG8gZnJvbSBMaXZlVmlldyE8L3A+XG4gICAgXCJcIlwiXG4gIGVuZFxuZW5kIiwicGF0aCI6Ii8ifQ","chunks":[[0,109],[111,560],[673,71],[746,63]],"kind":"Elixir.KinoLiveViewNative.SmartCells.LiveViewNative","livebook_object":"smart_cell"} -->
+<!-- livebook:{"attrs":"eyJhY3Rpb24iOiI6aW5kZXgiLCJjb2RlIjoiZGVmbW9kdWxlIEtpbm9MaXZlVmlld05hdGl2ZVdlYi5Ib21lTGl2ZS5Td2lmdFVJIGRvXG4gIHVzZSBMaXZlVmlld05hdGl2ZS5Db21wb25lbnQsXG4gICAgZm9ybWF0OiA6c3dpZnR1aVxuXG4gIGRlZiByZW5kZXIoYXNzaWducywgX2ludGVyZmFjZSkgZG9cbiAgICB+TFZOXCJcIlwiXG4gICAgPFRleHQgY2xhc3M9XCJjb2xvci1ibHVlXCI+SGVsbG8sIGZyb20gTGl2ZVZpZXcgTmF0aXZlITwvVGV4dD5cbiAgICBcIlwiXCJcbiAgZW5kXG5lbmRcblxuZGVmbW9kdWxlIEtpbm9MaXZlVmlld05hdGl2ZVdlYi5Ib21lTGl2ZSBkb1xuICB1c2UgS2lub0xpdmVWaWV3TmF0aXZlV2ViLCA6bGl2ZV92aWV3XG5cbiAgdXNlIExpdmVWaWV3TmF0aXZlLkxpdmVWaWV3LFxuICAgIGZvcm1hdHM6IFs6c3dpZnR1aV0sXG4gICAgbGF5b3V0czogW1xuICAgICAgc3dpZnR1aToge0tpbm9MaXZlVmlld05hdGl2ZVdlYi5MYXlvdXRzLlN3aWZ0VUksIDphcHB9XG4gICAgXVxuXG4gIEBpbXBsIHRydWVcbiAgZGVmIHJlbmRlcihhc3NpZ25zKSBkb1xuICAgIH5IXCJcIlwiXG4gICAgPHA+SGVsbG8gZnJvbSBMaXZlVmlldyE8L3A+XG4gICAgXCJcIlwiXG4gIGVuZFxuZW5kIiwicGF0aCI6Ii8ifQ","chunks":[[0,85],[87,560],[649,59],[710,51]],"kind":"Elixir.Server.SmartCells.LiveViewNative","livebook_object":"smart_cell"} -->
 
 ```elixir
-require KinoLiveViewNative.Livebook
-import KinoLiveViewNative.Livebook
+require Server.Livebook
+import Server.Livebook
 import Kernel, except: [defmodule: 2]
 
 defmodule KinoLiveViewNativeWeb.HomeLive.SwiftUI do
@@ -91,23 +91,23 @@ defmodule KinoLiveViewNativeWeb.HomeLive do
     """
   end
 end
-|> KinoLiveViewNative.SmartCells.LiveViewNative.register("/", ":index")
+|> Server.SmartCells.LiveViewNative.register("/", ":index")
 
-import KinoLiveViewNative.Livebook, only: []
+import Server.Livebook, only: []
 import Kernel
 :ok
 ```
 
-To use the KinoLiveViewNative project we need to install it. You can include the following in your Notebook dependencies and setup section of Livebook.
+To use the Server project we need to install it. You can include the following in your Notebook dependencies and setup section of Livebook.
 
 <!-- livebook:{"force_markdown":true} -->
 
 ```elixir
 Mix.install(
-  [{:kino_live_view_native, path: "./"}],
-  # [{:kino_live_view_native,  "~> 0.2.2"}],
+  [{:server, path: "./"}],
+  # [{:server,  "~> 0.2.2"}],
   config: [
-    kino_live_view_native: [
+    server: [
       {ServerWeb.Endpoint,
        [
          server: true,
@@ -210,7 +210,7 @@ The last module in the code cell **must** be the LiveView, not the SwiftUI rende
 
 ### Live Reloading
 
-`KinoLiveViewNative` uses automatic code reloading, so anytime you change this file or evaluate one of the `LiveView Native` smart cells, the server will hot reload the page.
+`Server` uses automatic code reloading, so anytime you change this file or evaluate one of the `LiveView Native` smart cells, the server will hot reload the page.
 
 Evaluate the cell below that changes the text, and you should see the application reload in your simulator.
 

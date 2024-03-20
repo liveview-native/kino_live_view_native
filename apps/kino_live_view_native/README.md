@@ -1,3 +1,0 @@
-# KinoLiveViewNative
-
-**TODO: Add description**

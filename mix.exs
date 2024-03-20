@@ -3,7 +3,7 @@ defmodule KinoLiveViewNative.Umbrella.MixProject do
 
   def project do
     [
-      app: :kino_live_view_native_umbrella,
+      app: :kino_live_view_native,
       apps_path: "apps",
       version: "0.1.0",
       start_permanent: Mix.env() == :prod,

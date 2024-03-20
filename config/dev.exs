@@ -6,7 +6,7 @@ import Config
 # The watchers configuration can be used to run external
 # watchers to your application. For example, we can use it
 # to bundle .js and .css sources.
-config :kino_live_view_native, KinoLiveViewNativeWeb.Endpoint,
+config :server, ServerWeb.Endpoint,
   # Binding to loopback ipv4 address prevents access from other machines.
   # Change to `ip: {0, 0, 0, 0}` to allow access from other machines.
   http: [ip: {127, 0, 0, 1}, port: 4000],
@@ -16,8 +16,8 @@ config :kino_live_view_native, KinoLiveViewNativeWeb.Endpoint,
   secret_key_base: "E3afHVwcO6+D7UDUJpwVwyfiXVymBcqSt42F7syOM+gGdPhv8ZQ72862N7VUNM+e",
   watchers: [
     esbuild:
-      {Esbuild, :install_and_run, [:kino_live_view_native_web, ~w(--sourcemap=inline --watch)]},
-    tailwind: {Tailwind, :install_and_run, [:kino_live_view_native_web, ~w(--watch)]}
+      {Esbuild, :install_and_run, [:server_web, ~w(--sourcemap=inline --watch)]},
+    tailwind: {Tailwind, :install_and_run, [:server_web, ~w(--watch)]}
   ]
 
 # ## SSL Support
@@ -44,17 +44,17 @@ config :kino_live_view_native, KinoLiveViewNativeWeb.Endpoint,
 # different ports.
 
 # Watch static and templates for browser reloading.
-config :kino_live_view_native_web, KinoLiveViewNativeWeb.Endpoint,
+config :server_web, ServerWeb.Endpoint,
   live_reload: [
     patterns: [
       ~r"priv/static/(?!uploads/).*(js|css|png|jpeg|jpg|gif|svg)$",
       ~r"priv/gettext/.*(po)$",
-      ~r"lib/kino_live_view_native_web/(controllers|live|components)/.*(ex|heex)$"
+      ~r"lib/server_web/(controllers|live|components)/.*(ex|heex)$"
     ]
   ]
 
 # Enable dev routes for dashboard and mailbox
-config :kino_live_view_native_web, dev_routes: true
+config :server_web, dev_routes: true
 
 # Do not include metadata nor timestamps in development logs
 config :logger, :console, format: "[$level] $message\n"

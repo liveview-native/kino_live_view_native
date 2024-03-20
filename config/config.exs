@@ -9,40 +9,40 @@
 # move said applications out of the umbrella.
 import Config
 
-config :kino_live_view_native_web,
-  generators: [context_app: :kino_live_view_native]
+config :server_web,
+  generators: [context_app: :server]
 
 # Configures the endpoint
-config :kino_live_view_native, KinoLiveViewNativeWeb.Endpoint,
+config :server, ServerWeb.Endpoint,
   url: [host: "localhost"],
   adapter: Bandit.PhoenixAdapter,
   render_errors: [
-    formats: [html: KinoLiveViewNativeWeb.ErrorHTML, json: KinoLiveViewNativeWeb.ErrorJSON],
+    formats: [html: ServerWeb.ErrorHTML, json: ServerWeb.ErrorJSON],
     layout: false
   ],
-  pubsub_server: KinoLiveViewNative.PubSub,
+  pubsub_server: Server.PubSub,
   live_view: [signing_salt: "MNtzIgwp"]
 
 # Configure esbuild (the version is required)
 config :esbuild,
   version: "0.17.11",
-  kino_live_view_native_web: [
+  server_web: [
     args:
       ~w(js/app.js --bundle --target=es2017 --outdir=../priv/static/assets --external:/fonts/* --external:/images/*),
-    cd: Path.expand("../apps/kino_live_view_native_web/assets", __DIR__),
+    cd: Path.expand("../apps/server_web/assets", __DIR__),
     env: %{"NODE_PATH" => Path.expand("../deps", __DIR__)}
   ]
 
 # Configure tailwind (the version is required)
 config :tailwind,
   version: "3.4.0",
-  kino_live_view_native_web: [
+  server_web: [
     args: ~w(
       --config=tailwind.config.js
       --input=css/app.css
       --output=../priv/static/assets/app.css
     ),
-    cd: Path.expand("../apps/kino_live_view_native_web/assets", __DIR__)
+    cd: Path.expand("../apps/server_web/assets", __DIR__)
   ]
 
 # Configures Elixir's Logger
