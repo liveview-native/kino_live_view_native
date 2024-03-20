@@ -22,4 +22,16 @@ erl_crash.dump
 # Temporary files, for example, from tests.
 /tmp/
 
+# Ignore package tarball (built via "mix hex.build").
+kino_live_view_native_web-*.tar
+
+# Ignore assets that are produced by build tools.
+/priv/static/assets/
+
+# Ignore digested assets cache.
+/priv/static/cache_manifest.json
+
+# In case you use Node.js/npm, you want to ignore these.
+npm-debug.log
+/assets/node_modules/
 

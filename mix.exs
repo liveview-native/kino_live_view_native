@@ -1,70 +1,33 @@
-defmodule Server.MixProject do
+defmodule KinoLiveViewNative.Umbrella.MixProject do
   use Mix.Project
-  @version "0.2.2"
-  @source_url "https://github.com/liveview-native/kino_live_view_native"
 
   def project do
     [
-      app: :kino_live_view_native,
-      version: @version,
-      elixir: "~> 1.15",
-      elixirc_paths: elixirc_paths(Mix.env()),
+      app: :kino_live_view_native_umbrella,
+      apps_path: "apps",
+      version: "0.1.0",
       start_permanent: Mix.env() == :prod,
-      aliases: aliases(),
       deps: deps(),
-      description: "LiveView Native code examples using Kino Smart Cells inside Livebook",
-      docs: [
-        source_ref: "v#{@version}",
-        # The main page in the docs
-        main: "example",
-        logo: "priv/static/images/logo.png",
-        extras: ["notebooks/example.livemd"]
-      ],
-      package: package()
+      aliases: aliases()
     ]
   end
 
-  # Configuration for the OTP application.
+  # Dependencies can be Hex packages:
   #
-  # Type `mix help compile.app` for more information.
-  def application do
-    [
-      mod: {Server.Application, []},
-      extra_applications: [:logger, :runtime_tools]
-    ]
-  end
-
-  # Specifies which paths to compile per environment.
-  defp elixirc_paths(:test), do: ["lib", "test/support"]
-  defp elixirc_paths(_), do: ["lib"]
-
-  # Specifies your project dependencies.
+  #   {:mydep, "~> 0.3.0"}
   #
-  # Type `mix help deps` for examples and options.
+  # Or git/path repositories:
+  #
+  #   {:mydep, git: "https://github.com/elixir-lang/mydep.git", tag: "0.1.0"}
+  #
+  # Type "mix help deps" for more examples and options.
+  #
+  # Dependencies listed here are available only for this project
+  # and cannot be accessed from applications inside the apps/ folder.
   defp deps do
     [
-      {:phoenix, "~> 1.7.10"},
-      {:phoenix_html, "~> 3.3"},
-      {:phoenix_live_reload, "~> 1.2"},
-      {:phoenix_live_view, github: "phoenixframework/phoenix_live_view", ref: "476d1cd288474d7acb33424a74b304b4e9495ff1", override: true},
-      {:floki, ">= 0.30.0"},
-      {:phoenix_live_dashboard, "~> 0.8.2"},
-      {:esbuild, "~> 0.8", runtime: Mix.env() == :dev},
-      {:tailwind, "~> 0.2.0", runtime: Mix.env() == :dev},
-      {:finch, "~> 0.13"},
-      {:telemetry_metrics, "~> 0.6"},
-      {:telemetry_poller, "~> 1.0"},
-      {:gettext, "~> 0.20"},
-      {:jason, "~> 1.2"},
-      {:dns_cluster, "~> 0.1.1"},
-      {:plug_cowboy, "~> 2.5"},
-      {:live_view_native, github: "liveview-native/live_view_native", tag: "0.3.0-alpha.3"},
-      {:live_view_native_swiftui, github: "liveview-native/liveview-client-swiftui", tag: "0.3.0-alpha.4"},
-      {:live_view_native_jetpack, github: "liveview-native/liveview-client-jetpack", tag: "0.3.0-alpha.3"},
-      {:live_view_native_html, github: "liveview-native/live_view_native_html", tag: "0.3.0-alpha.3"},
-      {:live_view_native_stylesheet, github: "liveview-native/live_view_native_stylesheet", tag: "0.3.0-alpha.4", override: true},
-      {:kino, "~> 0.12.3"},
-      {:ex_doc, "~> 0.31.0", only: :dev, runtime: false}
+      # Required to run "mix format" on ~H/.heex files from the umbrella root
+      # {:phoenix_live_view, ">= 0.0.0"}
     ]
   end
 
@@ -74,24 +37,13 @@ defmodule Server.MixProject do
   #     $ mix setup
   #
   # See the documentation for `Mix` for more info on aliases.
+  #
+  # Aliases listed here are available only for this project
+  # and cannot be accessed from applications inside the apps/ folder.
   defp aliases do
     [
-      setup: ["deps.get", "assets.setup", "assets.build"],
-      "assets.setup": ["tailwind.install --if-missing", "esbuild.install --if-missing"],
-      "assets.build": ["tailwind default", "esbuild default"],
-      "assets.deploy": ["tailwind default --minify", "esbuild default --minify", "phx.digest"]
+      # run `mix setup` in all child apps
+      setup: ["cmd mix setup"]
     ]
-  end
-
-  # Hex package configuration
-  defp package do
-    %{
-      maintainers: ["Brooklin Myers"],
-      licenses: ["MIT"],
-      links: %{
-        "GitHub" => @source_url
-      },
-      source_url: @source_url
-    }
   end
 end

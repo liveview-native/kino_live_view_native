@@ -22,4 +22,5 @@ erl_crash.dump
 # Temporary files, for example, from tests.
 /tmp/
 
-
+# Ignore package tarball (built via "mix hex.build").
+kino_live_view_native-*.tar
