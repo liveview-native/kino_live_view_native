@@ -1,15 +1,3 @@
 defmodule ServerWeb.HelloLive.SwiftUI do
-  # use LiveViewNative.Component,
-  #   format: :swiftui,
-  #   as: :render
-
-  use LiveViewNative.Component,
-    format: :swiftui,
-    as: :render
-
-  # def render(assigns, _interface) do
-  #   ~LVN"""
-  #   <Text>Hello, SwiftUI!</Text>
-  #   """
-  # end
+  use ServerNative, [:render_component, format: :swiftui]
 end

@@ -19,7 +19,7 @@ defmodule ServerWeb.Endpoint do
   # when deploying your static files in production.
   plug Plug.Static,
     at: "/",
-    from: :server,
+    from: :server_web,
     gzip: false,
     only: ServerWeb.static_paths()
 
