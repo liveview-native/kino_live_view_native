@@ -45,7 +45,7 @@ Mix.install(
       content: [
         swiftui: [
           "lib/**/*swiftui*",
-          "notebooks/example.livemd"
+          __ENV__.file
         ]
       ],
       output: "priv/static/assets"
@@ -57,26 +57,34 @@ Mix.install(
 
 ## Quickstart
 
-<!-- livebook:{"attrs":"eyJhY3Rpb24iOiI6aW5kZXgiLCJjb2RlIjoiZGVmbW9kdWxlIEtpbm9MaXZlVmlld05hdGl2ZVdlYi5Ib21lTGl2ZS5Td2lmdFVJIGRvXG4gIHVzZSBMaXZlVmlld05hdGl2ZS5Db21wb25lbnQsXG4gICAgZm9ybWF0OiA6c3dpZnR1aVxuXG4gIGRlZiByZW5kZXIoYXNzaWducywgX2ludGVyZmFjZSkgZG9cbiAgICB+TFZOXCJcIlwiXG4gICAgPFRleHQgY2xhc3M9XCJjb2xvci1ibHVlXCI+SGVsbG8sIGZyb20gTGl2ZVZpZXcgTmF0aXZlITwvVGV4dD5cbiAgICBcIlwiXCJcbiAgZW5kXG5lbmRcblxuZGVmbW9kdWxlIEtpbm9MaXZlVmlld05hdGl2ZVdlYi5Ib21lTGl2ZSBkb1xuICB1c2UgS2lub0xpdmVWaWV3TmF0aXZlV2ViLCA6bGl2ZV92aWV3XG5cbiAgdXNlIExpdmVWaWV3TmF0aXZlLkxpdmVWaWV3LFxuICAgIGZvcm1hdHM6IFs6c3dpZnR1aV0sXG4gICAgbGF5b3V0czogW1xuICAgICAgc3dpZnR1aToge0tpbm9MaXZlVmlld05hdGl2ZVdlYi5MYXlvdXRzLlN3aWZ0VUksIDphcHB9XG4gICAgXVxuXG4gIEBpbXBsIHRydWVcbiAgZGVmIHJlbmRlcihhc3NpZ25zKSBkb1xuICAgIH5IXCJcIlwiXG4gICAgPHA+SGVsbG8gZnJvbSBMaXZlVmlldyE8L3A+XG4gICAgXCJcIlwiXG4gIGVuZFxuZW5kIiwicGF0aCI6Ii8ifQ","chunks":[[0,85],[87,560],[649,59],[710,51]],"kind":"Elixir.Server.SmartCells.LiveViewNative","livebook_object":"smart_cell"} -->
+```elixir
+__ENV__.file
+```
+
+```elixir
+# Mix.Project.config()
+```
+
+<!-- livebook:{"attrs":"eyJhY3Rpb24iOiI6aW5kZXgiLCJjb2RlIjoiZGVmbW9kdWxlIFNlcnZlcldlYi5Ib21lTGl2ZS5Td2lmdFVJIGRvXG4gIHVzZSBMaXZlVmlld05hdGl2ZS5Db21wb25lbnQsXG4gICAgZm9ybWF0OiA6c3dpZnR1aVxuXG4gIGRlZiByZW5kZXIoYXNzaWducywgX2ludGVyZmFjZSkgZG9cbiAgICB+TFZOXCJcIlwiXG4gICAgPFRleHQgY2xhc3M9XCJjb2xvci1yZWRcIj5IZWxsbywgZnJvbSBMaXZlYm9vayE8L1RleHQ+XG4gICAgXCJcIlwiXG4gIGVuZFxuZW5kXG5cbmRlZm1vZHVsZSBTZXJ2ZXJXZWIuSG9tZUxpdmUgZG9cbiAgdXNlIFNlcnZlcldlYiwgOmxpdmVfdmlld1xuXG4gIHVzZSBMaXZlVmlld05hdGl2ZS5MaXZlVmlldyxcbiAgICBmb3JtYXRzOiBbOnN3aWZ0dWldLFxuICAgIGxheW91dHM6IFtcbiAgICAgIHN3aWZ0dWk6IHtLaW5vTGl2ZVZpZXdOYXRpdmVXZWIuTGF5b3V0cy5Td2lmdFVJLCA6YXBwfVxuICAgIF1cblxuICBAaW1wbCB0cnVlXG4gIGRlZiByZW5kZXIoYXNzaWducykgZG9cbiAgICB+SFwiXCJcIlxuICAgIDxwPkhlbGxvIGZyb20gTGl2ZVZpZXchPC9wPlxuICAgIFwiXCJcIlxuICBlbmRcbmVuZCIsInBhdGgiOiIvaGVsbG8ifQ","chunks":[[0,85],[87,516],[605,64],[671,51]],"kind":"Elixir.Server.SmartCells.LiveViewNative","livebook_object":"smart_cell"} -->
 
 ```elixir
 require Server.Livebook
 import Server.Livebook
 import Kernel, except: [defmodule: 2]
 
-defmodule KinoLiveViewNativeWeb.HomeLive.SwiftUI do
+defmodule ServerWeb.HomeLive.SwiftUI do
   use LiveViewNative.Component,
     format: :swiftui
 
   def render(assigns, _interface) do
     ~LVN"""
-    <Text class="color-blue">Hello, from LiveView Native!</Text>
+    <Text class="color-red">Hello, from Livebook!</Text>
     """
   end
 end
 
-defmodule KinoLiveViewNativeWeb.HomeLive do
-  use KinoLiveViewNativeWeb, :live_view
+defmodule ServerWeb.HomeLive do
+  use ServerWeb, :live_view
 
   use LiveViewNative.LiveView,
     formats: [:swiftui],
@@ -91,7 +99,7 @@ defmodule KinoLiveViewNativeWeb.HomeLive do
     """
   end
 end
-|> Server.SmartCells.LiveViewNative.register("/", ":index")
+|> Server.SmartCells.LiveViewNative.register("/hello", ":index")
 
 import Server.Livebook, only: []
 import Kernel
