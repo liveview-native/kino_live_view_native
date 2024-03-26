@@ -19,7 +19,7 @@ defmodule ServerWeb.Endpoint do
   # when deploying your static files in production.
   plug Plug.Static,
     at: "/",
-    from: :server_web,
+    from: :server,
     gzip: false,
     only: ServerWeb.static_paths()
 
@@ -29,7 +29,7 @@ defmodule ServerWeb.Endpoint do
   socket "/phoenix/live_reload/socket", ServerWeb.LiveReloader.Socket
   plug Phoenix.LiveReloader
   plug LiveViewNative.LiveReloader
-  plug Phoenix.CodeReloader
+  plug Phoenix.CodeReloader, reloader: &Server.CodeReloader.reload!/2
   # end
 
   plug Phoenix.LiveDashboard.RequestLogger,
