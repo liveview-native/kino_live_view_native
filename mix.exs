@@ -6,7 +6,7 @@ defmodule KinoLiveViewNative.Umbrella.MixProject do
       app: :kino_live_view_native,
       apps_path: "apps",
       version: "0.1.0",
-      elixir: ">= 1.16.2","
+      elixir: ">= 1.16.2",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
       aliases: aliases()
