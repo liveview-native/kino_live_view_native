@@ -23,7 +23,7 @@ defmodule ServerWeb.Router do
       pipe_through :browser
 
       # Often used for debugging
-      live "/", ServerWeb.HelloLive
+      # live "/", ServerWeb.HelloLive
 
       Server.SmartCells.LiveViewNative.get_routes()
       |> Enum.map(fn %{path: path, module: module, action: action} ->
