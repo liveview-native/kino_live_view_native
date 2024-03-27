@@ -53,11 +53,12 @@ config :logger, :console,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
-config :live_view_native, plugins: [
-  LiveViewNative.SwiftUI,
-  LiveViewNative.Jetpack,
-  LiveViewNative.HTML
-]
+config :live_view_native,
+  plugins: [
+    LiveViewNative.SwiftUI,
+    LiveViewNative.Jetpack,
+    LiveViewNative.HTML
+  ]
 
 config :live_view_native_stylesheet,
   content: [

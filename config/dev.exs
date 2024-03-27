@@ -15,8 +15,7 @@ config :server, ServerWeb.Endpoint,
   debug_errors: true,
   secret_key_base: "E3afHVwcO6+D7UDUJpwVwyfiXVymBcqSt42F7syOM+gGdPhv8ZQ72862N7VUNM+e",
   watchers: [
-    esbuild:
-      {Esbuild, :install_and_run, [:server_web, ~w(--sourcemap=inline --watch)]},
+    esbuild: {Esbuild, :install_and_run, [:server_web, ~w(--sourcemap=inline --watch)]},
     tailwind: {Tailwind, :install_and_run, [:server_web, ~w(--watch)]}
   ]
 

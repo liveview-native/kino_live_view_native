@@ -26,10 +26,10 @@ defmodule ServerWeb.Router do
       # live "/", ServerWeb.HelloLive
 
       Server.SmartCells.LiveViewNative.get_routes()
-      |> Enum.map(fn %{path: path, module: module, action: action} ->
+      |> Enum.map(fn %{path: path, module: module} ->
         # Ensure module is a LiveView
         if Kernel.function_exported?(module, :__live__, 0) do
-          live(path, module, action)
+          live(path, module)
         else
           Logger.error("Module #{inspect(module)} is not a valid LiveView.")
         end

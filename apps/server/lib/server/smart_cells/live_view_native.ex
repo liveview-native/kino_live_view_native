@@ -12,10 +12,7 @@ defmodule Server.SmartCells.LiveViewNative do
   def init(attrs, ctx) do
     {:ok,
      ctx
-     |> assign(
-       path: attrs["path"] || "/",
-       action: attrs["action"] || ":index"
-     ),
+     |> assign(path: attrs["path"] || "/"),
      editor: [
        attribute: "code",
        language: "elixir",
@@ -25,14 +22,13 @@ defmodule Server.SmartCells.LiveViewNative do
 
   @impl true
   def handle_connect(ctx) do
-    {:ok, %{path: ctx.assigns.path, action: ctx.assigns.action}, ctx}
+    {:ok, %{path: ctx.assigns.path}, ctx}
   end
 
   @impl true
   def to_attrs(ctx) do
     %{
-      "path" => ctx.assigns.path,
-      "action" => ctx.assigns.action
+      "path" => ctx.assigns.path
     }
   end
 
@@ -58,7 +54,7 @@ defmodule Server.SmartCells.LiveViewNative do
 
   def register_module_source(attrs) do
     quote do
-      unquote(__MODULE__).register(unquote(attrs["path"]), unquote(attrs["action"]))
+      unquote(__MODULE__).register(unquote(attrs["path"]))
     end
     |> Kino.SmartCell.quoted_to_string()
   end
@@ -85,13 +81,8 @@ defmodule Server.SmartCells.LiveViewNative do
     Application.put_env(:server, @registry_key, routes)
   end
 
-  def register({:module, module, _, _}, path, action) do
-    action =
-      action
-      |> String.trim_leading(":")
-      |> String.to_atom()
-
-    new_route = %{path: path, module: module, action: action}
+  def register({:module, module, _, _}, path) do
+    new_route = %{path: path, module: module}
 
     get_routes()
     # Remove existing route with the same path
@@ -107,16 +98,27 @@ defmodule Server.SmartCells.LiveViewNative do
   end
 
   def default_source() do
-    ~s[defmodule ServerWeb.ExampleLive do
-  use ServerWeb, :live_view
+  ~s[defmodule ServerWeb.ExampleLive.SwiftUI do
+  use LiveViewNative.Component,
+    format: :swiftui
 
-  @impl true
-  def render(%{format: :swiftui} = assigns) do
-    ~SWIFTUI"""
-    <Text>Hello from LiveView Native!</Text>
+  def render(assigns, _interface) do
+    ~LVN"""
+    <Text class="color-green">Hello, from LiveView Native!</Text>
     """
   end
+end
 
+defmodule ServerWeb.ExampleLive do
+  use ServerWeb, :live_view
+
+  use LiveViewNative.LiveView,
+    formats: \[:swiftui\],
+    layouts: \[
+      swiftui: {ServerWeb.Layouts.SwiftUI, :app}
+    \]
+
+  @impl true
   def render(assigns) do
     ~H"""
     <p>Hello from LiveView!</p>
@@ -135,9 +137,6 @@ end]
         <div class="app">
           <label class="label">Route</label>
           <input class="input" type="text" name="path" />
-
-          <label class="label">Action</label>
-          <input class="input" type="text" name="action" />
         </div>
       `;
 
@@ -155,7 +154,6 @@ end]
       }
 
       sync("path")
-      sync("action")
 
       ctx.handleSync(() => {
           // Synchronously invokes change listeners

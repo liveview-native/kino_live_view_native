@@ -8,8 +8,7 @@ defmodule Server.Application do
   @impl true
   def start(_type, _args) do
     children = [
-      {DNSCluster,
-       query: Application.get_env(:server, :dns_cluster_query) || :ignore},
+      {DNSCluster, query: Application.get_env(:server, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: Server.PubSub}
       # Start a worker by calling: Server.Worker.start_link(arg)
       # {Server.Worker, arg}
