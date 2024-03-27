@@ -13,16 +13,6 @@ defmodule ServerWeb.Endpoint do
 
   socket "/live", Phoenix.LiveView.Socket, websocket: [connect_info: [session: @session_options]]
 
-  # Serve at "/" the static files from "priv/static" directory.
-  #
-  # You should set gzip to true if you are running phx.digest
-  # when deploying your static files in production.
-  plug Plug.Static,
-    at: "/",
-    from: :server,
-    gzip: false,
-    only: ServerWeb.static_paths()
-
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.
   # if code_reloading? do
@@ -31,6 +21,16 @@ defmodule ServerWeb.Endpoint do
   plug LiveViewNative.LiveReloader
   plug Phoenix.CodeReloader, reloader: &Server.CodeReloader.reload!/2
   # end
+
+  # Serve at "/" the static files from "priv/static" directory.
+  #
+  # You should set gzip to true if you are running phx.digest
+  # when deploying your static files in production.
+  plug Plug.Static,
+    at: "/",
+    from: :server_web,
+    gzip: false,
+    only: ServerWeb.static_paths()
 
   plug Phoenix.LiveDashboard.RequestLogger,
     param_key: "request_logger",

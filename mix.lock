@@ -16,6 +16,7 @@
   "hpax": {:hex, :hpax, "0.1.2", "09a75600d9d8bbd064cdd741f21fc06fc1f4cf3d0fcc335e5aa19be1a7235c84", [:mix], [], "hexpm", "2c87843d5a23f5f16748ebe77969880e29809580efdaccd615cd3bed628a8c13"},
   "jason": {:hex, :jason, "1.4.1", "af1504e35f629ddcdd6addb3513c3853991f694921b1b9368b0bd32beb9f1b63", [:mix], [{:decimal, "~> 1.0 or ~> 2.0", [hex: :decimal, repo: "hexpm", optional: true]}], "hexpm", "fbb01ecdfd565b56261302f7e1fcc27c4fb8f32d56eab74db621fc154604a7a1"},
   "kino": {:hex, :kino, "0.12.3", "a5f48a243c60a7ac18ba23869f697b1c775fc7794e8cd55dd248ba33c6fe9445", [:mix], [{:fss, "~> 0.1.0", [hex: :fss, repo: "hexpm", optional: false]}, {:nx, "~> 0.1", [hex: :nx, repo: "hexpm", optional: true]}, {:table, "~> 0.1.2", [hex: :table, repo: "hexpm", optional: false]}], "hexpm", "a6dfa3d54ba0edec9ca6e5940154916b381901001f171c85a2d8c67869dbc2d8"},
+  "live_view_native": {:git, "https://github.com/liveview-native/live_view_native.git", "3c38123a9e6d8b9b682fb3b4c46833801118a060", [branch: "main"]},
   "live_view_native_html": {:git, "https://github.com/liveview-native/live_view_native_html.git", "819b736aadaa0cf48410352c8d2b5633fa300484", [tag: "0.3.0-alpha.3"]},
   "live_view_native_jetpack": {:git, "https://github.com/liveview-native/liveview-client-jetpack.git", "7836c95b109b06ea676e499ac75bb9be9d443cbb", [tag: "0.3.0-alpha.3"]},
   "live_view_native_stylesheet": {:git, "https://github.com/liveview-native/live_view_native_stylesheet.git", "2f35719126b01dd621c055982cdd3e2ad0cb66a7", [branch: "main"]},
