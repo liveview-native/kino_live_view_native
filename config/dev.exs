@@ -6,17 +6,18 @@ import Config
 # The watchers configuration can be used to run external
 # watchers to your application. For example, we can use it
 # to bundle .js and .css sources.
-config :kino_live_view_native, ServerWeb.Endpoint,
+config :server, ServerWeb.Endpoint,
   # Binding to loopback ipv4 address prevents access from other machines.
   # Change to `ip: {0, 0, 0, 0}` to allow access from other machines.
   http: [ip: {127, 0, 0, 1}, port: 4000],
   check_origin: false,
   code_reloader: true,
   debug_errors: true,
-  secret_key_base: "4IPyjNGRXTvE4qfeKWhUgy4KpqISVidP0Sz5mqfZNiaGlxE9ntrgIfRBZuAG2RCo",
+  secret_key_base: "E3afHVwcO6+D7UDUJpwVwyfiXVymBcqSt42F7syOM+gGdPhv8ZQ72862N7VUNM+e",
   watchers: [
-    esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]},
-    tailwind: {Tailwind, :install_and_run, [:default, ~w(--watch)]}
+    esbuild:
+      {Esbuild, :install_and_run, [:server_web, ~w(--sourcemap=inline --watch)]},
+    tailwind: {Tailwind, :install_and_run, [:server_web, ~w(--watch)]}
   ]
 
 # ## SSL Support
@@ -43,27 +44,27 @@ config :kino_live_view_native, ServerWeb.Endpoint,
 # different ports.
 
 # Watch static and templates for browser reloading.
-config :kino_live_view_native, ServerWeb.Endpoint,
+config :server_web, ServerWeb.Endpoint,
   live_reload: [
     patterns: [
-      ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
+      ~r"priv/static/(?!uploads/).*(js|css|png|jpeg|jpg|gif|svg)$",
       ~r"priv/gettext/.*(po)$",
       ~r"lib/server_web/(controllers|live|components)/.*(ex|heex)$"
     ]
   ]
 
 # Enable dev routes for dashboard and mailbox
-config :kino_live_view_native, dev_routes: true
+config :server_web, dev_routes: true
 
 # Do not include metadata nor timestamps in development logs
 config :logger, :console, format: "[$level] $message\n"
-
-# Set a higher stacktrace during development. Avoid configuring such
-# in production as building large stacktraces may be expensive.
-config :phoenix, :stacktrace_depth, 20
 
 # Initialize plugs at runtime for faster development compilation
 config :phoenix, :plug_init_mode, :runtime
 
 # Include HEEx debug annotations as HTML comments in rendered markup
 config :phoenix_live_view, :debug_heex_annotations, true
+
+# Set a higher stacktrace during development. Avoid configuring such
+# in production as building large stacktraces may be expensive.
+config :phoenix, :stacktrace_depth, 20
