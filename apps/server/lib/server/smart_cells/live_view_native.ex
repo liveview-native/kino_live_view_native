@@ -104,7 +104,7 @@ defmodule Server.SmartCells.LiveViewNative do
 
   def render(assigns, _interface) do
     ~LVN"""
-    <Text class="color-green">Hello, from LiveView Native!</Text>
+    <Text>Hello, from LiveView Native!</Text>
     """
   end
 end
