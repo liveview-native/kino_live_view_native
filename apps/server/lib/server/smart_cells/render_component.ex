@@ -1,18 +1,17 @@
-defmodule Server.SmartCells.LiveViewNative do
+defmodule Server.SmartCells.RenderComponent do
   require IEx.Helpers
   require Logger
 
   use Kino.JS
   use Kino.JS.Live
-  use Kino.SmartCell, name: "LiveView Native: LiveView"
+  use Kino.SmartCell, name: "LiveView Native: Render Component"
 
   @registry_key :liveviews
 
   @impl true
   def init(attrs, ctx) do
     {:ok,
-     ctx
-     |> assign(path: attrs["path"] || "/"),
+     ctx,
      editor: [
        attribute: "code",
        language: "elixir",
@@ -22,14 +21,12 @@ defmodule Server.SmartCells.LiveViewNative do
 
   @impl true
   def handle_connect(ctx) do
-    {:ok, %{path: ctx.assigns.path}, ctx}
+    {:ok, %{}, ctx}
   end
 
   @impl true
   def to_attrs(ctx) do
-    %{
-      "path" => ctx.assigns.path
-    }
+    %{}
   end
 
   @impl true
@@ -42,7 +39,7 @@ defmodule Server.SmartCells.LiveViewNative do
       import Kernel, except: [defmodule: 2]
       """,
       attrs["code"],
-      "|> #{register_module_source(attrs)}",
+      "|> #{register_module_source()}",
       # Restore the existing definition
       """
       import Server.Livebook, only: []
@@ -52,9 +49,9 @@ defmodule Server.SmartCells.LiveViewNative do
     ]
   end
 
-  def register_module_source(attrs) do
+  def register_module_source() do
     quote do
-      unquote(__MODULE__).register(unquote(attrs["path"]))
+      unquote(__MODULE__).register()
     end
     |> Kino.SmartCell.quoted_to_string()
   end
@@ -73,32 +70,18 @@ defmodule Server.SmartCells.LiveViewNative do
     {:noreply, ctx}
   end
 
-  def get_routes() do
-    Application.get_env(:server, @registry_key, [])
-  end
+  def register({:module, module, _, _}) do
+    live_view = to_string(module) |> String.split(".") |> List.delete("SwiftUI") |> Enum.join(".") |> String.to_atom()
 
-  defp put_routes(routes) do
-    Application.put_env(:server, @registry_key, routes)
-  end
-
-  def register({:module, module, _, _}, path) do
-    new_route = %{path: path, module: module}
-
-    get_routes()
-    # Remove existing route with the same path
-    |> Enum.reject(fn r -> r.path == path end)
-    |> Enum.filter(fn r -> is_valid_liveview(r.module) end)
-    |> Kernel.++([new_route])
-    |> put_routes()
-
-    # Reloading routes must occur before the LV evaluates in Livebook.
-    # Otherwise the LV will not be available for previously defined routes when changing the LV name.
-    IEx.Helpers.r(ServerWeb.Router)
-    Phoenix.PubSub.broadcast!(Server.PubSub, "reloader", :trigger)
+    if is_valid_liveview(live_view) do
+      Phoenix.PubSub.broadcast!(Server.PubSub, "reloader", :trigger)
+    else
+      raise "Missing #{live_view} module."
+    end
   end
 
   def default_source() do
-    ~s[defmodule ServerWeb.ExampleLive.SwiftUI do
+  ~s[defmodule ServerWeb.ExampleLive.SwiftUI do
   use LiveViewNative.Component,
     format: :swiftui
 
@@ -107,19 +90,6 @@ defmodule Server.SmartCells.LiveViewNative do
     <Text>Hello, from LiveView Native!</Text>
     """
   end
-end
-
-defmodule ServerWeb.ExampleLive do
-  use ServerWeb, :live_view
-
-  use LiveViewNative.LiveView,
-    formats: \[:swiftui\],
-    layouts: \[
-      swiftui: {ServerWeb.Layouts.SwiftUI, :app}
-    \]
-
-  @impl true
-  def render(assigns), do: ~H""
 end]
   end
 
@@ -131,32 +101,10 @@ end]
 
       root.innerHTML = `
         <div class="app">
-          <label class="label">LiveView route:</label>
-          <input class="input" type="text" name="path" />
+          <label class="label">Render component</label>
           <label style="margin-left: auto" class="label">View in simulator</label>
         </div>
       `;
-
-      const sync = (id) => {
-          const variableEl = ctx.root.querySelector(`[name="${id}"]`);
-          variableEl.value = payload[id];
-
-          variableEl.addEventListener("change", (event) => {
-            ctx.pushEvent(`update_${id}`, event.target.value);
-          });
-
-          ctx.handleEvent(`update_${id}`, (variable) => {
-            variableEl.value = variable;
-          });
-      }
-
-      sync("path")
-
-      ctx.handleSync(() => {
-          // Synchronously invokes change listeners
-          document.activeElement &&
-            document.activeElement.dispatchEvent(new Event("change"));
-      });
     }
     """
   end
@@ -201,7 +149,7 @@ end]
     if Kernel.function_exported?(module, :__live__, 0) do
       true
     else
-      Logger.error("Module #{inspect(module)} is not a valid LiveView.")
+      Logger.error("Module #{inspect(module)} is not a valid LiveView. Make sure to define the corresponding LiveView for this #{module} render component.")
       false
     end
   end
