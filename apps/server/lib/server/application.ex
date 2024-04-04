@@ -15,6 +15,7 @@ defmodule Server.Application do
     ]
 
     Kino.SmartCell.register(Server.SmartCells.LiveViewNative)
+    Kino.SmartCell.register(Server.SmartCells.RenderComponent)
 
     Supervisor.start_link(children, strategy: :one_for_one, name: Server.Supervisor)
   end
