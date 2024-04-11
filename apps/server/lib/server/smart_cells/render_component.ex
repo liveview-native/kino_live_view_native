@@ -82,8 +82,7 @@ defmodule Server.SmartCells.RenderComponent do
 
   def default_source() do
   ~s[defmodule ServerWeb.ExampleLive.SwiftUI do
-  use LiveViewNative.Component,
-    format: :swiftui
+  use ServerNative, \[:render_component, format: :swiftui\]
 
   def render(assigns, _interface) do
     ~LVN"""
@@ -102,7 +101,6 @@ end]
       root.innerHTML = `
         <div class="app">
           <label class="label">Render component</label>
-          <label style="margin-left: auto" class="label">View in simulator</label>
         </div>
       `;
     }

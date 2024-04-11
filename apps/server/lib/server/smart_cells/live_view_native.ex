@@ -99,8 +99,7 @@ defmodule Server.SmartCells.LiveViewNative do
 
   def default_source() do
     ~s[defmodule ServerWeb.ExampleLive.SwiftUI do
-  use LiveViewNative.Component,
-    format: :swiftui
+  use ServerNative, \[:render_component, format: :swiftui\]
 
   def render(assigns, _interface) do
     ~LVN"""
@@ -111,12 +110,7 @@ end
 
 defmodule ServerWeb.ExampleLive do
   use ServerWeb, :live_view
-
-  use LiveViewNative.LiveView,
-    formats: \[:swiftui\],
-    layouts: \[
-      swiftui: {ServerWeb.Layouts.SwiftUI, :app}
-    \]
+  use ServerNative, :live_view
 
   @impl true
   def render(assigns), do: ~H""
@@ -133,7 +127,6 @@ end]
         <div class="app">
           <label class="label">LiveView route:</label>
           <input class="input" type="text" name="path" />
-          <label style="margin-left: auto" class="label">View in simulator</label>
         </div>
       `;
 
