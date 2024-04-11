@@ -84,7 +84,7 @@ defmodule Server.SmartCells.RenderComponent do
   ~s[defmodule ServerWeb.ExampleLive.SwiftUI do
   use ServerNative, \[:render_component, format: :swiftui\]
 
-  def render(assigns, _interface) do
+  def render(assigns) do
     ~LVN"""
     <Text>Hello, from LiveView Native!</Text>
     """
