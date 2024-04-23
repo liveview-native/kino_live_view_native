@@ -1,1 +1,1 @@
-<Text class="color-blue">Hello, SwiftUI</Text>
+<Text class="font(.title)">Hello, SwiftUI</Text>

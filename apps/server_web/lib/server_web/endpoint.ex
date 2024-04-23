@@ -20,6 +20,7 @@ defmodule ServerWeb.Endpoint do
   plug Phoenix.LiveReloader
   plug LiveViewNative.LiveReloader
   plug Phoenix.CodeReloader, reloader: &Server.CodeReloader.reload!/2
+  # plug Phoenix.CodeReloader
   # end
 
   # Serve at "/" the static files from "priv/static" directory.

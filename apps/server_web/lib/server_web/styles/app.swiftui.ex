@@ -1,29 +1,11 @@
 defmodule ServerWeb.Styles.App.SwiftUI do
   use LiveViewNative.Stylesheet, :swiftui
+  @import LiveViewNative.SwiftUI.UtilityStyles
 
   # Add your styles here
   # Refer to your client's documentation on what the proper syntax
   # is for defining rules within classes
   ~SHEET"""
-  "color-red" do
-    foregroundColor(.red)
-  end
-
-  "color-blue" do
-    foregroundColor(.blue)
-  end
-
-  "color-green" do
-    foregroundColor(.green)
-  end
-
-  "color-orange" do
-    foregroundColor(.orange)
-  end
-
-  "color-yellow" do
-    foregroundColor(.yellow)
-  end
   """
 
   # If you need to have greater control over how your style rules are created
