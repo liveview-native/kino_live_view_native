@@ -21,6 +21,7 @@ defmodule ServerNative do
       use LiveViewNative.Component, unquote(opts)
 
       import ServerWeb.Gettext
+      import ServerWeb.CoreComponents.SwiftUI
 
       unquote(verified_routes())
     end
