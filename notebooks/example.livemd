@@ -50,6 +50,17 @@ Mix.install(
         ]
       ],
       output: "priv/static/assets"
+    ],
+    # Ensures that app.js compiles to avoid the switch to longpolling
+    # when a LiveView doesn't exist yet
+    esbuild: [
+      version: "0.17.11",
+      server_web: [
+        args:
+          ~w(js/app.js --bundle --target=es2017 --outdir=../priv/static/assets --external:/fonts/* --external:/images/*),
+        cd: Path.expand("../assets", __DIR__),
+        env: %{"NODE_PATH" => Path.expand("../deps", __DIR__)}
+      ]
     ]
   ],
   force: true
@@ -345,6 +356,88 @@ We can use the following debug function to test if a style exists.
 
 ```elixir
 ServerWeb.Styles.App.SwiftUI.class("foregroundStyle(.blue)")
+```
+
+## Forms
+
+LiveView Native core components supports both web components and native components, thus allowing us to share form logic.
+
+<!-- livebook:{"attrs":"eyJjb2RlIjoiZGVmbW9kdWxlIFNlcnZlcldlYi5FeGFtcGxlTGl2ZS5Td2lmdFVJIGRvXG4gIHVzZSBTZXJ2ZXJOYXRpdmUsIFs6cmVuZGVyX2NvbXBvbmVudCwgZm9ybWF0OiA6c3dpZnR1aV1cbiAgaW1wb3J0IFNlcnZlcldlYi5Db3JlQ29tcG9uZW50cy5Td2lmdFVJXG4gIFxuICBkZWYgcmVuZGVyKGFzc2lnbnMpIGRvXG4gICAgfkxWTlwiXCJcIlxuICAgIDwuc2ltcGxlX2Zvcm0gZm9yPXtAZm9ybX0gaWQ9XCJmb3JtXCIgcGh4LXN1Ym1pdD1cInN1Ym1pdFwiPlxuICAgICAgPC5pbnB1dCBmaWVsZD17QGZvcm1bOmVtYWlsXX0gdHlwZT1cIlRleHRGaWVsZFwiIHBsYWNlaG9sZGVyPVwiRW1haWxcIiAvPlxuICAgICAgPDphY3Rpb25zPlxuICAgICAgICA8LmJ1dHRvbiB0eXBlPVwic3VibWl0XCI+XG4gICAgICAgICAgU2VuZCBwYXNzd29yZCByZXNldCBpbnN0cnVjdGlvbnNcbiAgICAgICAgPC8uYnV0dG9uPlxuICAgICAgPC86YWN0aW9ucz5cbiAgICA8Ly5zaW1wbGVfZm9ybT5cbiAgICBcIlwiXCJcbiAgZW5kXG5lbmRcblxuZGVmbW9kdWxlIFNlcnZlcldlYi5FeGFtcGxlTGl2ZSBkb1xuICB1c2UgU2VydmVyV2ViLCA6bGl2ZV92aWV3XG4gIHVzZSBTZXJ2ZXJOYXRpdmUsIDpsaXZlX3ZpZXdcblxuICBAaW1wbCB0cnVlXG4gIGRlZiByZW5kZXIoYXNzaWducyksIGRvOiB+SFwiXCJcIlxuICA8LnNpbXBsZV9mb3JtIGZvcj17QGZvcm19IGlkPVwicmVzZXRfcGFzc3dvcmRfZm9ybVwiIHBoeC1zdWJtaXQ9XCJzdWJtaXRcIj5cbiAgICA8LmlucHV0IGZpZWxkPXtAZm9ybVs6ZW1haWxdfSBwbGFjZWhvbGRlcj1cIkVtYWlsXCIgLz5cbiAgICA8OmFjdGlvbnM+XG4gICAgICA8LmJ1dHRvbiB0eXBlPVwic3VibWl0XCI+XG4gICAgICAgIFNlbmQgcGFzc3dvcmQgcmVzZXQgaW5zdHJ1Y3Rpb25zXG4gICAgICA8Ly5idXR0b24+XG4gICAgPC86YWN0aW9ucz5cbiAgPC8uc2ltcGxlX2Zvcm0+XG4gIFwiXCJcIlxuXG4gIEBpbXBsIHRydWVcbiAgZGVmIG1vdW50KF9wYXJhbXMsIF9zZXNzaW9uLCBzb2NrZXQpIGRvXG4gICAgezpvaywgYXNzaWduKHNvY2tldCwgZm9ybTogdG9fZm9ybSgle30sIGFzOiBcInVzZXJcIikpfVxuICBlbmRcblxuICBAaW1wbCB0cnVlXG4gIGRlZiBoYW5kbGVfZXZlbnQoXCJzdWJtaXRcIiwgcGFyYW1zLCBzb2NrZXQpIGRvXG4gICAgSU8uaW5zcGVjdChwYXJhbXMpXG4gICAgezpub3JlcGx5LCBzb2NrZXR9XG4gIGVuZFxuZW5kIiwicGF0aCI6Ii8ifQ","chunks":[[0,85],[87,1140],[1229,49],[1280,51]],"kind":"Elixir.Server.SmartCells.LiveViewNative","livebook_object":"smart_cell"} -->
+
+```elixir
+require Server.Livebook
+import Server.Livebook
+import Kernel, except: [defmodule: 2]
+
+defmodule ServerWeb.ExampleLive.SwiftUI do
+  use ServerNative, [:render_component, format: :swiftui]
+  import ServerWeb.CoreComponents.SwiftUI
+
+  def render(assigns) do
+    ~LVN"""
+    <.simple_form for={@form} id="form" phx-submit="submit">
+      <.input field={@form[:email]} type="TextField" placeholder="Email" />
+      <:actions>
+        <.button type="submit">
+          Send password reset instructions
+        </.button>
+      </:actions>
+    </.simple_form>
+    """
+  end
+end
+
+defmodule ServerWeb.ExampleLive do
+  use ServerWeb, :live_view
+  use ServerNative, :live_view
+
+  @impl true
+  def render(assigns),
+    do: ~H"""
+    <.simple_form for={@form} id="reset_password_form" phx-submit="submit">
+      <.input field={@form[:email]} placeholder="Email" />
+      <:actions>
+        <.button type="submit">
+          Send password reset instructions
+        </.button>
+      </:actions>
+    </.simple_form>
+    """
+
+  @impl true
+  def mount(_params, _session, socket) do
+    {:ok, assign(socket, form: to_form(%{}, as: "user"))}
+  end
+
+  @impl true
+  def handle_event("submit", params, socket) do
+    IO.inspect(params)
+    {:noreply, socket}
+  end
+end
+|> Server.SmartCells.LiveViewNative.register("/")
+
+import Server.Livebook, only: []
+import Kernel
+:ok
+```
+
+```elixir
+{_, config} = Mix.State.get(:installed)
+
+Mix.ProjectStack.push(Mix.InstallProject, config, "nofile")
+```
+
+```elixir
+1
+```
+
+```elixir
+1
+```
+
+```elixir
+1
 ```
 
 ## Tailwind
