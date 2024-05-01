@@ -78,9 +78,9 @@ notebook_path = __ENV__.file |> String.split("#") |> hd()
 
 Mix.install(
   [
-    # local version for development purposes only
+    # We use this `:path` version for local development with kino_live_view_native
     # {:kino_live_view_native, path: Path.join([Path.dirname(notebook_path), "../"])}
-    {:kino_live_view_native, github: "liveview-native/kino_live_view_native"}
+    {:kino_live_view_native,github: "liveview-native/kino_live_view_native"}
   ],
   config: [
     server: [
@@ -124,6 +124,17 @@ Mix.install(
         ]
       ],
       output: "priv/static/assets"
+    ],
+    # Ensures that app.js compiles to avoid the switch to longpolling
+    # when a LiveView doesn't exist yet
+    esbuild: [
+      version: "0.17.11",
+      server_web: [
+        args:
+          ~w(js/app.js --bundle --target=es2017 --outdir=../priv/static/assets --external:/fonts/* --external:/images/*),
+        cd: Path.expand("../assets", __DIR__),
+        env: %{"NODE_PATH" => Path.expand("../deps", __DIR__)}
+      ]
     ]
   ],
   force: true
@@ -420,24 +431,6 @@ end
 import Server.Livebook, only: []
 import Kernel
 :ok
-```
-
-```elixir
-{_, config} = Mix.State.get(:installed)
-
-Mix.ProjectStack.push(Mix.InstallProject, config, "nofile")
-```
-
-```elixir
-1
-```
-
-```elixir
-1
-```
-
-```elixir
-1
 ```
 
 ## Tailwind
