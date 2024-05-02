@@ -4,8 +4,16 @@ defmodule ServerNative do
   def live_view() do
     quote do
       use LiveViewNative.LiveView,
-        formats: [:swiftui],
-        layouts: [swiftui: {ServerWeb.Layouts.SwiftUI, :app}]
+        formats: [
+          :html,
+          :jetpack,
+          :swiftui
+        ],
+        layouts: [
+          html: {ServerWeb.Layouts.HTML, :app},
+          jetpack: {ServerWeb.Layouts.Jetpack, :app},
+          swiftui: {ServerWeb.Layouts.SwiftUI, :app}
+        ]
 
       unquote(verified_routes())
     end
@@ -20,10 +28,7 @@ defmodule ServerNative do
     quote do
       use LiveViewNative.Component, unquote(opts)
 
-      import ServerWeb.Gettext
-      import ServerWeb.CoreComponents.SwiftUI
-
-      unquote(verified_routes())
+      unquote(helpers(opts[:format]))
     end
   end
 
@@ -33,9 +38,7 @@ defmodule ServerNative do
     quote do
       use LiveViewNative.Component, unquote(opts)
 
-      import ServerWeb.Gettext
-
-      unquote(verified_routes())
+      unquote(helpers(opts[:format]))
     end
   end
 
@@ -46,10 +49,41 @@ defmodule ServerNative do
       use LiveViewNative.Component, unquote(opts)
 
       import LiveViewNative.Component, only: [csrf_token: 1]
-      import ServerWeb.Gettext
 
-      unquote(verified_routes())
+      unquote(helpers(opts[:format]))
     end
+  end
+
+  defp helpers(format) do
+    gettext_quoted = quote do
+      import ServerWeb.Gettext
+    end
+    
+    plugin = LiveViewNative.fetch_plugin!(format)
+    plugin_component_quoted = try do
+      Code.ensure_compiled!(plugin.component)
+
+      quote do
+        import unquote(plugin.component)
+      end
+    rescue
+      _ -> nil
+    end
+
+    core_component_module = Module.concat([ServerWeb, CoreComponents, plugin.module_suffix])
+
+    core_component_quoted = try do
+      Code.ensure_compiled!(core_component_module)
+
+      quote do
+        import unquote(core_component_module)
+      end
+    rescue
+      _ -> nil
+    end
+
+    [gettext_quoted, plugin_component_quoted, core_component_quoted, verified_routes()]
+      
   end
 
   @doc """
