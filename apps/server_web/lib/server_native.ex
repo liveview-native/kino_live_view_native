@@ -58,7 +58,7 @@ defmodule ServerNative do
     gettext_quoted = quote do
       import ServerWeb.Gettext
     end
-    
+
     plugin = LiveViewNative.fetch_plugin!(format)
     plugin_component_quoted = try do
       Code.ensure_compiled!(plugin.component)
@@ -83,7 +83,6 @@ defmodule ServerNative do
     end
 
     [gettext_quoted, plugin_component_quoted, core_component_quoted, verified_routes()]
-      
   end
 
   @doc """

@@ -1,5 +1,5 @@
 defmodule ServerWeb.CoreComponents.SwiftUI do
-  use ServerNative, [:component, format: :swiftui]
+  use LiveViewNative.Component
 
   @doc type: :component
   attr(:for, :any, required: true, doc: "An existing form or the form source data.")
@@ -456,9 +456,9 @@ defmodule ServerWeb.CoreComponents.SwiftUI do
     # with our gettext backend as first argument. Translations are
     # available in the errors.po file (as we use the "errors" domain).
     if count = opts[:count] do
-      Gettext.dngettext(FormDemoWeb.Gettext, "errors", msg, msg, count, opts)
+      Gettext.dngettext(ServerWeb.Gettext, "errors", msg, msg, count, opts)
     else
-      Gettext.dgettext(FormDemoWeb.Gettext, "errors", msg, opts)
+      Gettext.dgettext(ServerWeb.Gettext, "errors", msg, opts)
     end
   end
 
