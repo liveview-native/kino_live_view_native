@@ -5,13 +5,9 @@ defmodule ServerNative do
     quote do
       use LiveViewNative.LiveView,
         formats: [
-          :html,
-          :jetpack,
           :swiftui
         ],
         layouts: [
-          html: {ServerWeb.Layouts.HTML, :app},
-          jetpack: {ServerWeb.Layouts.Jetpack, :app},
           swiftui: {ServerWeb.Layouts.SwiftUI, :app}
         ]
 
