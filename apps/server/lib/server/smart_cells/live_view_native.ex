@@ -10,9 +10,17 @@ defmodule Server.SmartCells.LiveViewNative do
 
   @impl true
   def init(attrs, ctx) do
+    {:ok, [{ip, _, _} | _]} = :inet.getif
+    ip_address = ip |> Tuple.to_list |> Enum.map(&to_string/1) |> Enum.join(".")
     {:ok,
      ctx
-     |> assign(path: attrs["path"] || "/"),
+     |> assign(path: attrs["path"] || "/")
+     |> assign(
+        qr: QRCode.create("http://#{ip_address}:4000")
+          |> QRCode.render(:svg, %QRCode.Render.SvgSettings{ background_color: "#ecf0ff" })
+          |> QRCode.to_base64()
+          |> elem(1)
+      ),
      editor: [
        attribute: "code",
        language: "elixir",
@@ -22,13 +30,14 @@ defmodule Server.SmartCells.LiveViewNative do
 
   @impl true
   def handle_connect(ctx) do
-    {:ok, %{path: ctx.assigns.path}, ctx}
+    {:ok, %{path: ctx.assigns.path, qr: ctx.assigns.qr}, ctx}
   end
 
   @impl true
   def to_attrs(ctx) do
     %{
-      "path" => ctx.assigns.path
+      "path" => ctx.assigns.path,
+      "qr" => ctx.assigns.qr
     }
   end
 
@@ -127,6 +136,13 @@ end]
         <div class="app">
           <label class="label">LiveView route:</label>
           <input class="input" type="text" name="path" />
+          <div class="qr-container">
+            <div class="info">
+              <span class="title">Connect a client</span>
+              <span class="subtitle">Scan the code with LiveView Native Go to connect.</span>
+            </div>
+            <img src="data:image/svg+xml; base64, ${payload.qr}" class="qr" />
+          </div>
         </div>
       `;
 
@@ -186,6 +202,31 @@ end]
     .input:focus {
       border: 1px solid #61758a;
       outline: none;
+    }
+
+    .qr-container {
+      display: flex;
+      flex-direction: row;
+      gap: 8px;
+      flex-grow: 1;
+      justify-content: flex-end;
+    }
+
+    .qr-container .qr {
+      height: 50px;
+    }
+
+    .qr-container .info {
+      display: flex;
+      flex-direction: column;
+      font-size: 0.875rem;
+      color: #445668;
+      max-width: 200px;
+      text-align: right;
+    }
+
+    .qr-container .info .title {
+      font-weight: 500;
     }
     """
   end
