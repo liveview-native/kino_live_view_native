@@ -38,7 +38,8 @@ defmodule Server.MixProject do
     [
       {:dns_cluster, "~> 0.1.1"},
       {:phoenix_pubsub, "~> 2.1"},
-      {:kino, "~> 0.12.3"}
+      {:kino, "~> 0.12.3"},
+      {:qr_code, "~> 3.0.0"}
     ]
   end
 
