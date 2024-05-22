@@ -10,7 +10,7 @@ Mix.install(
   ],
   config: [
     kino_live_view_native: [
-      qr_enabled: false
+      qr_enabled: true
     ],
     server: [
       {ServerWeb.Endpoint,
