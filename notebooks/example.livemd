@@ -9,6 +9,9 @@ Mix.install(
     # {:kino_live_view_native,github: "liveview-native/kino_live_view_native"}
   ],
   config: [
+    kino_live_view_native: [
+      qr_enabled: false
+    ],
     server: [
       {ServerWeb.Endpoint,
        [

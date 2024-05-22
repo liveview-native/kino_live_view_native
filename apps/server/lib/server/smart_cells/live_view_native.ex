@@ -10,17 +10,19 @@ defmodule Server.SmartCells.LiveViewNative do
 
   @impl true
   def init(attrs, ctx) do
-    {:ok, [{ip, _, _} | _]} = :inet.getif
-    ip_address = ip |> Tuple.to_list |> Enum.map(&to_string/1) |> Enum.join(".")
+    {:ok, [{ip, _, _} | _]} = :inet.getif()
+    ip_address = ip |> Tuple.to_list() |> Enum.map(&to_string/1) |> Enum.join(".")
+
     {:ok,
      ctx
      |> assign(path: attrs["path"] || "/")
      |> assign(
-        qr: QRCode.create("http://#{ip_address}:4000")
-          |> QRCode.render(:svg, %QRCode.Render.SvgSettings{ background_color: "#ecf0ff" })
-          |> QRCode.to_base64()
-          |> elem(1)
-      ),
+       qr:
+         QRCode.create("http://#{ip_address}:4000")
+         |> QRCode.render(:svg, %QRCode.Render.SvgSettings{background_color: "#ecf0ff"})
+         |> QRCode.to_base64()
+         |> elem(1)
+     ),
      editor: [
        attribute: "code",
        language: "elixir",
@@ -136,13 +138,19 @@ end]
         <div class="app">
           <label class="label">LiveView route:</label>
           <input class="input" type="text" name="path" />
-          <div class="qr-container">
-            <div class="info">
-              <span class="title">Connect a client</span>
-              <span class="subtitle">Scan the code with LiveView Native Go to connect.</span>
-            </div>
-            <img src="data:image/svg+xml; base64, ${payload.qr}" class="qr" />
-          </div>
+          #{if Application.get_env(:kino_live_view_native, :qr_enabled, false) do
+      """
+      <div class="qr-container">
+        <div class="info">
+          <span class="title">Connect a client</span>
+          <span class="subtitle">Scan the code with LiveView Native Go to connect.</span>
+        </div>
+        <img src="data:image/svg+xml; base64, ${payload.qr}" class="qr" />
+      </div>
+      """
+    else
+      ""
+    end}
         </div>
       `;
 
