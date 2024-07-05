@@ -65,7 +65,6 @@ defmodule ServerWeb.MixProject do
        github: "liveview-native/live_view_native_html", tag: "0.3.0-alpha.3"},
       {:live_view_native_stylesheet, github: "liveview-native/live_view_native_stylesheet", branch: "main", override: true},
       {:live_view_native_live_form, "~> 0.3.0-rc.2"}
-      #  {:live_view_native_utility_classes, github: "liveview-native/"}
     ]
   end
 
