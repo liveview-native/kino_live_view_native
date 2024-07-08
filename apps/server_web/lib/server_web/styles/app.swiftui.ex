@@ -1,6 +1,5 @@
 defmodule ServerWeb.Styles.App.SwiftUI do
   use LiveViewNative.Stylesheet, :swiftui
-  @import LiveViewNative.SwiftUI.UtilityStyles
 
   # Add your styles here
   # Refer to your client's documentation on what the proper syntax
