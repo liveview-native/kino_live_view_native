@@ -19,7 +19,7 @@ defmodule ServerWeb.Endpoint do
   socket "/phoenix/live_reload/socket", ServerWeb.LiveReloader.Socket
   plug Phoenix.LiveReloader
   plug LiveViewNative.LiveReloader
-  plug Phoenix.CodeReloader, reloader: &Server.CodeReloader.reload!/2
+  # plug Phoenix.CodeReloader, reloader: &Server.CodeReloader.reload!/2
   # plug Phoenix.CodeReloader
   # end
 
