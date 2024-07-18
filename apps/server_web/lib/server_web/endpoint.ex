@@ -15,13 +15,12 @@ defmodule ServerWeb.Endpoint do
 
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.
-  # if code_reloading? do
-  socket "/phoenix/live_reload/socket", ServerWeb.LiveReloader.Socket
-  plug Phoenix.LiveReloader
-  plug LiveViewNative.LiveReloader
-  # plug Phoenix.CodeReloader, reloader: &Server.CodeReloader.reload!/2
-  # plug Phoenix.CodeReloader
-  # end
+  if code_reloading? do
+    socket "/phoenix/live_reload/socket", ServerWeb.LiveReloader.Socket
+    plug Phoenix.LiveReloader
+    plug LiveViewNative.LiveReloader
+    plug Phoenix.CodeReloader, reloader: &Server.CodeReloader.reload!/2
+  end
 
   # Serve at "/" the static files from "priv/static" directory.
   #
