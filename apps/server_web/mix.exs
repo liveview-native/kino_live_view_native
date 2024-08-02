@@ -59,7 +59,6 @@ defmodule ServerWeb.MixProject do
       {:bandit, "~> 1.2"},
       {:live_view_native, "0.3.0-rc.3", override: true},
       {:live_view_native_swiftui, "0.3.0-rc.3"},
-      {:live_view_native_html, github: "liveview-native/live_view_native_html", branch: "main"},
       {:live_view_native_stylesheet, "0.3.0-rc.3"},
       {:live_view_native_live_form, "0.3.0-rc.3"}
     ]
