@@ -57,9 +57,9 @@ defmodule ServerWeb.MixProject do
       {:server, in_umbrella: true},
       {:jason, "~> 1.2"},
       {:bandit, "~> 1.2"},
-      {:live_view_native, "0.3.0-rc.3"},
-      {:live_view_native_swiftui, "0.3.0-rc.3"},
-      {:live_view_native_stylesheet, "0.3.0-rc.3"},
+      {:live_view_native, "0.3.0-rc.4"},
+      {:live_view_native_swiftui, "0.3.0-rc.4"},
+      {:live_view_native_stylesheet, "0.3.0-rc.4"},
       {:live_view_native_live_form, "0.3.0-rc.3"}
     ]
   end

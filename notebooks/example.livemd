@@ -31,7 +31,8 @@ Mix.install(
              ~r"priv/static/(?!uploads/).*(js|css|png|jpeg|jpg|gif|svg|styles)$",
              ~r/#{notebook_path}$/
            ]
-         ]
+         ],
+         code_reloader: true
        ]}
     ],
     kino: [
