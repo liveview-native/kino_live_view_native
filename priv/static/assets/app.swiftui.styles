@@ -1,1 +1,216 @@
-%{"alert(attr(\"title\"), isPresented: attr(\"presented\"), actions: :actions, message: :message)" => [{:alert, [], [{:__attr__, [], "title"}, [isPresented: {:__attr__, [], "presented"}, actions: :actions, message: :message]]}], "bold(true)" => [{:bold, [], [true]}], "buttonStyle(.borderedProminent)" => [{:buttonStyle, [], [{:., [], [nil, :borderedProminent]}]}], "controlSize(.large)" => [{:controlSize, [], [{:., [], [nil, :large]}]}], "font(.caption)" => [{:font, [], [{:., [], [nil, :caption]}]}], "foregroundStyle(.red)" => [{:foregroundStyle, [], [{:., [], [nil, :red]}]}], "frame(maxWidth: .infinity)" => [{:frame, [], [[maxWidth: {:., [], [nil, :infinity]}]]}], "hidden()" => [{:hidden, [], []}], "listRowBackground(:empty)" => [{:listRowBackground, [], [:empty]}], "listRowInsets(EdgeInsets())" => [{:listRowInsets, [], [{:EdgeInsets, [], []}]}], "navigationSubtitle(:subtitle)" => [{:navigationSubtitle, [], [:subtitle]}], "navigationTitle(:title)" => [{:navigationTitle, [], [:title]}], "sheet(isPresented: attr(\"presented\"), content: :content)" => [{:sheet, [], [[isPresented: {:__attr__, [], "presented"}, content: :content]]}], "toolbar(content: :toolbar)" => [{:toolbar, [], [[content: :toolbar]]}]}
+%{
+  "alert(attr(\"title\"), isPresented: attr(\"presented\"), actions: :actions, message: :message)" => [
+    {:alert,
+     [
+       file: "core_components.swiftui.ex",
+       line: 1,
+       module: "",
+       source: "alert(attr(\"title\"), isPresented: attr(\"presented\"), actions: :actions, message: :message)"
+     ],
+     [
+       {:__attr__,
+        [
+          file: "core_components.swiftui.ex",
+          line: 1,
+          module: "",
+          source: "alert(attr(\"title\"), isPresented: attr(\"presented\"), actions: :actions, message: :message)"
+        ], "title"},
+       [
+         isPresented: {:__attr__,
+          [
+            file: "core_components.swiftui.ex",
+            line: 1,
+            module: "",
+            source: "alert(attr(\"title\"), isPresented: attr(\"presented\"), actions: :actions, message: :message)"
+          ], "presented"},
+         actions: :actions,
+         message: :message
+       ]
+     ]}
+  ],
+  "bold(true)" => [
+    {:bold,
+     [
+       file: "core_components.swiftui.ex",
+       line: 1,
+       module: "",
+       source: "bold(true)"
+     ], [true]}
+  ],
+  "buttonStyle(.borderedProminent)" => [
+    {:buttonStyle,
+     [
+       file: "core_components.swiftui.ex",
+       line: 1,
+       module: "",
+       source: "buttonStyle(.borderedProminent)"
+     ],
+     [
+       {:.,
+        [
+          file: "core_components.swiftui.ex",
+          line: 1,
+          module: "",
+          source: "buttonStyle(.borderedProminent)"
+        ], [nil, :borderedProminent]}
+     ]}
+  ],
+  "controlSize(.large)" => [
+    {:controlSize,
+     [
+       file: "core_components.swiftui.ex",
+       line: 1,
+       module: "",
+       source: "controlSize(.large)"
+     ],
+     [
+       {:.,
+        [
+          file: "core_components.swiftui.ex",
+          line: 1,
+          module: "",
+          source: "controlSize(.large)"
+        ], [nil, :large]}
+     ]}
+  ],
+  "font(.caption)" => [
+    {:font,
+     [
+       file: "core_components.swiftui.ex",
+       line: 1,
+       module: "",
+       source: "font(.caption)"
+     ],
+     [
+       {:.,
+        [
+          file: "core_components.swiftui.ex",
+          line: 1,
+          module: "",
+          source: "font(.caption)"
+        ], [nil, :caption]}
+     ]}
+  ],
+  "foregroundStyle(.red)" => [
+    {:foregroundStyle,
+     [
+       file: "core_components.swiftui.ex",
+       line: 1,
+       module: "",
+       source: "foregroundStyle(.red)"
+     ],
+     [
+       {:.,
+        [
+          file: "core_components.swiftui.ex",
+          line: 1,
+          module: "",
+          source: "foregroundStyle(.red)"
+        ], [nil, :red]}
+     ]}
+  ],
+  "frame(maxWidth: .infinity)" => [
+    {:frame,
+     [
+       file: "core_components.swiftui.ex",
+       line: 1,
+       module: "",
+       source: "frame(maxWidth: .infinity)"
+     ],
+     [
+       [
+         maxWidth: {:.,
+          [
+            file: "core_components.swiftui.ex",
+            line: 1,
+            module: "",
+            source: "frame(maxWidth: .infinity)"
+          ], [nil, :infinity]}
+       ]
+     ]}
+  ],
+  "hidden()" => [
+    {:hidden,
+     [
+       file: "core_components.swiftui.ex",
+       line: 1,
+       module: "",
+       source: "hidden()"
+     ], []}
+  ],
+  "listRowBackground(:empty)" => [
+    {:listRowBackground,
+     [
+       file: "core_components.swiftui.ex",
+       line: 1,
+       module: "",
+       source: "listRowBackground(:empty)"
+     ], [:empty]}
+  ],
+  "listRowInsets(EdgeInsets())" => [
+    {:listRowInsets,
+     [
+       file: "core_components.swiftui.ex",
+       line: 1,
+       module: "",
+       source: "listRowInsets(EdgeInsets())"
+     ],
+     [
+       {:EdgeInsets,
+        [
+          file: "core_components.swiftui.ex",
+          line: 1,
+          module: "",
+          source: "listRowInsets(EdgeInsets())"
+        ], []}
+     ]}
+  ],
+  "navigationSubtitle(:subtitle)" => [
+    {:navigationSubtitle,
+     [
+       file: "core_components.swiftui.ex",
+       line: 1,
+       module: "",
+       source: "navigationSubtitle(:subtitle)"
+     ], [:subtitle]}
+  ],
+  "navigationTitle(:title)" => [
+    {:navigationTitle,
+     [
+       file: "core_components.swiftui.ex",
+       line: 1,
+       module: "",
+       source: "navigationTitle(:title)"
+     ], [:title]}
+  ],
+  "sheet(isPresented: attr(\"presented\"), content: :content)" => [
+    {:sheet,
+     [
+       file: "core_components.swiftui.ex",
+       line: 1,
+       module: "",
+       source: "sheet(isPresented: attr(\"presented\"), content: :content)"
+     ],
+     [
+       [
+         isPresented: {:__attr__,
+          [
+            file: "core_components.swiftui.ex",
+            line: 1,
+            module: "",
+            source: "sheet(isPresented: attr(\"presented\"), content: :content)"
+          ], "presented"},
+         content: :content
+       ]
+     ]}
+  ],
+  "toolbar(content: :toolbar)" => [
+    {:toolbar,
+     [
+       file: "core_components.swiftui.ex",
+       line: 1,
+       module: "",
+       source: "toolbar(content: :toolbar)"
+     ], [[content: :toolbar]]}
+  ]
+}
