@@ -16,9 +16,13 @@ defmodule ServerWeb.Endpoint do
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.
   if code_reloading? do
+    # Swap the socket when running mix phx.server instead of Livebook
+    # socket "/phoenix/live_reload/socket", Phoenix.LiveReloader.Socket
     socket "/phoenix/live_reload/socket", ServerWeb.LiveReloader.Socket
     plug Phoenix.LiveReloader
     plug LiveViewNative.LiveReloader
+    # Swap the code reloader when running through mix phx.server instead of Livebook
+    # plug Phoenix.CodeReloader
     plug Phoenix.CodeReloader, reloader: &Server.CodeReloader.reload!/2
   end
 

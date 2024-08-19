@@ -19,6 +19,7 @@ config :server, ServerWeb.Endpoint,
     tailwind: {Tailwind, :install_and_run, [:server_web, ~w(--watch)]}
   ]
 
+
 # ## SSL Support
 #
 # In order to use HTTPS in development, a self-signed
@@ -43,12 +44,15 @@ config :server, ServerWeb.Endpoint,
 # different ports.
 
 # Watch static and templates for browser reloading.
-config :server_web, ServerWeb.Endpoint,
+config :server, ServerWeb.Endpoint,
   live_reload: [
     patterns: [
       ~r"priv/static/(?!uploads/).*(js|css|png|jpeg|jpg|gif|svg)$",
       ~r"priv/gettext/.*(po)$",
-      ~r"lib/server_web/(controllers|live|components)/.*(ex|heex)$"
+      ~r"lib/server_web/(controllers|live|components)/.*(ex|heex)$",
+      ~r"lib/server_web/(live|components)/.*neex$",
+      ~r"lib/server_web/styles/*.ex$",
+      ~r"priv/static/*.styles$"
     ]
   ]
 
@@ -67,3 +71,7 @@ config :phoenix_live_view, :debug_heex_annotations, true
 # Set a higher stacktrace during development. Avoid configuring such
 # in production as building large stacktraces may be expensive.
 config :phoenix, :stacktrace_depth, 20
+
+config :live_view_native_stylesheet,
+  annotations: true,
+  pretty: true
