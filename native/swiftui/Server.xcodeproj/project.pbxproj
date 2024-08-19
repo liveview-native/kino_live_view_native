@@ -3,25 +3,43 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 60;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1B40EBB809BC09FDC9FB9539 /* DisconnectedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3FE6D0E5CE7FD51EB2951 /* DisconnectedView.swift */; };
+		1B556FD9284A597F08A1094C /* LiveViewNativeLiveForm in Frameworks */ = {isa = PBXBuildFile; productRef = A6E177D05C3536D207770491 /* LiveViewNativeLiveForm */; };
+		2D3E80CD79BFC3F5307659A8 /* LiveViewNativeLiveForm in Frameworks */ = {isa = PBXBuildFile; productRef = A7798D5B10585354126E5D95 /* LiveViewNativeLiveForm */; };
 		3F700E0AD83C3589A82EDC5D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F4210B3A28111E74824882E7 /* Assets.xcassets */; };
+		5057DEA27E005BE6A8DBE023 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F397559EDA4CD7C54F2DF7C6 /* ContentView.swift */; };
+		5F1A22300256ED122DB71B56 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CD57CA7993E04C53EB9C8E03 /* Preview Assets.xcassets */; };
+		7B650220BA5745BDA6E7AD88 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F4210B3A28111E74824882E7 /* Assets.xcassets */; };
 		8BCC54ED48B62F9A63ADEF72 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F397559EDA4CD7C54F2DF7C6 /* ContentView.swift */; };
+		8FEB096A0A958C165B3F634B /* ReconnectingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A3A8A5DEED094580122A71 /* ReconnectingView.swift */; };
 		964B72E303859FE50BB9C02B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CD57CA7993E04C53EB9C8E03 /* Preview Assets.xcassets */; };
-		C0F835F02B72A88D000163D5 /* LiveViewNative in Frameworks */ = {isa = PBXBuildFile; productRef = C0F835EF2B72A88D000163D5 /* LiveViewNative */; };
-		C0F835F22B72A88D000163D5 /* LiveViewNativeStylesheet in Frameworks */ = {isa = PBXBuildFile; productRef = C0F835F12B72A88D000163D5 /* LiveViewNativeStylesheet */; };
-		C0F835F42B72A88D000163D5 /* BuiltinRegistryGenerator in Frameworks */ = {isa = PBXBuildFile; productRef = C0F835F32B72A88D000163D5 /* BuiltinRegistryGenerator */; };
+		971C1C9C77056BA5ADF3089C /* ConnectingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEDBA6B1E5BCC17D0CF74ADD /* ConnectingView.swift */; };
+		B2933C3FD069D959EE6164FF /* ConnectingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEDBA6B1E5BCC17D0CF74ADD /* ConnectingView.swift */; };
+		B96ADC7E6D27EDCBD2A90BFB /* ReconnectingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A3A8A5DEED094580122A71 /* ReconnectingView.swift */; };
+		CDA57F1D15CC0B360E5150C5 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3E3FE4CB8F4FA74C39CA68 /* ErrorView.swift */; };
 		D25563F934CA1416BBA0D2D3 /* Server.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1AF87F19975DFCD3F33F521 /* Server.swift */; };
+		DA8EB40611D4931B11C2E4F1 /* LiveViewNative in Frameworks */ = {isa = PBXBuildFile; productRef = 5686A59838227A5E357D172C /* LiveViewNative */; };
+		DDD288D7E1132E3AF3985F1A /* DisconnectedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3FE6D0E5CE7FD51EB2951 /* DisconnectedView.swift */; };
+		DE93B7BD8FC0B5B48ADF85F0 /* Server.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1AF87F19975DFCD3F33F521 /* Server.swift */; };
+		E45CE678ABF136AA4051DA11 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3E3FE4CB8F4FA74C39CA68 /* ErrorView.swift */; };
+		F92DBC93510296AC0FC7F70D /* LiveViewNative in Frameworks */ = {isa = PBXBuildFile; productRef = 4140C37989D1F529119FBD47 /* LiveViewNative */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0BE3FE6D0E5CE7FD51EB2951 /* DisconnectedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisconnectedView.swift; sourceTree = "<group>"; };
+		43FB308ADAA9716B7C7541D7 /* Server Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Server Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D3E3FE4CB8F4FA74C39CA68 /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
+		90A3A8A5DEED094580122A71 /* ReconnectingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReconnectingView.swift; sourceTree = "<group>"; };
 		C1AF87F19975DFCD3F33F521 /* Server.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Server.swift; sourceTree = "<group>"; };
 		CD57CA7993E04C53EB9C8E03 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		EEDBA6B1E5BCC17D0CF74ADD /* ConnectingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectingView.swift; sourceTree = "<group>"; };
 		F397559EDA4CD7C54F2DF7C6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		F4210B3A28111E74824882E7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		FD465ED159FC20A20F816154 /* Server.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Server.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FD465ED159FC20A20F816154 /* Server.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Server.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,9 +47,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C0F835F22B72A88D000163D5 /* LiveViewNativeStylesheet in Frameworks */,
-				C0F835F02B72A88D000163D5 /* LiveViewNative in Frameworks */,
-				C0F835F42B72A88D000163D5 /* BuiltinRegistryGenerator in Frameworks */,
+				DA8EB40611D4931B11C2E4F1 /* LiveViewNative in Frameworks */,
+				1B556FD9284A597F08A1094C /* LiveViewNativeLiveForm in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A7999B903AB298C9EEBACAA4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F92DBC93510296AC0FC7F70D /* LiveViewNative in Frameworks */,
+				2D3E80CD79BFC3F5307659A8 /* LiveViewNativeLiveForm in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -51,16 +77,20 @@
 			children = (
 				95B3DD7B4D70A3EE1B0AD600 /* Preview Content */,
 				F4210B3A28111E74824882E7 /* Assets.xcassets */,
+				EEDBA6B1E5BCC17D0CF74ADD /* ConnectingView.swift */,
 				F397559EDA4CD7C54F2DF7C6 /* ContentView.swift */,
+				0BE3FE6D0E5CE7FD51EB2951 /* DisconnectedView.swift */,
+				8D3E3FE4CB8F4FA74C39CA68 /* ErrorView.swift */,
+				90A3A8A5DEED094580122A71 /* ReconnectingView.swift */,
 				C1AF87F19975DFCD3F33F521 /* Server.swift */,
 			);
-			name = Server;
-			path = Sources/Server;
+			path = Server;
 			sourceTree = "<group>";
 		};
 		C2D551BDD60ED47AD714C7AC /* Products */ = {
 			isa = PBXGroup;
 			children = (
+				43FB308ADAA9716B7C7541D7 /* Server Watch App.app */,
 				FD465ED159FC20A20F816154 /* Server.app */,
 			);
 			name = Products;
@@ -91,12 +121,32 @@
 			);
 			name = Server;
 			packageProductDependencies = (
-				C0F835EF2B72A88D000163D5 /* LiveViewNative */,
-				C0F835F12B72A88D000163D5 /* LiveViewNativeStylesheet */,
-				C0F835F32B72A88D000163D5 /* BuiltinRegistryGenerator */,
+				5686A59838227A5E357D172C /* LiveViewNative */,
+				A6E177D05C3536D207770491 /* LiveViewNativeLiveForm */,
 			);
 			productName = Server;
 			productReference = FD465ED159FC20A20F816154 /* Server.app */;
+			productType = "com.apple.product-type.application";
+		};
+		459D1DD6839DB3855554D61A /* Server Watch App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5B93B0C1A0CA32D670FAA26B /* Build configuration list for PBXNativeTarget "Server Watch App" */;
+			buildPhases = (
+				6ABB1F6CF3FEB740C71F09CB /* Sources */,
+				534E1CDFA3FF24A3C6B7C076 /* Resources */,
+				A7999B903AB298C9EEBACAA4 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Server Watch App";
+			packageProductDependencies = (
+				4140C37989D1F529119FBD47 /* LiveViewNative */,
+				A7798D5B10585354126E5D95 /* LiveViewNativeLiveForm */,
+			);
+			productName = "Server Watch App";
+			productReference = 43FB308ADAA9716B7C7541D7 /* Server Watch App.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -106,7 +156,9 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				LastUpgradeCheck = 1520;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+				};
 			};
 			buildConfigurationList = B17730CB043BBE7DE6BDA054 /* Build configuration list for PBXProject "Server" */;
 			compatibilityVersion = "Xcode 14.0";
@@ -118,12 +170,14 @@
 			);
 			mainGroup = D10CFE995DB6AF91DF6A5D30;
 			packageReferences = (
-				C0F835EE2B72A88D000163D5 /* XCLocalSwiftPackageReference "../../liveview-client-swiftui" */,
+				A606118DD6DF09DAED5F1A77 /* XCRemoteSwiftPackageReference "liveview-client-swiftui" */,
+				6BD9F768EB6E6A2391A9B520 /* XCRemoteSwiftPackageReference "liveview-native-live-form" */,
 			);
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				423875D33BE165FCD2F5F1EE /* Server */,
+				459D1DD6839DB3855554D61A /* Server Watch App */,
 			);
 		};
 /* End PBXProject section */
@@ -138,14 +192,40 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		534E1CDFA3FF24A3C6B7C076 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7B650220BA5745BDA6E7AD88 /* Assets.xcassets in Resources */,
+				5F1A22300256ED122DB71B56 /* Preview Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		6ABB1F6CF3FEB740C71F09CB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B2933C3FD069D959EE6164FF /* ConnectingView.swift in Sources */,
+				5057DEA27E005BE6A8DBE023 /* ContentView.swift in Sources */,
+				DDD288D7E1132E3AF3985F1A /* DisconnectedView.swift in Sources */,
+				E45CE678ABF136AA4051DA11 /* ErrorView.swift in Sources */,
+				B96ADC7E6D27EDCBD2A90BFB /* ReconnectingView.swift in Sources */,
+				DE93B7BD8FC0B5B48ADF85F0 /* Server.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A1AB8BEDFCC4193A8955A81A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				971C1C9C77056BA5ADF3089C /* ConnectingView.swift in Sources */,
 				8BCC54ED48B62F9A63ADEF72 /* ContentView.swift in Sources */,
+				1B40EBB809BC09FDC9FB9539 /* DisconnectedView.swift in Sources */,
+				CDA57F1D15CC0B360E5150C5 /* ErrorView.swift in Sources */,
+				8FEB096A0A958C165B3F634B /* ReconnectingView.swift in Sources */,
 				D25563F934CA1416BBA0D2D3 /* Server.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -158,18 +238,17 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEAD_CODE_STRIPPING = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.Server;
 				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator appletvos appletvsimulator macosx";
 				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = "1,2,3";
 			};
 			name = Debug;
 		};
@@ -178,25 +257,47 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEAD_CODE_STRIPPING = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.Server;
 				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator appletvos appletvsimulator macosx";
 				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = "1,2,3";
 			};
 			name = Release;
+		};
+		89BDB2FEA2DD637E1C1DC2F6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.Server.watchkit;
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+			};
+			name = Release;
+		};
+		90C10D568138DAD91D46517D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.Server.watchkit;
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+			};
+			name = Debug;
 		};
 		BEB99130CC66E3898F9A2002 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -259,7 +360,6 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = auto;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -272,6 +372,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -327,7 +428,6 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = auto;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
@@ -339,6 +439,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		5B93B0C1A0CA32D670FAA26B /* Build configuration list for PBXNativeTarget "Server Watch App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				90C10D568138DAD91D46517D /* Debug */,
+				89BDB2FEA2DD637E1C1DC2F6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
 		702532AF024B89EF6A0ADE4A /* Build configuration list for PBXNativeTarget "Server" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -359,25 +468,45 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCLocalSwiftPackageReference section */
-		C0F835EE2B72A88D000163D5 /* XCLocalSwiftPackageReference "../../liveview-client-swiftui" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = "../../liveview-client-swiftui";
+/* Begin XCRemoteSwiftPackageReference section */
+		6BD9F768EB6E6A2391A9B520 /* XCRemoteSwiftPackageReference "liveview-native-live-form" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/liveview-native/liveview-native-live-form";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = "0.3.0-rc.3";
+			};
 		};
-/* End XCLocalSwiftPackageReference section */
+		A606118DD6DF09DAED5F1A77 /* XCRemoteSwiftPackageReference "liveview-client-swiftui" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/liveview-native/liveview-client-swiftui";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = "0.3.0-rc.4";
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		C0F835EF2B72A88D000163D5 /* LiveViewNative */ = {
+		4140C37989D1F529119FBD47 /* LiveViewNative */ = {
 			isa = XCSwiftPackageProductDependency;
+			package = A606118DD6DF09DAED5F1A77 /* XCRemoteSwiftPackageReference "liveview-client-swiftui" */;
 			productName = LiveViewNative;
 		};
-		C0F835F12B72A88D000163D5 /* LiveViewNativeStylesheet */ = {
+		5686A59838227A5E357D172C /* LiveViewNative */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = LiveViewNativeStylesheet;
+			package = A606118DD6DF09DAED5F1A77 /* XCRemoteSwiftPackageReference "liveview-client-swiftui" */;
+			productName = LiveViewNative;
 		};
-		C0F835F32B72A88D000163D5 /* BuiltinRegistryGenerator */ = {
+		A6E177D05C3536D207770491 /* LiveViewNativeLiveForm */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = BuiltinRegistryGenerator;
+			package = 6BD9F768EB6E6A2391A9B520 /* XCRemoteSwiftPackageReference "liveview-native-live-form" */;
+			productName = LiveViewNativeLiveForm;
+		};
+		A7798D5B10585354126E5D95 /* LiveViewNativeLiveForm */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6BD9F768EB6E6A2391A9B520 /* XCRemoteSwiftPackageReference "liveview-native-live-form" */;
+			productName = LiveViewNativeLiveForm;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

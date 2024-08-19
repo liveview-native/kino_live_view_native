@@ -1,1 +1,0 @@
-%{"color-purple" => [{:foregroundColor, [], [{:., [], [nil, :purple]}]}]}
