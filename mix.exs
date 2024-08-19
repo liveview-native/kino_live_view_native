@@ -3,6 +3,8 @@ defmodule Server.MixProject do
 
   def project do
     [
+      # Using :kino_live_view_native keeps the project backwards compatible when installing the :kino_live_view_native dep
+      # Switch this to :server when running the phoenix server locally
       app: :kino_live_view_native,
       version: "0.1.0",
       elixir: "~> 1.14",
