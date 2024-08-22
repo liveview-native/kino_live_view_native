@@ -43,7 +43,7 @@ defmodule ServerWeb do
         layouts: [html: ServerWeb.Layouts]
 
       import Plug.Conn
-      import ServerWeb.Gettext
+      use Gettext, backend: ServerWeb.Gettext
 
       unquote(verified_routes())
     end
@@ -85,7 +85,7 @@ defmodule ServerWeb do
       import Phoenix.HTML
       # Core UI components and translation
       import ServerWeb.CoreComponents
-      import ServerWeb.Gettext
+      use Gettext, backend: ServerWeb.Gettext
 
       # Shortcut for generating JS commands
       alias Phoenix.LiveView.JS

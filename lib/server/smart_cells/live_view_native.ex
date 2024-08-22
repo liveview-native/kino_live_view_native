@@ -138,7 +138,7 @@ end]
         <div class="app">
           <label class="label">LiveView route:</label>
           <input class="input" type="text" name="path" />
-          #{if Application.get_env(:kino_live_view_native, :qr_enabled, false) do
+          #{if Application.compile_env(:kino_live_view_native, :qr_enabled, false) do
       """
       <div class="qr-container">
         <div class="info">

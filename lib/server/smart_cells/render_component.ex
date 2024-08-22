@@ -6,10 +6,8 @@ defmodule Server.SmartCells.RenderComponent do
   use Kino.JS.Live
   use Kino.SmartCell, name: "LiveView Native: Render Component"
 
-  @registry_key :liveviews
-
   @impl true
-  def init(attrs, ctx) do
+  def init(_attrs, ctx) do
     {:ok,
      ctx,
      editor: [
@@ -25,7 +23,7 @@ defmodule Server.SmartCells.RenderComponent do
   end
 
   @impl true
-  def to_attrs(ctx) do
+  def to_attrs(_ctx) do
     %{}
   end
 
