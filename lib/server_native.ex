@@ -121,9 +121,9 @@ defmodule ServerNative do
 
   defp helpers(format) do
     gettext_quoted = quote do
-      import ServerWeb.Gettext
+      use Gettext, backend: ServerWeb.Gettext
     end
-    
+
     plugin = LiveViewNative.fetch_plugin!(format)
 
     plugin_component_quoted = try do
@@ -159,7 +159,7 @@ defmodule ServerNative do
         core_component_quoted,
         verified_routes()
       ]
-      
+
   end
 
   @doc """
