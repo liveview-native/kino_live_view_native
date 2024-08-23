@@ -1,1 +1,38 @@
-%{"alert(attr(\"title\"), isPresented: attr(\"presented\"), actions: :actions, message: :message)" => [{:alert, [], [{:__attr__, [], "title"}, [isPresented: {:__attr__, [], "presented"}, actions: :actions, message: :message]]}], "background(.blue)" => [{:background, [], [{:., [], [nil, :blue]}]}], "bold(true)" => [{:bold, [], [true]}], "buttonStyle(.borderedProminent)" => [{:buttonStyle, [], [{:., [], [nil, :borderedProminent]}]}], "controlSize(.large)" => [{:controlSize, [], [{:., [], [nil, :large]}]}], "font(.caption)" => [{:font, [], [{:., [], [nil, :caption]}]}], "foregroundStyle(.red)" => [{:foregroundStyle, [], [{:., [], [nil, :red]}]}], "foregroundStyle(Color(\"MyColor\"))" => [{:foregroundStyle, [], [{:Color, [], ["MyColor"]}]}], "frame(maxWidth: .infinity)" => [{:frame, [], [[maxWidth: {:., [], [nil, :infinity]}]]}], "hidden()" => [{:hidden, [], []}], "listRowBackground(:empty)" => [{:listRowBackground, [], [:empty]}], "listRowInsets(EdgeInsets())" => [{:listRowInsets, [], [{:EdgeInsets, [], []}]}], "navigationSubtitle(:subtitle)" => [{:navigationSubtitle, [], [:subtitle]}], "navigationTitle(:title)" => [{:navigationTitle, [], [:title]}], "sheet(isPresented: attr(\"presented\"), content: :content)" => [{:sheet, [], [[isPresented: {:__attr__, [], "presented"}, content: :content]]}], "toolbar(content: :toolbar)" => [{:toolbar, [], [[content: :toolbar]]}]}
+%{
+  "alert(attr(\"title\"), isPresented: attr(\"presented\"), actions: :actions, message: :message)" => [
+    {:alert, [],
+     [
+       {:__attr__, [], "title"},
+       [
+         isPresented: {:__attr__, [], "presented"},
+         actions: :actions,
+         message: :message
+       ]
+     ]}
+  ],
+  "bold(true)" => [{:bold, [], [true]}],
+  "buttonStyle(.borderedProminent)" => [
+    {:buttonStyle, [], [{:., [], [nil, :borderedProminent]}]}
+  ],
+  "controlSize(.large)" => [{:controlSize, [], [{:., [], [nil, :large]}]}],
+  "font(.caption)" => [{:font, [], [{:., [], [nil, :caption]}]}],
+  "font(.headline)" => [{:font, [], [{:., [], [nil, :headline]}]}],
+  "foregroundStyle(.blue)" => [{:foregroundStyle, [], [{:., [], [nil, :blue]}]}],
+  "foregroundStyle(.red)" => [{:foregroundStyle, [], [{:., [], [nil, :red]}]}],
+  "frame(maxWidth: .infinity)" => [
+    {:frame, [], [[maxWidth: {:., [], [nil, :infinity]}]]}
+  ],
+  "hidden()" => [{:hidden, [], []}],
+  "listRowBackground(:empty)" => [{:listRowBackground, [], [:empty]}],
+  "listRowInsets(EdgeInsets())" => [
+    {:listRowInsets, [], [{:EdgeInsets, [], []}]}
+  ],
+  "navigationSubtitle(:subtitle)" => [{:navigationSubtitle, [], [:subtitle]}],
+  "navigationTitle(:title)" => [{:navigationTitle, [], [:title]}],
+  "padding()" => [{:padding, [], []}],
+  "sheet(isPresented: attr(\"presented\"), content: :content)" => [
+    {:sheet, [],
+     [[isPresented: {:__attr__, [], "presented"}, content: :content]]}
+  ],
+  "toolbar(content: :toolbar)" => [{:toolbar, [], [[content: :toolbar]]}]
+}

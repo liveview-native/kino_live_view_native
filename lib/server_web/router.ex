@@ -23,18 +23,21 @@ defmodule ServerWeb.Router do
     scope "/" do
       pipe_through :browser
 
-      # Often used for debugging
-      # live "/", ServerWeb.HelloLive
+      case Server.SmartCells.LiveViewNative.get_routes() do
+        # gracefully handles the case where there are clients connected, but no SmartCell has been evaluated
+        [] ->
+          live "/", ServerWeb.HelloLive
+        routes ->
+          Enum.map(routes, fn %{path: path, module: module} ->
+            # Ensure module is a LiveView
+            if Kernel.function_exported?(module, :__live__, 0) do
+              live(path, module)
+            else
+              Logger.error("Module #{inspect(module)} is not a valid LiveView.")
+            end
+          end)
+      end
 
-      Server.SmartCells.LiveViewNative.get_routes()
-      |> Enum.map(fn %{path: path, module: module} ->
-        # Ensure module is a LiveView
-        if Kernel.function_exported?(module, :__live__, 0) do
-          live(path, module)
-        else
-          Logger.error("Module #{inspect(module)} is not a valid LiveView.")
-        end
-      end)
     end
   end
 
