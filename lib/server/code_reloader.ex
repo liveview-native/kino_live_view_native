@@ -24,8 +24,7 @@ defmodule Server.CodeReloader do
           #{inspect(error)}
 
           If code reloading or stylesheets break, consider restarting the Livebook or re-evaluating the LVN code cell.
-          """
-          )
+          """)
       catch
         error ->
           Logger.error(inspect(error))

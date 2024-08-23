@@ -120,46 +120,49 @@ defmodule ServerNative do
   end
 
   defp helpers(format) do
-    gettext_quoted = quote do
-      use Gettext, backend: ServerWeb.Gettext
-    end
+    gettext_quoted =
+      quote do
+        use Gettext, backend: ServerWeb.Gettext
+      end
 
     plugin = LiveViewNative.fetch_plugin!(format)
 
-    plugin_component_quoted = try do
-      Code.ensure_compiled!(plugin.component)
+    plugin_component_quoted =
+      try do
+        Code.ensure_compiled!(plugin.component)
 
-      quote do
-        import unquote(plugin.component)
+        quote do
+          import unquote(plugin.component)
+        end
+      rescue
+        _ -> nil
       end
-    rescue
-      _ -> nil
-    end
 
-    live_form_quoted = quote do
-      import LiveViewNative.LiveForm.Component
-    end
+    live_form_quoted =
+      quote do
+        import LiveViewNative.LiveForm.Component
+      end
 
     core_component_module = Module.concat([ServerWeb, CoreComponents, plugin.module_suffix])
 
-    core_component_quoted = try do
-      Code.ensure_compiled!(core_component_module)
+    core_component_quoted =
+      try do
+        Code.ensure_compiled!(core_component_module)
 
-      quote do
-        import unquote(core_component_module)
+        quote do
+          import unquote(core_component_module)
+        end
+      rescue
+        _ -> nil
       end
-    rescue
-      _ -> nil
-    end
 
     [
-        gettext_quoted,
-        plugin_component_quoted,
-        live_form_quoted,
-        core_component_quoted,
-        verified_routes()
-      ]
-
+      gettext_quoted,
+      plugin_component_quoted,
+      live_form_quoted,
+      core_component_quoted,
+      verified_routes()
+    ]
   end
 
   @doc """

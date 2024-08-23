@@ -6,11 +6,14 @@ defmodule ServerWeb.Router do
       "html",
       "swiftui"
     ]
+
     plug :fetch_session
     plug :fetch_live_flash
+
     plug :put_root_layout,
       html: {ServerWeb.Layouts, :root},
       swiftui: {ServerWeb.Layouts.SwiftUI, :root}
+
     plug :protect_from_forgery
     plug :put_secure_browser_headers
   end
@@ -27,6 +30,7 @@ defmodule ServerWeb.Router do
         # gracefully handles the case where there are clients connected, but no SmartCell has been evaluated
         [] ->
           live "/", ServerWeb.HelloLive
+
         routes ->
           Enum.map(routes, fn %{path: path, module: module} ->
             # Ensure module is a LiveView
@@ -37,7 +41,6 @@ defmodule ServerWeb.Router do
             end
           end)
       end
-
     end
   end
 

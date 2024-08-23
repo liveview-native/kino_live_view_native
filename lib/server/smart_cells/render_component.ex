@@ -8,8 +8,7 @@ defmodule Server.SmartCells.RenderComponent do
 
   @impl true
   def init(_attrs, ctx) do
-    {:ok,
-     ctx,
+    {:ok, ctx,
      editor: [
        attribute: "code",
        language: "elixir",
@@ -69,7 +68,12 @@ defmodule Server.SmartCells.RenderComponent do
   end
 
   def register({:module, module, _, _}) do
-    live_view = to_string(module) |> String.split(".") |> List.delete("SwiftUI") |> Enum.join(".") |> String.to_atom()
+    live_view =
+      to_string(module)
+      |> String.split(".")
+      |> List.delete("SwiftUI")
+      |> Enum.join(".")
+      |> String.to_atom()
 
     if is_valid_liveview(live_view) do
       Phoenix.PubSub.broadcast!(Server.PubSub, "reloader", :trigger)
@@ -79,7 +83,7 @@ defmodule Server.SmartCells.RenderComponent do
   end
 
   def default_source() do
-  ~s[defmodule ServerWeb.ExampleLive.SwiftUI do
+    ~s[defmodule ServerWeb.ExampleLive.SwiftUI do
   use ServerNative, \[:render_component, format: :swiftui\]
 
   def render(assigns) do
@@ -145,7 +149,10 @@ end]
     if Kernel.function_exported?(module, :__live__, 0) do
       true
     else
-      Logger.error("Module #{inspect(module)} is not a valid LiveView. Make sure to define the corresponding LiveView for this #{module} render component.")
+      Logger.error(
+        "Module #{inspect(module)} is not a valid LiveView. Make sure to define the corresponding LiveView for this #{module} render component."
+      )
+
       false
     end
   end
