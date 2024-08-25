@@ -74,6 +74,9 @@ defmodule Server.CodeReloader do
           # Must compile from the install project in order to avoid the following error:
           # Cannot access build without an application name,
           # please ensure you are in a directory with a mix.exs file and it defines an :app name under the project configuration
+          # Occasionally we still experience issues where the LiveView modules won't be loaded such as:
+          # a function ServerWeb.ExampleLive.__live__/0 is undefined or private
+          # However, these errors do not cause major issues as the app simply reloads
           Mix.in_install_project(fn ->
             mix_compile(Code.ensure_loaded(Mix.Task), compilers, apps, args, state.timestamp)
           end)
