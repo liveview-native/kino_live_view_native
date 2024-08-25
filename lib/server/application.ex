@@ -11,6 +11,7 @@ defmodule Server.Application do
       ServerWeb.Telemetry,
       {DNSCluster, query: Application.get_env(:server, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: Server.PubSub},
+      Server.CodeReloader,
       # Start a worker by calling: Server.Worker.start_link(arg)
       # {Server.Worker, arg},
       # Start to serve requests, typically the last entry

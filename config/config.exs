@@ -51,22 +51,19 @@ config :logger, :console,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
-config :phoenix_template, :format_encoders, [
-  swiftui: Phoenix.HTML.Engine
-]
+config :phoenix_template, :format_encoders, swiftui: Phoenix.HTML.Engine
 
 config :mime, :types, %{
   "text/styles" => ["styles"],
   "text/swiftui" => ["swiftui"]
 }
 
-config :live_view_native, plugins: [
-  LiveViewNative.SwiftUI
-]
+config :live_view_native,
+  plugins: [
+    LiveViewNative.SwiftUI
+  ]
 
-config :phoenix, :template_engines, [
-  neex: LiveViewNative.Engine
-]
+config :phoenix, :template_engines, neex: LiveViewNative.Engine
 
 config :live_view_native_stylesheet,
   content: [

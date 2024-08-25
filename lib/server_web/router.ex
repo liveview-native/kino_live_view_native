@@ -6,11 +6,14 @@ defmodule ServerWeb.Router do
       "html",
       "swiftui"
     ]
+
     plug :fetch_session
     plug :fetch_live_flash
+
     plug :put_root_layout,
       html: {ServerWeb.Layouts, :root},
       swiftui: {ServerWeb.Layouts.SwiftUI, :root}
+
     plug :protect_from_forgery
     plug :put_secure_browser_headers
   end
@@ -23,18 +26,21 @@ defmodule ServerWeb.Router do
     scope "/" do
       pipe_through :browser
 
-      # Often used for debugging
-      # live "/", ServerWeb.HelloLive
+      case Server.SmartCells.LiveViewNative.get_routes() do
+        # gracefully handles the case where there are clients connected, but no SmartCell has been evaluated
+        [] ->
+          live "/", ServerWeb.HelloLive
 
-      Server.SmartCells.LiveViewNative.get_routes()
-      |> Enum.map(fn %{path: path, module: module} ->
-        # Ensure module is a LiveView
-        if Kernel.function_exported?(module, :__live__, 0) do
-          live(path, module)
-        else
-          Logger.error("Module #{inspect(module)} is not a valid LiveView.")
-        end
-      end)
+        routes ->
+          Enum.map(routes, fn %{path: path, module: module} ->
+            # Ensure module is a LiveView
+            if Kernel.function_exported?(module, :__live__, 0) do
+              live(path, module)
+            else
+              Logger.error("Module #{inspect(module)} is not a valid LiveView.")
+            end
+          end)
+      end
     end
   end
 
