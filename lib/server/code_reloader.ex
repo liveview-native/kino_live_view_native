@@ -58,11 +58,7 @@ defmodule Server.CodeReloader do
     {:reply, :ok, %{state | check_symlinks: false}}
   end
 
-  def handle_call({:reload!, endpoint, opts}, from, state) do
-    compilers = endpoint.config(:reloadable_compilers)
-    apps = endpoint.config(:reloadable_apps) || default_reloadable_apps()
-    args = Keyword.get(opts, :reloadable_args, ["--no-all-warnings"])
-
+  def handle_call({:reload!, endpoint, _opts}, from, state) do
     # We do a backup of the endpoint in case compilation fails.
     # If so we can bring it back to finish the request handling.
     backup = load_backup(endpoint)
@@ -78,7 +74,9 @@ defmodule Server.CodeReloader do
           # a function ServerWeb.ExampleLive.__live__/0 is undefined or private
           # However, these errors do not cause major issues as the app simply reloads
           Mix.in_install_project(fn ->
-            mix_compile(Code.ensure_loaded(Mix.Task), compilers, apps, args, state.timestamp)
+            _ = Application.ensure_all_started(:hex)
+            Mix.Task.rerun("deps.compile", ["kino_live_view_native"])
+            Mix.Task.clear()
           end)
         catch
           :exit, {:shutdown, 1} ->
@@ -111,14 +109,6 @@ defmodule Server.CodeReloader do
 
   def handle_info(_, state) do
     {:noreply, state}
-  end
-
-  defp default_reloadable_apps() do
-    if Mix.Project.umbrella?() do
-      Enum.map(Mix.Dep.Umbrella.cached(), & &1.app)
-    else
-      [Mix.Project.config()[:app]]
-    end
   end
 
   defp os_symlink({:win32, _}),
@@ -174,143 +164,7 @@ defmodule Server.CodeReloader do
     end
   end
 
-  if Version.match?(System.version(), "< 1.15.0-dev") do
-    defp purge_protocols(path) do
-      purge_modules(path)
-      Code.delete_path(path)
-    end
-  else
-    defp purge_protocols(_path), do: :ok
-  end
-
-  defp mix_compile({:module, Mix.Task}, compilers, apps_to_reload, compile_args, timestamp) do
-    config = Mix.Project.config()
-    path = Mix.Project.consolidation_path(config)
-
-    # TODO: Remove this conditional when requiring Elixir v1.15+
-    if config[:consolidate_protocols] do
-      purge_protocols(path)
-    end
-
-    mix_compile_deps(Mix.Dep.cached(), apps_to_reload, compile_args, compilers, timestamp, path)
-    mix_compile_project(config[:app], apps_to_reload, compile_args, compilers, timestamp, path)
-
-    if config[:consolidate_protocols] do
-      # If we are consolidating protocols, we need to purge all of its modules
-      # to ensure the consolidated versions are loaded. "mix compile" performs
-      # a similar task.
-      Code.prepend_path(path)
-      purge_modules(path)
-    end
-
-    :ok
-  end
-
-  defp mix_compile({:error, _reason}, _, _, _, _) do
-    raise "the Code Reloader is enabled but Mix is not available. If you want to " <>
-            "use the Code Reloader in production or inside an escript, you must add " <>
-            ":mix to your applications list. Otherwise, you must disable code reloading " <>
-            "in such environments"
-  end
-
-  defp mix_compile_deps(deps, apps_to_reload, compile_args, compilers, timestamp, path) do
-    for dep <- deps, dep.app in apps_to_reload do
-      Mix.Dep.in_dependency(dep, fn _ ->
-        mix_compile_unless_stale_config(compilers, compile_args, timestamp, path)
-      end)
-    end
-  end
-
-  defp mix_compile_project(nil, _, _, _, _, _), do: :ok
-
-  defp mix_compile_project(app, apps_to_reload, compile_args, compilers, timestamp, path) do
-    if app in apps_to_reload do
-      mix_compile_unless_stale_config(compilers, compile_args, timestamp, path)
-    end
-  end
-
-  defp mix_compile_unless_stale_config(compilers, compile_args, timestamp, path) do
-    manifests = Mix.Tasks.Compile.Elixir.manifests()
-    configs = Mix.Project.config_files()
-    config = Mix.Project.config()
-
-    case Mix.Utils.extract_stale(configs, manifests) do
-      [] ->
-        # If the manifests are more recent than the timestamp,
-        # someone updated this app behind the scenes, so purge all beams.
-        if Mix.Utils.stale?(manifests, [timestamp]) do
-          purge_modules(Path.join(Mix.Project.app_path(config), "ebin"))
-        end
-
-        mix_compile(compilers, compile_args, config, path)
-
-      files ->
-        raise """
-        could not compile application: #{Mix.Project.config()[:app]}.
-
-        You must restart your server after changing the following files:
-
-          * #{Enum.map_join(files, "\n  * ", &Path.relative_to_cwd/1)}
-
-        """
-    end
-  end
-
-  defp mix_compile(compilers, compile_args, config, consolidation_path) do
-    all = config[:compilers] || Mix.compilers()
-
-    compilers =
-      for compiler <- compilers, compiler in all do
-        Mix.Task.reenable("compile.#{compiler}")
-        compiler
-      end
-
-    # We call build_structure mostly for Windows so new
-    # assets in priv are copied to the build directory.
-    Mix.Project.build_structure(config)
-
-    # TODO: The purge option may no longer be required from Elixir v1.18
-    args = ["--purge-consolidation-path-if-stale", consolidation_path | compile_args]
-
-    result =
-      with_logger_app(config, fn ->
-        run_compilers(compilers, args, [])
-      end)
-
-    cond do
-      result == :error ->
-        exit({:shutdown, 1})
-
-      result == :ok && config[:consolidate_protocols] ->
-        # TODO: Calling compile.protocols may no longer be required from Elixir v1.18
-        Mix.Task.reenable("compile.protocols")
-        Mix.Task.run("compile.protocols", [])
-        :ok
-
-      true ->
-        :ok
-    end
-  end
-
   defp timestamp, do: System.system_time(:second)
-
-  defp purge_modules(path) do
-    with {:ok, beams} <- File.ls(path) do
-      for beam <- beams do
-        case :binary.split(beam, ".beam") do
-          [module, ""] -> module |> String.to_atom() |> purge_module()
-          _ -> :ok
-        end
-      end
-
-      :ok
-    end
-  end
-
-  defp purge_module(module) do
-    :code.purge(module)
-    :code.delete(module)
-  end
 
   defp proxy_io(fun) do
     original_gl = Process.group_leader()
@@ -322,41 +176,6 @@ defmodule Server.CodeReloader do
     after
       Process.group_leader(self(), original_gl)
       Process.exit(proxy_gl, :kill)
-    end
-  end
-
-  defp run_compilers([compiler | compilers], args, acc) do
-    with {status, diagnostics} <- Mix.Task.run("compile.#{compiler}", args) do
-      # Diagnostics are written to stderr and therefore not captured,
-      # so we send them to the group leader here
-      Proxy.diagnostics(Process.group_leader(), diagnostics)
-      {status, diagnostics}
-    end
-    |> case do
-      :error -> :error
-      {:error, _} -> :error
-      result -> run_compilers(compilers, args, [result | acc])
-    end
-  end
-
-  defp run_compilers([], _args, results) do
-    if :proplists.get_value(:ok, results, false) do
-      :ok
-    else
-      :noop
-    end
-  end
-
-  # TODO: remove once we depend on Elixir 1.17
-  defp with_logger_app(config, fun) do
-    app = Keyword.fetch!(config, :app)
-    logger_config_app = Application.get_env(:logger, :compile_time_application)
-
-    try do
-      Logger.configure(compile_time_application: app)
-      fun.()
-    after
-      Logger.configure(compile_time_application: logger_config_app)
     end
   end
 end
